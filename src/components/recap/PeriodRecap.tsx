@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { formatDuration } from "@/lib/sleep";
 import { AiSummary } from "./AiSummary";
 import { WeeklyPriorities } from "@/components/plans/WeeklyPriorities";
+import { WeeklyCoach } from "@/components/ai/WeeklyCoach";
 import { addDays } from "@/lib/date";
 
 export type PeriodRecapData = {
@@ -245,6 +246,7 @@ export function PeriodRecap({ data }: { data: PeriodRecapData | null }) {
         </Card>
 
         <div className="space-y-6">
+          {data.period === "week" && <WeeklyCoach date={data.start} />}
           {data.period === "week" && <WeeklyPriorities date={data.start} title={t("weekPriorities")} />}
           {data.period === "week" && data.start <= data.today && data.today <= data.end && (
             <WeeklyPriorities date={addDays(data.end, 1)} title={t("planNextWeek")} emptyHint={t("planNextWeekHint")} />

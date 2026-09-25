@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/routing";
 import {
   Sparkles,
+  Bot,
   LayoutDashboard,
   CalendarCheck,
   Wallet,
@@ -80,7 +81,13 @@ const NAV: NavGroup[] = [
       { key: "til", href: "/learning/til", icon: Lightbulb, ready: false },
     ],
   },
-  { key: "insights", items: [{ key: "analytics", href: "/analytics", icon: LineChart, ready: true }] },
+  {
+    key: "insights",
+    items: [
+      { key: "assistant", href: "/assistant", icon: Bot, ready: true },
+      { key: "analytics", href: "/analytics", icon: LineChart, ready: true },
+    ],
+  },
   { key: "system", items: [{ key: "settings", href: "/settings", icon: Settings, ready: true }] },
 ];
 

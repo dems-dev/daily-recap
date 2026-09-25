@@ -15,6 +15,7 @@ import { MOOD_EMOJI, type JournalDTO } from "@/lib/journal";
 import type { TodoDTO } from "@/lib/todos";
 import { cn } from "@/lib/utils";
 import { AiSummary } from "./AiSummary";
+import { TellYourDay } from "@/components/ai/TellYourDay";
 import { SleepForm, type SleepLogDTO } from "@/components/sleep/SleepForm";
 import { formatDuration } from "@/lib/sleep";
 
@@ -94,6 +95,7 @@ export function DayRecap({ data }: { data: DayRecapData | null }) {
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
         <div className="space-y-6">
+          {data.date === data.today && <TellYourDay />}
           <Card>
             <CardHeader>
               <CardTitle>{t("reflectionTitle")}</CardTitle>

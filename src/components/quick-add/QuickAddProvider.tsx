@@ -1,16 +1,17 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import {
   BookHeart,
+  Bot,
   CalendarCheck,
   CheckSquare,
   LayoutDashboard,
   LineChart,
   ListTodo,
-  Settings,
   Moon,
+  Settings,
   Sparkles,
   Wallet,
   Zap,
@@ -19,23 +20,23 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "@/components/ui/toast";
 import { useFailureToast } from "@/components/common";
+import { AiLogDialog } from "@/components/ai/AiLogDialog";
 import { TransactionDialog } from "@/components/finance/TransactionDialog";
 import { TodoDialog } from "@/components/todos/TodoDialog";
-import { useCategoryLabel, useMoney } from "@/components/finance/shared";
 import type { HabitsResponse } from "@/components/habits/habit-types";
-import { sendJson, useInvalidate, useJson } from "@/hooks/use-json";
+import { useInvalidate, useJson } from "@/hooks/use-json";
 import { useMe } from "@/hooks/use-me";
 import { useRouter } from "@/i18n/routing";
-import { matchHabit, parseQuickAdd, type QuickAdd } from "@/lib/quick-add";
-import type { JournalDTO } from "@/lib/journal";
-import { formatDuration } from "@/lib/sleep";
-import { previewDuration } from "@/components/sleep/SleepForm";
+import { parseQuickAdd, type QuickAdd } from "@/lib/quick-add";
+import { useQuickAddActions } from "./use-quick-add-actions";
 
 type QuickAddContextValue = {
   /** Open the palette, optionally with text already typed. */
   openPalette: (initial?: string) => void;
   openTransaction: () => void;
   openTodo: () => void;
+  /** Let AI turn free text into entries (review dialog). */
+  openAiLog: (text: string) => void;
 };
 
 const QuickAddContext = createContext<QuickAddContextValue | null>(null);
@@ -49,6 +50,7 @@ export function useQuickAdd() {
 const PAGES = [
   { key: "dashboard", href: "/", icon: LayoutDashboard },
   { key: "recap", href: "/recap", icon: CalendarCheck },
+  { key: "assistant", href: "/assistant", icon: Bot },
   { key: "transactions", href: "/finance", icon: Wallet },
   { key: "todos", href: "/productivity/todos", icon: CheckSquare },
   { key: "habits", href: "/productivity/habits", icon: ListTodo },
@@ -61,22 +63,21 @@ const PAGES = [
 export function QuickAddProvider({ children }: { children: React.ReactNode }) {
   const t = useTranslations("QuickAdd");
   const tNav = useTranslations("Navigation");
-  const locale = useLocale();
   const router = useRouter();
   const invalidate = useInvalidate();
   const onFail = useFailureToast();
-  const categoryLabel = useCategoryLabel();
 
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [transactionOpen, setTransactionOpen] = useState(false);
   const [todoOpen, setTodoOpen] = useState(false);
+  const [aiText, setAiText] = useState<string | null>(null);
 
   const { data: me } = useMe(open || transactionOpen || todoOpen);
   const { data: habits } = useJson<HabitsResponse>(open ? "/api/habits" : null);
   const today = me?.today ?? null;
-  const money = useMoney(me?.currency);
+  const { describe, execute } = useQuickAddActions({ today, habits: habits?.habits ?? [], currency: me?.currency });
 
   const openPalette = useCallback((initial = "") => {
     setInput(initial);
@@ -95,104 +96,12 @@ export function QuickAddProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const parsed = today ? parseQuickAdd(input, today) : null;
-
-  const describe = (q: QuickAdd) => {
-    switch (q.kind) {
-      case "expense":
-      case "income":
-        return t(q.kind === "expense" ? "previewExpense" : "previewIncome", {
-          amount: money(q.amount),
-          category: categoryLabel(q.category),
-          description: q.description || "—",
-          when: q.date === today ? t("today") : q.date,
-        });
-      case "todo":
-        return t("previewTodo", { title: q.title, when: q.dueDate ?? t("noDate") });
-      case "habit": {
-        const match = matchHabit(habits?.habits ?? [], q.query);
-        return match ? t("previewHabit", { name: match.name }) : t("habitNotFound", { query: q.query });
-      }
-      case "mood":
-        return t("previewMood", { mood: t(`moods.${q.mood}`) });
-      case "sleep": {
-        const minutes = previewDuration(q.bedtime, q.wakeTime);
-        return t("previewSleep", {
-          bedtime: q.bedtime,
-          wakeTime: q.wakeTime,
-          duration: minutes === null ? "—" : formatDuration(minutes, locale),
-        });
-      }
-      case "wish":
-        return t("previewWish", { name: q.name, price: money(q.price), category: categoryLabel(q.category) });
-      case "priority":
-        return t("previewPriority", { title: q.title });
-    }
-  };
+  const canUseAi = !!me?.aiEnabled && !parsed && input.trim().length >= 3;
 
   const run = async (q: QuickAdd) => {
-    if (!today) return;
     setBusy(true);
     try {
-      switch (q.kind) {
-        case "expense":
-        case "income":
-          await sendJson("/api/finance", "POST", {
-            type: q.kind,
-            amount: q.amount,
-            category: q.category,
-            description: q.description,
-            date: q.date,
-          });
-          toast.add({ title: t("doneMoney", { amount: money(q.amount) }), type: "success" });
-          break;
-        case "todo":
-          await sendJson("/api/todos", "POST", { title: q.title, dueDate: q.dueDate });
-          toast.add({ title: t("doneTodo", { title: q.title }), type: "success" });
-          break;
-        case "habit": {
-          const match = matchHabit(habits?.habits ?? [], q.query);
-          if (!match) {
-            toast.add({ title: t("habitNotFound", { query: q.query }), type: "error" });
-            return;
-          }
-          await sendJson(`/api/habits/${match.id}/logs`, "PUT", { date: today, completed: true });
-          toast.add({ title: t("doneHabit", { name: match.name }), type: "success" });
-          break;
-        }
-        case "mood": {
-          // Keep the rest of today's entry; append the note to the reflection.
-          const res = await fetch(`/api/journal/${today}`).then((r) => r.json());
-          const entry: JournalDTO | null = res.entry;
-          const content = [entry?.content, q.note].filter(Boolean).join("\n");
-          await sendJson(`/api/journal/${today}`, "PUT", {
-            mood: q.mood,
-            title: entry?.title ?? null,
-            content,
-            gratitude: entry?.gratitude ?? [],
-            tags: entry?.tags ?? [],
-          });
-          toast.add({ title: t("doneMood"), type: "success" });
-          break;
-        }
-        case "sleep": {
-          // Quality defaults to "okay"; it can be adjusted on the Sleep page.
-          const res = (await sendJson(`/api/sleep/${today}`, "PUT", {
-            bedtime: q.bedtime,
-            wakeTime: q.wakeTime,
-            quality: 3,
-          })) as { duration: number };
-          toast.add({ title: t("doneSleep", { duration: formatDuration(res.duration, locale) }), type: "success" });
-          break;
-        }
-        case "wish":
-          await sendJson("/api/wishlist", "POST", { name: q.name, price: q.price, category: q.category });
-          toast.add({ title: t("doneWish", { name: q.name }), type: "success" });
-          break;
-        case "priority":
-          await sendJson("/api/plans", "POST", { date: today, title: q.title });
-          toast.add({ title: t("donePriority", { title: q.title }), type: "success" });
-          break;
-      }
+      toast.add({ title: await execute(q), type: "success" });
       setOpen(false);
       setInput("");
       invalidate();
@@ -215,6 +124,7 @@ export function QuickAddProvider({ children }: { children: React.ReactNode }) {
       openPalette,
       openTransaction: () => setTransactionOpen(true),
       openTodo: () => setTodoOpen(true),
+      openAiLog: (text: string) => setAiText(text),
     }),
     [openPalette]
   );
@@ -239,6 +149,22 @@ export function QuickAddProvider({ children }: { children: React.ReactNode }) {
                 </CommandGroup>
               ) : (
                 <>
+                  {canUseAi && (
+                    <CommandGroup heading={t("ai")}>
+                      <CommandItem
+                        forceMount
+                        value={`ai ${input}`}
+                        onSelect={() => {
+                          setOpen(false);
+                          setAiText(input.trim());
+                          setInput("");
+                        }}
+                      >
+                        <Sparkles />
+                        <span className="truncate">{t("logWithAi", { text: input.trim() })}</span>
+                      </CommandItem>
+                    </CommandGroup>
+                  )}
                   <CommandEmpty>{t("noMatch")}</CommandEmpty>
                   <CommandGroup heading={t("actions")}>
                     <CommandItem onSelect={() => { setOpen(false); setTransactionOpen(true); }}>
@@ -257,18 +183,14 @@ export function QuickAddProvider({ children }: { children: React.ReactNode }) {
                   {pendingHabits.length > 0 && (
                     <CommandGroup heading={t("habitsToday")}>
                       {pendingHabits.map((h) => (
-                        <CommandItem
-                          key={h.id}
-                          value={`habit ${h.name}`}
-                          onSelect={() => run({ kind: "habit", query: h.name })}
-                        >
+                        <CommandItem key={h.id} value={`habit ${h.name}`} onSelect={() => run({ kind: "habit", query: h.name })}>
                           <span aria-hidden>{h.icon ?? "•"}</span> {t("checkHabit", { name: h.name })}
                         </CommandItem>
                       ))}
                     </CommandGroup>
                   )}
                   <CommandGroup heading={t("goTo")}>
-                    {PAGES.map((p) => (
+                    {PAGES.filter((p) => p.key !== "assistant" || me?.aiEnabled).map((p) => (
                       <CommandItem key={p.href} value={`page ${tNav(p.key)}`} onSelect={() => go(p.href)}>
                         <p.icon /> {tNav(p.key)}
                       </CommandItem>
@@ -277,18 +199,14 @@ export function QuickAddProvider({ children }: { children: React.ReactNode }) {
                 </>
               )}
             </CommandList>
-            <p className="border-t px-3 py-2 text-xs text-muted-foreground">{t("hint")}</p>
+            <p className="border-t px-3 py-2 text-xs text-muted-foreground">{me?.aiEnabled ? t("hintAi") : t("hint")}</p>
           </Command>
         </DialogContent>
       </Dialog>
 
-      <TransactionDialog
-        open={transactionOpen}
-        onOpenChange={setTransactionOpen}
-        defaultDate={today ?? ""}
-        onSaved={invalidate}
-      />
+      <TransactionDialog open={transactionOpen} onOpenChange={setTransactionOpen} defaultDate={today ?? ""} onSaved={invalidate} />
       <TodoDialog open={todoOpen} onOpenChange={setTodoOpen} />
+      <AiLogDialog text={aiText} onOpenChange={(o) => !o && setAiText(null)} />
     </QuickAddContext.Provider>
   );
 }

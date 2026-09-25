@@ -13,6 +13,11 @@ export type Me = {
   reminderHour: number;
   createdAt: string;
   today: string;
+  /** Server has AI configured. */
+  aiAvailable: boolean;
+  /** User preference in Settings. */
+  aiOptIn: boolean;
+  /** Both of the above: show AI features. */
   aiEnabled: boolean;
   pushEnabled: boolean;
 };

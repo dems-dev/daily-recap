@@ -22,6 +22,8 @@ model User {
   reminderEnabled Boolean @default(false)
   reminderHour    Int     @default(20)
   lastReminderAt  DateTime?
+  // User can turn AI features off; they only work when the server has AI configured too
+  aiEnabled       Boolean @default(true)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 

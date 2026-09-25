@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 import { deleteAccountSchema, settingsSchema } from "@/lib/settings";
 import { rateLimit } from "@/lib/rate-limit";
 import { todayKey } from "@/lib/date";
-import { aiEnabled } from "@/lib/ai-summary";
+import { aiConfigured } from "@/lib/ai/config";
 import { pushConfigured } from "@/lib/push";
 
 /** The signed-in user's profile and settings, plus "today" in their timezone. */
@@ -26,6 +26,7 @@ export async function GET() {
         weekStartDay: true,
         reminderEnabled: true,
         reminderHour: true,
+        aiEnabled: true,
         createdAt: true,
       },
     });
@@ -36,7 +37,9 @@ export async function GET() {
       timezone: current.timezone,
       createdAt: user.createdAt.toISOString(),
       today: todayKey(current.timezone),
-      aiEnabled: aiEnabled(),
+      aiAvailable: aiConfigured(),
+      aiOptIn: user.aiEnabled,
+      aiEnabled: aiConfigured() && user.aiEnabled,
       pushEnabled: pushConfigured(),
     });
   } catch (error) {

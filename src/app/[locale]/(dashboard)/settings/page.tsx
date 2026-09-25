@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { signOut } from "next-auth/react";
-import { Bell, Download, KeyRound, Trash2, User } from "lucide-react";
+import { Bell, Download, KeyRound, Sparkles, Trash2, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -244,6 +244,50 @@ function ReminderSection({ me }: { me: Me }) {
   );
 }
 
+function AiSection({ me }: { me: Me }) {
+  const t = useTranslations("Settings");
+  const invalidate = useInvalidate();
+  const onFail = useFailureToast();
+  const [busy, setBusy] = useState(false);
+
+  const toggle = async (enabled: boolean) => {
+    setBusy(true);
+    try {
+      await sendJson("/api/me", "PATCH", { aiEnabled: enabled });
+      toast.add({ title: enabled ? t("aiOn") : t("aiOff"), type: "success" });
+      invalidate();
+    } catch (err) {
+      onFail(err);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Sparkles className="size-4" aria-hidden /> {t("ai")}
+        </CardTitle>
+        <CardDescription>{t("aiDescription")}</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {!me.aiAvailable && <p className="text-sm text-muted-foreground">{t("aiNotConfigured")}</p>}
+        <div className="flex items-center justify-between gap-4">
+          <Label htmlFor="s-ai">{t("aiToggle")}</Label>
+          <Switch id="s-ai" checked={me.aiOptIn} disabled={busy} onCheckedChange={(checked) => toggle(checked)} />
+        </div>
+        <ul className="list-disc space-y-1 pl-5 text-sm text-muted-foreground">
+          <li>{t("aiFeatureLog")}</li>
+          <li>{t("aiFeatureChat")}</li>
+          <li>{t("aiFeatureCoach")}</li>
+        </ul>
+        <p className="text-xs text-muted-foreground">{t("aiPrivacy")}</p>
+      </CardContent>
+    </Card>
+  );
+}
+
 function PasswordSection() {
   const t = useTranslations("Settings");
   const onFail = useFailureToast();
@@ -425,6 +469,7 @@ export default function SettingsPage() {
         <>
           <ProfileSection key={me.email} me={me} />
           <ReminderSection me={me} />
+          <AiSection me={me} />
           <PasswordSection />
           <DataSection me={me} />
         </>

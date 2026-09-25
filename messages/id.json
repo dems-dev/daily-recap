@@ -82,7 +82,8 @@
     "settings": "Pengaturan",
     "logout": "Keluar",
     "recap": "Recap",
-    "openMenu": "Buka menu"
+    "openMenu": "Buka menu",
+    "assistant": "Asisten AI"
   },
   "Auth": {
     "login": "Masuk",
@@ -407,7 +408,11 @@
     "previewPriority": "Tambah prioritas minggu ini: “{title}”",
     "doneSleep": "Tidur {duration} tercatat",
     "doneWish": "“{name}” masuk wishlist",
-    "donePriority": "Prioritas ditambahkan: {title}"
+    "donePriority": "Prioritas ditambahkan: {title}",
+    "ai": "AI",
+    "logWithAi": "Catat dengan AI: “{text}”",
+    "previewMoodNote": "Set mood hari ini: {mood} · “{note}”",
+    "hintAi": "Perintah singkat (- / + / todo / done / mood / tidur / wish / prioritas) disimpan langsung. Kalimat biasa? Pilih “Catat dengan AI”."
   },
   "Recap": {
     "pageTitle": "Recap",
@@ -574,7 +579,17 @@
       "wrongPassword": "Kata sandi salah.",
       "rateLimited": "Terlalu banyak percobaan. Coba lagi nanti.",
       "invalidTimezone": "Zona waktu tidak valid."
-    }
+    },
+    "ai": "Fitur AI",
+    "aiDescription": "Bantuan AI untuk mencatat, bertanya tentang datamu, dan ulasan mingguan.",
+    "aiToggle": "Aktifkan fitur AI",
+    "aiOn": "Fitur AI diaktifkan",
+    "aiOff": "Fitur AI dimatikan",
+    "aiNotConfigured": "Server belum dikonfigurasi (AI_GATEWAY_API_KEY belum diisi), jadi fitur AI belum bisa dipakai.",
+    "aiFeatureLog": "Catat dengan bahasa bebas — hasilnya selalu kamu periksa dulu.",
+    "aiFeatureChat": "Asisten AI — menjawab pertanyaan dari datamu, hanya bisa membaca.",
+    "aiFeatureCoach": "Coach mingguan — ulasan dan usulan prioritas.",
+    "aiPrivacy": "Saat kamu memakai fitur AI, data yang relevan (termasuk catatan jurnal) dikirim ke penyedia model lewat Vercel AI Gateway. Tidak ada yang dikirim selama fitur ini tidak kamu pakai."
   },
   "Sleep": {
     "pageTitle": "Tidur",
@@ -662,5 +677,75 @@
     "skippedOn": "dibatalkan {date}",
     "deleteTitle": "Hapus dari riwayat?",
     "deleteDescription": "Kalau sudah dibeli, pengeluarannya tetap tersimpan di Keuangan."
+  },
+  "AiLog": {
+    "title": "Catat dengan AI",
+    "reading": "Membaca ceritamu…",
+    "review": "Periksa dulu. Hanya yang dicentang yang disimpan.",
+    "nothingFound": "Tidak ada yang bisa dicatat dari teks ini. Coba sebutkan jumlah uang, jam tidur, tugas, atau perasaanmu.",
+    "rejected": "{count} bagian dilewati karena nilainya tidak masuk akal.",
+    "notUnderstood": "Tidak dipahami: “{text}”",
+    "saveSelected": "Simpan {count}",
+    "saving": "Menyimpan…",
+    "saved": "{count} catatan tersimpan",
+    "someFailed": "{count} catatan gagal disimpan",
+    "failed": "AI gagal membaca teks ini. Coba lagi sebentar lagi.",
+    "rateLimited": "Terlalu sering. Coba lagi nanti.",
+    "tellTitle": "Ceritakan harimu",
+    "tellHint": "Tulis bebas — AI akan memilah jadi pengeluaran, tidur, tugas, kebiasaan, dan mood. Kamu periksa dulu sebelum disimpan.",
+    "tellPlaceholder": "mis. Makan siang 45rb sama tim, isi bensin 30rb. Tidur jam 1 bangun jam 7. Sudah olahraga. Capek tapi senang presentasinya lancar. Besok harus kirim invoice.",
+    "process": "Proses dengan AI",
+    "privacy": "Teks dikirim ke penyedia AI lewat Vercel AI Gateway."
+  },
+  "Assistant": {
+    "pageTitle": "Asisten AI",
+    "intro": "Tanyakan apa saja tentang datamu — keuangan, tidur, kebiasaan, tugas, jurnal. Aku membaca datamu langsung, jadi jawabannya berdasarkan catatanmu sendiri, dan aku tidak bisa mengubah apa pun.",
+    "suggestions": {
+      "spendingThisMonth": "Berapa pengeluaranku bulan ini dibanding bulan lalu?",
+      "bestSleepWeek": "Minggu mana tidurku paling baik dalam 2 bulan terakhir?",
+      "lastWorkout": "Kapan terakhir aku olahraga?",
+      "moodPattern": "Apa yang paling memengaruhi mood-ku?",
+      "overdueTasks": "Tugas apa saja yang terlambat?",
+      "savedWishlist": "Berapa uang yang kuhemat dari wishlist?"
+    },
+    "placeholder": "Tanya tentang datamu…",
+    "send": "Kirim",
+    "stop": "Berhenti",
+    "clear": "Hapus percakapan",
+    "thinking": "Berpikir…",
+    "error": "Asisten gagal menjawab.",
+    "retry": "Coba lagi",
+    "toolRunning": "Membaca {tool}…",
+    "toolDone": "Membaca {tool}",
+    "toolFailed": "Gagal membaca {tool}",
+    "tools": {
+      "getFinance": "data keuangan",
+      "listTransactions": "daftar transaksi",
+      "getBudgets": "anggaran",
+      "getDailyStats": "statistik harian",
+      "getHabits": "kebiasaan",
+      "getTodos": "tugas",
+      "searchJournal": "jurnal",
+      "getSleep": "data tidur",
+      "getInsights": "pola & insight",
+      "getPlans": "prioritas & wishlist"
+    },
+    "disclaimer": "Jawaban AI bisa keliru. Percakapan tidak disimpan di server.",
+    "notConfigured": "Fitur AI belum aktif di server. Isi AI_GATEWAY_API_KEY di file .env lalu jalankan ulang aplikasi.",
+    "disabledByUser": "Fitur AI sedang kamu matikan di Pengaturan.",
+    "openSettings": "Buka Pengaturan"
+  },
+  "Coach": {
+    "title": "Coach mingguan",
+    "start": "Minta ulasan",
+    "again": "Ulas lagi",
+    "thinking": "Menganalisis…",
+    "intro": "Coach membaca recap dan pola minggu ini, lalu mengusulkan 3 prioritas untuk minggu depan.",
+    "wins": "Yang berjalan baik",
+    "suggestions": "Usulan prioritas minggu depan",
+    "addToNextWeek": "Jadikan prioritas",
+    "added": "Ditambahkan",
+    "failed": "Coach gagal membuat ulasan. Coba lagi nanti.",
+    "privacy": "Ringkasan minggu ini dikirim ke penyedia AI lewat Vercel AI Gateway."
   }
 }

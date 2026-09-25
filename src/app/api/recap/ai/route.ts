@@ -5,7 +5,8 @@ import { badRequest, readJson, serverError, unauthorized, validationError } from
 import { isDateKey, todayKey } from "@/lib/date";
 import { PERIODS } from "@/lib/recap";
 import { buildRecap } from "@/lib/recap-server";
-import { aiEnabled, summarizeRecap } from "@/lib/ai-summary";
+import { summarizeRecap } from "@/lib/ai/summary";
+import { aiAllowedFor } from "@/lib/ai/config";
 import { rateLimit } from "@/lib/rate-limit";
 
 const bodySchema = z.object({ period: z.enum(PERIODS), date: z.string().refine(isDateKey) });
@@ -15,7 +16,9 @@ export async function POST(req: Request) {
   try {
     const user = await getCurrentUser();
     if (!user) return unauthorized();
-    if (!aiEnabled()) return badRequest("AI summary is not configured");
+    if (!(await aiAllowedFor(user))) {
+      return NextResponse.json({ message: "AI is not available", code: "aiDisabled" }, { status: 403 });
+    }
 
     const parsed = bodySchema.safeParse(await readJson(req));
     if (!parsed.success) return validationError(parsed.error);

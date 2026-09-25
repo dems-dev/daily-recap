@@ -82,7 +82,8 @@
     "settings": "Settings",
     "logout": "Logout",
     "recap": "Recap",
-    "openMenu": "Open menu"
+    "openMenu": "Open menu",
+    "assistant": "AI Assistant"
   },
   "Auth": {
     "login": "Login",
@@ -407,7 +408,11 @@
     "previewPriority": "Add this week's priority: “{title}”",
     "doneSleep": "Logged {duration} of sleep",
     "doneWish": "“{name}” added to the wishlist",
-    "donePriority": "Priority added: {title}"
+    "donePriority": "Priority added: {title}",
+    "ai": "AI",
+    "logWithAi": "Log with AI: “{text}”",
+    "previewMoodNote": "Set today's mood: {mood} · “{note}”",
+    "hintAi": "Short commands (- / + / todo / done / mood / sleep / wish / priority) save directly. Plain sentences? Pick “Log with AI”."
   },
   "Recap": {
     "pageTitle": "Recap",
@@ -574,7 +579,17 @@
       "wrongPassword": "Wrong password.",
       "rateLimited": "Too many attempts. Try again later.",
       "invalidTimezone": "Invalid time zone."
-    }
+    },
+    "ai": "AI features",
+    "aiDescription": "AI help for logging, asking about your data and weekly reviews.",
+    "aiToggle": "Enable AI features",
+    "aiOn": "AI features turned on",
+    "aiOff": "AI features turned off",
+    "aiNotConfigured": "The server isn't configured (AI_GATEWAY_API_KEY missing), so AI features can't be used yet.",
+    "aiFeatureLog": "Free-text logging — you always review the result first.",
+    "aiFeatureChat": "AI Assistant — answers questions from your data, read-only.",
+    "aiFeatureCoach": "Weekly coach — review and suggested priorities.",
+    "aiPrivacy": "When you use an AI feature, the relevant data (including journal notes) is sent to the model provider via the Vercel AI Gateway. Nothing is sent while you don't use them."
   },
   "Sleep": {
     "pageTitle": "Sleep",
@@ -662,5 +677,75 @@
     "skippedOn": "skipped {date}",
     "deleteTitle": "Remove from history?",
     "deleteDescription": "If it was bought, the expense stays in Finance."
+  },
+  "AiLog": {
+    "title": "Log with AI",
+    "reading": "Reading your note…",
+    "review": "Check first. Only the ticked entries are saved.",
+    "nothingFound": "Nothing to log from this text. Try mentioning amounts, sleep times, tasks or how you felt.",
+    "rejected": "{count, plural, one {# part was} other {# parts were}} skipped because the values didn't make sense.",
+    "notUnderstood": "Not understood: “{text}”",
+    "saveSelected": "Save {count}",
+    "saving": "Saving…",
+    "saved": "{count, plural, one {# entry} other {# entries}} saved",
+    "someFailed": "{count, plural, one {# entry} other {# entries}} failed",
+    "failed": "AI couldn't read this text. Try again in a moment.",
+    "rateLimited": "Too many requests. Try again later.",
+    "tellTitle": "Tell me about your day",
+    "tellHint": "Write freely — AI sorts it into spending, sleep, tasks, habits and mood. You review before anything is saved.",
+    "tellPlaceholder": "e.g. Lunch with the team 45k, fuel 30k. Slept at 1, woke at 7. Did my workout. Tired but happy the demo went well. Need to send the invoice tomorrow.",
+    "process": "Process with AI",
+    "privacy": "The text is sent to an AI provider via the Vercel AI Gateway."
+  },
+  "Assistant": {
+    "pageTitle": "AI Assistant",
+    "intro": "Ask anything about your data — money, sleep, habits, tasks, journal. I read your data directly, so answers come from your own logs, and I can't change anything.",
+    "suggestions": {
+      "spendingThisMonth": "How much did I spend this month compared to last month?",
+      "bestSleepWeek": "Which week did I sleep best in the last 2 months?",
+      "lastWorkout": "When did I last work out?",
+      "moodPattern": "What affects my mood the most?",
+      "overdueTasks": "Which tasks are overdue?",
+      "savedWishlist": "How much have I saved with the wishlist?"
+    },
+    "placeholder": "Ask about your data…",
+    "send": "Send",
+    "stop": "Stop",
+    "clear": "Clear conversation",
+    "thinking": "Thinking…",
+    "error": "The assistant couldn't answer.",
+    "retry": "Retry",
+    "toolRunning": "Reading {tool}…",
+    "toolDone": "Read {tool}",
+    "toolFailed": "Couldn't read {tool}",
+    "tools": {
+      "getFinance": "finance data",
+      "listTransactions": "transactions",
+      "getBudgets": "budgets",
+      "getDailyStats": "daily stats",
+      "getHabits": "habits",
+      "getTodos": "tasks",
+      "searchJournal": "journal",
+      "getSleep": "sleep data",
+      "getInsights": "patterns & insights",
+      "getPlans": "priorities & wishlist"
+    },
+    "disclaimer": "AI answers can be wrong. The conversation isn't stored on the server.",
+    "notConfigured": "AI isn't enabled on the server yet. Set AI_GATEWAY_API_KEY in .env and restart the app.",
+    "disabledByUser": "You turned AI features off in Settings.",
+    "openSettings": "Open Settings"
+  },
+  "Coach": {
+    "title": "Weekly coach",
+    "start": "Get a review",
+    "again": "Review again",
+    "thinking": "Analysing…",
+    "intro": "The coach reads this week's recap and patterns, then suggests 3 priorities for next week.",
+    "wins": "What went well",
+    "suggestions": "Suggested priorities for next week",
+    "addToNextWeek": "Make it a priority",
+    "added": "Added",
+    "failed": "The coach couldn't write a review. Try again later.",
+    "privacy": "A summary of this week is sent to an AI provider via the Vercel AI Gateway."
   }
 }

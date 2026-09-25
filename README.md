@@ -11,6 +11,7 @@ Bilingual (🇮🇩 Bahasa Indonesia / 🇬🇧 English), installable as a PWA, 
 |---|---|
 | **Recap** | Daily view (reflection, habits, tasks and money for any date), weekly and monthly views with highlights and comparison to the previous period, optional AI summary |
 | **Insights** | Cross-module rules: mood vs spending, habits vs mood, sleep vs mood, sleep vs tasks, most productive weekday, biggest spending day, weekend mood — each needs enough data on both sides before it says anything |
+| **AI (optional)** | *Tell me about your day*: free text → reviewed entries (structured output); **AI Assistant** that answers questions from your data with read-only tools (agent + streaming chat); **weekly coach** with one-click priorities; recap summaries. Off unless `AI_GATEWAY_API_KEY` is set, and each user can turn it off |
 | **Quick add (Ctrl+K)** | `-25rb kopi` · `+5jt gaji` · `-1,5jt sewa kemarin` · `todo beli sayur besok` · `done olahraga` · `mood baik capek tapi senang` · `tidur 23:30 06:15` · `wish 350rb sepatu` · `prioritas laporan Q3` |
 | **Finance** | Transactions, monthly budgets, savings goals, recurring transactions (rent, subscriptions) |
 | **To-Do** | Today / upcoming / completed, due dates, priority, overdue |
@@ -25,11 +26,12 @@ Bilingual (🇮🇩 Bahasa Indonesia / 🇬🇧 English), installable as a PWA, 
 ## Tech
 
 Next.js 16 (App Router, `proxy.ts`) · React 19 · TypeScript · Tailwind CSS 4 · shadcn/ui on Base UI ·
-Prisma 5 · Auth.js v5 (credentials + JWT) · next-intl · Recharts · react-hook-form + zod · Vitest · web-push
+Prisma 5 · Auth.js v5 (credentials + JWT) · next-intl · Recharts · react-hook-form + zod · Vitest · web-push ·
+AI SDK 7 (`ai`, `@ai-sdk/react`) via the Vercel AI Gateway
 
 ## Getting started
 
-Requires Node.js 20+ (22+ recommended).
+Requires Node.js 22+ (the AI SDK needs it).
 
 ```bash
 npm install
@@ -51,8 +53,8 @@ Sign in with **demo@dailyrecap.com / demo1234**. The seed is deterministic and o
 | `AUTH_TRUST_HOST` | self-hosting | `true` when running `next start` yourself; not needed on Vercel |
 | `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` | for reminders | `npx web-push generate-vapid-keys`; subject is `mailto:you@…` |
 | `CRON_SECRET` | for reminders | Random string; Vercel Cron sends it as a Bearer token |
-| `AI_GATEWAY_API_KEY` | optional | Enables the AI summary on the recap page (Vercel AI Gateway) |
-| `AI_SUMMARY_MODEL` | optional | Defaults to `anthropic/claude-haiku-4.5` |
+| `AI_GATEWAY_API_KEY` | optional | Enables the AI features (Vercel AI Gateway); on Vercel the OIDC token works too |
+| `AI_FAST_MODEL` / `AI_SMART_MODEL` | optional | Defaults `anthropic/claude-haiku-4.5` (logging, summaries) / `anthropic/claude-sonnet-5` (assistant, coach) |
 
 ### Scripts
 
@@ -88,6 +90,13 @@ Rules are materialised lazily: whenever finance data is read, every occurrence d
 created. A rule is claimed by moving `nextDate` forward only if it still has the value that was read,
 so concurrent requests can't create duplicates. Monthly rules keep their day of month (31st → 30 Apr
 → 28 Feb → 31 May).
+
+### AI
+All AI code is in `src/lib/ai/` and runs on the server. The assistant is a `ToolLoopAgent` built **per request**,
+so every tool is bound to the signed-in user and only reads data — the model never chooses whose data it sees.
+Free-text logging asks for structured output, then `toQuickAdds` re-validates every entry against the app's
+rules; nothing is saved until the user confirms. Chat history lives only in the browser. Each feature is rate
+limited, and users can turn AI off in Settings.
 
 ### Security
 Credentials login with bcrypt, per-email and per-IP rate limiting, constant-time miss for unknown

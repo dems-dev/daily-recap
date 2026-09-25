@@ -15,6 +15,7 @@ export const settingsSchema = z
     weekStartDay: z.enum(WEEK_START_DAYS),
     reminderEnabled: z.boolean(),
     reminderHour: z.number().int().min(0).max(23),
+    aiEnabled: z.boolean(),
   })
   .partial();
 export type SettingsInput = z.infer<typeof settingsSchema>;
