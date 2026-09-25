@@ -31,8 +31,25 @@
       "workout": "Workout",
       "meal": "Meal",
       "journal": "Journal",
-      "todo": "Task completed"
-    }
+      "todo": "Task completed",
+      "habit": "Habit"
+    },
+    "metaDescription": "Log money, tasks, habits and a journal — then see the recap of your day.",
+    "quickAdd": "Quick add",
+    "addTransaction": "Transaction",
+    "addTask": "Task",
+    "openRecap": "Today's recap",
+    "recapPending": "Today's recap is still empty — it takes two minutes before bed.",
+    "recapDone": "Today's recap is done. Nice!",
+    "habits": "Habits",
+    "habitsToday": "done today",
+    "noHabits": "No habits yet",
+    "expenseToday": "Spent today {amount}",
+    "reflectionWritten": "Reflection written",
+    "noReflection": "No reflection yet",
+    "todayTasks": "Today's tasks",
+    "seeAll": "See all",
+    "noTasks": "Nothing due today."
   },
   "Navigation": {
     "overview": "OVERVIEW",
@@ -314,5 +331,48 @@
     "saved": "Journal saved",
     "deleteTitle": "Delete this entry?",
     "futureDay": "This day hasn't happened yet."
+  },
+  "Header": {
+    "quickAdd": "Quick add",
+    "language": "Language",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "QuickAdd": {
+    "title": "Quick add",
+    "description": "Type a short command to log something or open a page.",
+    "placeholder": "Try: -25k coffee · todo buy groceries tomorrow · done workout",
+    "quickAdd": "Quick add",
+    "actions": "Actions",
+    "habitsToday": "Today's habits",
+    "goTo": "Go to",
+    "noMatch": "No matches.",
+    "addTransaction": "Add transaction",
+    "addTodo": "Add task",
+    "writeJournal": "Write journal",
+    "openRecap": "Open today's recap",
+    "checkHabit": "Check: {name}",
+    "previewExpense": "Log expense {amount} · {category} · {description} ({when})",
+    "previewIncome": "Log income {amount} · {category} · {description} ({when})",
+    "previewTodo": "Add task “{title}” · due: {when}",
+    "previewHabit": "Check habit “{name}” for today",
+    "previewMood": "Set today's mood: {mood}",
+    "habitNotFound": "No habit matches “{query}”",
+    "today": "today",
+    "noDate": "no date",
+    "moods": {
+      "great": "Great",
+      "good": "Good",
+      "okay": "Okay",
+      "bad": "Bad",
+      "terrible": "Terrible"
+    },
+    "doneMoney": "Logged {amount}",
+    "doneTodo": "Task added: {title}",
+    "doneHabit": "✓ {name}",
+    "doneMood": "Today's mood saved",
+    "hint": "Start with - (expense), + (income), todo, done or mood. Enter to save."
   }
 }

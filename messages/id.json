@@ -31,8 +31,25 @@
       "workout": "Olahraga",
       "meal": "Makanan",
       "journal": "Jurnal",
-      "todo": "Tugas selesai"
-    }
+      "todo": "Tugas selesai",
+      "habit": "Kebiasaan"
+    },
+    "metaDescription": "Catat keuangan, tugas, kebiasaan, dan jurnal — lalu lihat recap harimu.",
+    "quickAdd": "Tambah cepat",
+    "addTransaction": "Transaksi",
+    "addTask": "Tugas",
+    "openRecap": "Recap hari ini",
+    "recapPending": "Recap hari ini belum diisi — dua menit saja sebelum tidur.",
+    "recapDone": "Recap hari ini sudah terisi. Mantap!",
+    "habits": "Kebiasaan",
+    "habitsToday": "dijalankan hari ini",
+    "noHabits": "Belum ada kebiasaan",
+    "expenseToday": "Keluar hari ini {amount}",
+    "reflectionWritten": "Refleksi sudah ditulis",
+    "noReflection": "Belum ada refleksi",
+    "todayTasks": "Tugas hari ini",
+    "seeAll": "Lihat semua",
+    "noTasks": "Tidak ada tugas untuk hari ini."
   },
   "Navigation": {
     "overview": "RINGKASAN",
@@ -314,5 +331,48 @@
     "saved": "Jurnal tersimpan",
     "deleteTitle": "Hapus catatan hari ini?",
     "futureDay": "Hari ini belum tiba."
+  },
+  "Header": {
+    "quickAdd": "Tambah cepat",
+    "language": "Bahasa",
+    "theme": "Tema",
+    "light": "Terang",
+    "dark": "Gelap",
+    "system": "Ikuti sistem"
+  },
+  "QuickAdd": {
+    "title": "Tambah cepat",
+    "description": "Ketik perintah singkat untuk mencatat atau membuka halaman.",
+    "placeholder": "Coba: -25rb kopi · todo beli sayur besok · done olahraga",
+    "quickAdd": "Tambah cepat",
+    "actions": "Tindakan",
+    "habitsToday": "Kebiasaan hari ini",
+    "goTo": "Buka halaman",
+    "noMatch": "Tidak ada yang cocok.",
+    "addTransaction": "Tambah transaksi",
+    "addTodo": "Tambah tugas",
+    "writeJournal": "Tulis jurnal",
+    "openRecap": "Buka recap hari ini",
+    "checkHabit": "Centang: {name}",
+    "previewExpense": "Catat pengeluaran {amount} · {category} · {description} ({when})",
+    "previewIncome": "Catat pemasukan {amount} · {category} · {description} ({when})",
+    "previewTodo": "Tambah tugas “{title}” · tenggat: {when}",
+    "previewHabit": "Centang kebiasaan “{name}” untuk hari ini",
+    "previewMood": "Set mood hari ini: {mood}",
+    "habitNotFound": "Kebiasaan “{query}” tidak ditemukan",
+    "today": "hari ini",
+    "noDate": "tanpa tanggal",
+    "moods": {
+      "great": "Hebat",
+      "good": "Baik",
+      "okay": "Biasa",
+      "bad": "Kurang",
+      "terrible": "Buruk"
+    },
+    "doneMoney": "Tercatat {amount}",
+    "doneTodo": "Tugas ditambahkan: {title}",
+    "doneHabit": "✓ {name}",
+    "doneMood": "Mood hari ini tersimpan",
+    "hint": "Awali dengan - (keluar), + (masuk), todo, done, atau mood. Enter untuk menyimpan."
   }
 }

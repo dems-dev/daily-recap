@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "../globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/toast";
+import { ServiceWorkerRegister } from "@/components/pwa/ServiceWorkerRegister";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,9 +22,22 @@ export async function generateMetadata({
 
   return {
     title: `Daily Recap | ${t("title")}`,
-    description: "Personal life tracker all-in-one",
+    description: t("metaDescription"),
+    applicationName: "Daily Recap",
+    appleWebApp: { capable: true, title: "Daily Recap", statusBarStyle: "default" },
+    icons: {
+      icon: [{ url: "/icons/icon.svg", type: "image/svg+xml" }],
+      apple: "/icons/apple-touch-icon.png",
+    },
   };
 }
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
+};
 
 export default async function RootLayout({
   children,
@@ -56,6 +70,7 @@ export default async function RootLayout({
             >
               {children}
               <Toaster />
+              <ServiceWorkerRegister />
             </ThemeProvider>
           </NextIntlClientProvider>
         </SessionProvider>
