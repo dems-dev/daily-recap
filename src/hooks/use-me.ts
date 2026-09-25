@@ -13,6 +13,8 @@ export type Me = {
   reminderHour: number;
   createdAt: string;
   today: string;
+  aiEnabled: boolean;
+  pushEnabled: boolean;
 };
 
 /** The signed-in user's settings and today's date in their timezone. */

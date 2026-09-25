@@ -5,6 +5,7 @@ import { serverError, unauthorized } from "@/lib/api";
 import { dateKeyToDate, dayBoundsInTz, monthKeyOf, monthRange, todayKey } from "@/lib/date";
 import { compareTodos, serializeTodo, todayTodosWhere } from "@/lib/todos";
 import { isMood } from "@/lib/journal";
+import { materializeRecurring } from "@/lib/recurring-server";
 
 export async function GET() {
   try {
@@ -16,6 +17,7 @@ export async function GET() {
     const todayDate = dateKeyToDate(today);
     const month = monthRange(monthKeyOf(today));
     const todayBounds = dayBoundsInTz(today, user.timezone);
+    await materializeRecurring(userId, today);
 
     const [finances, journal, todos, habits, recentFinances, recentJournals, recentTodos, recentHabitLogs] =
       await Promise.all([

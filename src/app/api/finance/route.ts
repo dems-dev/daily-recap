@@ -5,6 +5,7 @@ import { readJson, serverError, unauthorized, validationError, badRequest } from
 import { dateKeyToDate, dateToKey, isMonthKey, monthKeyOf, monthRange, todayKey } from "@/lib/date";
 import { transactionSchema } from "@/lib/finance";
 import { summarizeMonth } from "@/lib/finance-summary";
+import { materializeRecurring } from "@/lib/recurring-server";
 
 /** Transactions and summary for one month: GET /api/finance?month=YYYY-MM */
 export async function GET(req: Request) {
@@ -16,6 +17,7 @@ export async function GET(req: Request) {
     const month = new URL(req.url).searchParams.get("month") ?? monthKeyOf(today);
     if (!isMonthKey(month)) return badRequest("Invalid month");
 
+    await materializeRecurring(user.id, today);
     const range = monthRange(month);
     const rows = await prisma.finance.findMany({
       where: { userId: user.id, date: { gte: range.start, lt: range.end } },

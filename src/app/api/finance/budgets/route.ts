@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/session";
 import { badRequest, readJson, serverError, unauthorized, validationError } from "@/lib/api";
 import { isMonthKey, monthKeyOf, monthRange, parseMonthKey, todayKey } from "@/lib/date";
 import { budgetSchema } from "@/lib/finance";
+import { materializeRecurring } from "@/lib/recurring-server";
 
 /** Budgets for a month with what has been spent: GET /api/finance/budgets?month=YYYY-MM */
 export async function GET(req: Request) {
@@ -14,6 +15,7 @@ export async function GET(req: Request) {
     const month = new URL(req.url).searchParams.get("month") ?? monthKeyOf(todayKey(user.timezone));
     if (!isMonthKey(month)) return badRequest("Invalid month");
 
+    await materializeRecurring(user.id, todayKey(user.timezone));
     const { year, month: monthNum } = parseMonthKey(month);
     const range = monthRange(month);
 

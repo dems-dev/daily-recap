@@ -3,6 +3,8 @@ import prisma from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
 import { notFound, serverError, unauthorized } from "@/lib/api";
 import { todayKey } from "@/lib/date";
+import { aiEnabled } from "@/lib/ai-summary";
+import { pushConfigured } from "@/lib/push";
 
 /** The signed-in user's profile and settings, plus "today" in their timezone. */
 export async function GET() {
@@ -31,6 +33,8 @@ export async function GET() {
       timezone: current.timezone,
       createdAt: user.createdAt.toISOString(),
       today: todayKey(current.timezone),
+      aiEnabled: aiEnabled(),
+      pushEnabled: pushConfigured(),
     });
   } catch (error) {
     return serverError(error);
