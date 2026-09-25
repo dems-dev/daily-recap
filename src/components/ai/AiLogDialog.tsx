@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { AlertTriangle, Sparkles } from "lucide-react";
+import { AlertTriangle, Pencil, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -13,6 +13,7 @@ import { useInvalidate, useJson } from "@/hooks/use-json";
 import { useMe } from "@/hooks/use-me";
 import type { QuickAdd } from "@/lib/quick-add";
 import type { HabitsResponse } from "@/components/habits/habit-types";
+import { QuickAddEditor } from "./QuickAddEditor";
 
 type ParseResult = {
   today: string;
@@ -49,6 +50,9 @@ export function AiLogDialog({
 
   const [result, setResult] = useState<{ text: string; data?: ParseResult; error?: string } | null>(null);
   const [selected, setSelected] = useState<Set<number>>(new Set());
+  // Editable copy of the proposals; `editing` is the row whose form is open.
+  const [items, setItems] = useState<QuickAdd[]>([]);
+  const [editing, setEditing] = useState<number | null>(null);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -67,6 +71,8 @@ export function AiLogDialog({
       .then((data) => {
         if (cancelled) return;
         setResult({ text, data });
+        setItems(data.items);
+        setEditing(null);
         setSelected(new Set(data.items.map((_, i) => i)));
       })
       .catch((err: Error) => !cancelled && setResult({ text, error: err.message }));
@@ -82,7 +88,7 @@ export function AiLogDialog({
     setSaving(true);
     let ok = 0;
     const failures: string[] = [];
-    for (const [i, item] of current.data.items.entries()) {
+    for (const [i, item] of items.entries()) {
       if (!selected.has(i)) continue;
       try {
         await execute(item);
@@ -130,20 +136,45 @@ export function AiLogDialog({
           <p className="text-sm text-destructive" role="alert">
             {current.error}
           </p>
-        ) : current.data && current.data.items.length === 0 ? (
+        ) : current.data && items.length === 0 ? (
           <p className="text-sm text-muted-foreground">{t("nothingFound")}</p>
         ) : (
           <div className="space-y-3">
             <p className="text-sm text-muted-foreground">{t("review")}</p>
-            <ul className="space-y-1.5">
-              {current.data!.items.map((item, i) => (
-                <li key={i}>
-                  <label className="flex cursor-pointer items-start gap-3 rounded-lg border p-2.5 text-sm hover:bg-muted/40">
-                    <Checkbox className="mt-0.5" checked={selected.has(i)} onCheckedChange={(c) => toggle(i, c === true)} />
-                    <span className="flex-1">{describe(item)}</span>
-                  </label>
-                </li>
-              ))}
+            <ul className="max-h-[50vh] space-y-1.5 overflow-y-auto">
+              {items.map((item, i) =>
+                editing === i ? (
+                  <li key={i}>
+                    <QuickAddEditor
+                      item={item}
+                      today={current.data!.today}
+                      habits={habits?.habits ?? []}
+                      onCancel={() => setEditing(null)}
+                      onSave={(next) => {
+                        setItems((list) => list.map((x, j) => (j === i ? next : x)));
+                        toggle(i, true);
+                        setEditing(null);
+                      }}
+                    />
+                  </li>
+                ) : (
+                  <li key={i} className="flex items-start gap-1 rounded-lg border p-1 hover:bg-muted/40">
+                    <label className="flex flex-1 cursor-pointer items-start gap-3 p-1.5 text-sm">
+                      <Checkbox className="mt-0.5" checked={selected.has(i)} onCheckedChange={(c) => toggle(i, c === true)} />
+                      <span className="flex-1">{describe(item)}</span>
+                    </label>
+                    <Button
+                      variant="ghost"
+                      size="icon-sm"
+                      onClick={() => setEditing(i)}
+                      disabled={saving || editing !== null}
+                      aria-label={t("editEntry")}
+                    >
+                      <Pencil />
+                    </Button>
+                  </li>
+                )
+              )}
             </ul>
           </div>
         )}
@@ -164,7 +195,7 @@ export function AiLogDialog({
           <Button variant="outline" onClick={() => onOpenChange(false)} disabled={saving}>
             {tc("cancel")}
           </Button>
-          <Button onClick={save} disabled={saving || !current?.data || selected.size === 0}>
+          <Button onClick={save} disabled={saving || !current?.data || selected.size === 0 || editing !== null}>
             {saving ? t("saving") : t("saveSelected", { count: selected.size })}
           </Button>
         </DialogFooter>

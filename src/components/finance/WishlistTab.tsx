@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Check, ExternalLink, Hourglass, Plus, ShoppingBag, Trash2, X } from "lucide-react";
+import { Check, ExternalLink, Hourglass, Pencil, Plus, ShoppingBag, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -52,7 +52,7 @@ export function WishlistTab() {
   const onFail = useFailureToast();
   const { data } = useJson<WishlistResponse>("/api/wishlist");
   const money = useMoney(data?.currency);
-  const [adding, setAdding] = useState(false);
+  const [dialog, setDialog] = useState<{ item: Item | null } | null>(null);
   const [earlyBuy, setEarlyBuy] = useState<Item | null>(null);
   const [deleting, setDeleting] = useState<Item | null>(null);
 
@@ -90,7 +90,7 @@ export function WishlistTab() {
           <CardTitle className="flex items-center gap-2">
             <Hourglass className="size-4" aria-hidden /> {t("waitingTitle")}
           </CardTitle>
-          <Button size="sm" className="gap-1.5" onClick={() => setAdding(true)}>
+          <Button size="sm" className="gap-1.5" onClick={() => setDialog({ item: null })}>
             <Plus /> {t("add")}
           </Button>
         </CardHeader>
@@ -123,6 +123,9 @@ export function WishlistTab() {
                       </div>
                       <span className="text-sm font-medium tabular-nums">{money(item.price)}</span>
                       <div className="flex gap-1">
+                        <Button size="icon-sm" variant="ghost" onClick={() => setDialog({ item })} aria-label={t("edit", { name: item.name })}>
+                          <Pencil />
+                        </Button>
                         <Button size="sm" variant={ready ? "default" : "outline"} className="gap-1" onClick={() => (ready ? decide(item, "bought") : setEarlyBuy(item))}>
                           <ShoppingBag /> {t("buy")}
                         </Button>
@@ -174,7 +177,7 @@ export function WishlistTab() {
         </Card>
       )}
 
-      <WishlistDialog open={adding} onOpenChange={setAdding} />
+      <WishlistDialog open={dialog !== null} onOpenChange={(open) => !open && setDialog(null)} item={dialog?.item ?? null} />
       <ConfirmDialog
         open={!!earlyBuy}
         onOpenChange={(open) => !open && setEarlyBuy(null)}
@@ -204,7 +207,16 @@ export function WishlistTab() {
   );
 }
 
-function WishlistDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
+function WishlistDialog({
+  open,
+  onOpenChange,
+  item,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  /** Edit this waiting item; null to add a new one. */
+  item: Item | null;
+}) {
   const t = useTranslations("Wishlist");
   const tc = useTranslations("Common");
   const tf = useTranslations("Finance");
@@ -216,13 +228,32 @@ function WishlistDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (
   });
 
   useEffect(() => {
-    if (open) reset({ name: "", category: "shopping", url: "", note: "", waitDays: DEFAULT_WAIT_DAYS });
-  }, [open, reset]);
+    if (!open) return;
+    reset(
+      item
+        ? {
+            name: item.name,
+            price: item.price,
+            category: item.category as WishlistInput["category"],
+            url: item.url ?? "",
+            note: item.note ?? "",
+            waitDays: DEFAULT_WAIT_DAYS,
+          }
+        : { name: "", category: "shopping", url: "", note: "", waitDays: DEFAULT_WAIT_DAYS }
+    );
+  }, [open, item, reset]);
 
   const onSubmit = handleSubmit(async (values) => {
     try {
-      await sendJson("/api/wishlist", "POST", values);
-      toast.add({ title: t("addedToast", { days: values.waitDays ?? DEFAULT_WAIT_DAYS }), type: "success" });
+      if (item) {
+        const { waitDays: _wait, ...rest } = values;
+        void _wait; // the waiting period isn't changed by an edit
+        await sendJson(`/api/wishlist/${item.id}`, "PATCH", rest);
+        toast.add({ title: tc("saved"), type: "success" });
+      } else {
+        await sendJson("/api/wishlist", "POST", values);
+        toast.add({ title: t("addedToast", { days: values.waitDays ?? DEFAULT_WAIT_DAYS }), type: "success" });
+      }
       onOpenChange(false);
       invalidate();
     } catch (err) {
@@ -234,7 +265,7 @@ function WishlistDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t("add")}</DialogTitle>
+          <DialogTitle>{item ? t("editTitle") : t("add")}</DialogTitle>
         </DialogHeader>
         <form id="wishlist-form" onSubmit={onSubmit} className="space-y-4" noValidate>
           <div className="space-y-2">
@@ -270,6 +301,7 @@ function WishlistDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (
               />
             </div>
           </div>
+          {!item && (
           <div className="space-y-2">
             <Label>{t("waitDays")}</Label>
             <Controller
@@ -293,6 +325,7 @@ function WishlistDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (
               )}
             />
           </div>
+          )}
           <div className="space-y-2">
             <Label htmlFor="wl-url">{t("url")}</Label>
             <Input id="wl-url" type="url" placeholder="https://" aria-invalid={!!formState.errors.url} {...register("url")} />

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { matchHabit, parseAmount, parseQuickAdd } from "./quick-add";
+import { matchHabit, parseAmount, parseQuickAdd, validateQuickAdd } from "./quick-add";
 
 const TODAY = "2026-09-25";
 
@@ -128,5 +128,17 @@ describe("matchHabit", () => {
     expect(matchHabit(habits, "baca")?.name).toBe("Baca buku");
     expect(matchHabit(habits, "air")?.name).toBe("Minum 8 gelas air");
     expect(matchHabit(habits, "tidur")).toBeNull();
+  });
+});
+
+describe("validateQuickAdd", () => {
+  it("accepts corrected entries and flags bad edits", () => {
+    const expense = { kind: "expense" as const, amount: 45000, category: "food", description: "", date: TODAY };
+    expect(validateQuickAdd(expense, TODAY)).toBeNull();
+    expect(validateQuickAdd({ ...expense, amount: NaN }, TODAY)).toBe("amount");
+    expect(validateQuickAdd({ ...expense, date: "2026-09-26" }, TODAY)).toBe("date");
+    expect(validateQuickAdd({ kind: "todo", title: "  ", dueDate: null }, TODAY)).toBe("title");
+    expect(validateQuickAdd({ kind: "sleep", bedtime: "23:00", wakeTime: "" }, TODAY)).toBe("time");
+    expect(validateQuickAdd({ kind: "wish", name: "Sepatu", price: 0, category: "shopping" }, TODAY)).toBe("amount");
   });
 });

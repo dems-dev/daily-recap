@@ -231,7 +231,9 @@
     "recurringResumed": "Transaksi berulang dilanjutkan",
     "deleteRecurringTitle": "Hapus transaksi berulang ini?",
     "deleteRecurringDescription": "Transaksi yang sudah terbuat tetap tersimpan; hanya jadwalnya yang dihapus.",
-    "wishlist": "Wishlist"
+    "wishlist": "Wishlist",
+    "editRecurring": "Ubah transaksi berulang",
+    "editRecurringHint": "Perubahan berlaku untuk transaksi berikutnya. Transaksi yang sudah terbuat tidak berubah — ubah satu per satu di tab Transaksi bila perlu."
   },
   "Common": {
     "cancel": "Batal",
@@ -641,7 +643,9 @@
     "add": "Tambah",
     "markDone": "Tandai tercapai: {title}",
     "markOpen": "Tandai belum: {title}",
-    "remove": "Hapus prioritas: {title}"
+    "remove": "Hapus prioritas: {title}",
+    "editTitle": "Klik untuk mengubah",
+    "edit": "Ubah prioritas: {title}"
   },
   "Wishlist": {
     "add": "Tambah ke wishlist",
@@ -676,7 +680,9 @@
     "boughtOn": "dibeli {date}",
     "skippedOn": "dibatalkan {date}",
     "deleteTitle": "Hapus dari riwayat?",
-    "deleteDescription": "Kalau sudah dibeli, pengeluarannya tetap tersimpan di Keuangan."
+    "deleteDescription": "Kalau sudah dibeli, pengeluarannya tetap tersimpan di Keuangan.",
+    "edit": "Ubah {name}",
+    "editTitle": "Ubah barang wishlist"
   },
   "AiLog": {
     "title": "Catat dengan AI",
@@ -695,7 +701,26 @@
     "tellHint": "Tulis bebas — AI akan memilah jadi pengeluaran, tidur, tugas, kebiasaan, dan mood. Kamu periksa dulu sebelum disimpan.",
     "tellPlaceholder": "mis. Makan siang 45rb sama tim, isi bensin 30rb. Tidur jam 1 bangun jam 7. Sudah olahraga. Capek tapi senang presentasinya lancar. Besok harus kirim invoice.",
     "process": "Proses dengan AI",
-    "privacy": "Teks dikirim ke penyedia AI lewat Vercel AI Gateway."
+    "privacy": "Teks dikirim ke penyedia AI lewat Vercel AI Gateway.",
+    "editEntry": "Ubah catatan ini",
+    "edit": {
+      "title": "Judul",
+      "dueDate": "Tenggat",
+      "habit": "Kebiasaan",
+      "bedtime": "Tidur jam",
+      "wakeTime": "Bangun jam",
+      "note": "Catatan",
+      "item": "Barang",
+      "price": "Harga",
+      "apply": "Terapkan",
+      "errors": {
+        "amount": "Jumlah harus lebih dari 0.",
+        "date": "Tanggal tidak valid atau di masa depan.",
+        "title": "Judul wajib diisi.",
+        "habit": "Pilih kebiasaan.",
+        "time": "Jam tidak valid."
+      }
+    }
   },
   "Assistant": {
     "pageTitle": "Asisten AI",

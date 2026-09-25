@@ -231,7 +231,9 @@
     "recurringResumed": "Recurring transaction resumed",
     "deleteRecurringTitle": "Delete this recurring transaction?",
     "deleteRecurringDescription": "Transactions it already created are kept; only the schedule is removed.",
-    "wishlist": "Wishlist"
+    "wishlist": "Wishlist",
+    "editRecurring": "Edit recurring transaction",
+    "editRecurringHint": "Changes apply to upcoming transactions. Ones already created stay as they are — edit them in the Transactions tab if needed."
   },
   "Common": {
     "cancel": "Cancel",
@@ -641,7 +643,9 @@
     "add": "Add",
     "markDone": "Mark done: {title}",
     "markOpen": "Mark not done: {title}",
-    "remove": "Remove priority: {title}"
+    "remove": "Remove priority: {title}",
+    "editTitle": "Click to edit",
+    "edit": "Edit priority: {title}"
   },
   "Wishlist": {
     "add": "Add to wishlist",
@@ -676,7 +680,9 @@
     "boughtOn": "bought {date}",
     "skippedOn": "skipped {date}",
     "deleteTitle": "Remove from history?",
-    "deleteDescription": "If it was bought, the expense stays in Finance."
+    "deleteDescription": "If it was bought, the expense stays in Finance.",
+    "edit": "Edit {name}",
+    "editTitle": "Edit wishlist item"
   },
   "AiLog": {
     "title": "Log with AI",
@@ -695,7 +701,26 @@
     "tellHint": "Write freely — AI sorts it into spending, sleep, tasks, habits and mood. You review before anything is saved.",
     "tellPlaceholder": "e.g. Lunch with the team 45k, fuel 30k. Slept at 1, woke at 7. Did my workout. Tired but happy the demo went well. Need to send the invoice tomorrow.",
     "process": "Process with AI",
-    "privacy": "The text is sent to an AI provider via the Vercel AI Gateway."
+    "privacy": "The text is sent to an AI provider via the Vercel AI Gateway.",
+    "editEntry": "Edit this entry",
+    "edit": {
+      "title": "Title",
+      "dueDate": "Due date",
+      "habit": "Habit",
+      "bedtime": "Went to bed",
+      "wakeTime": "Woke up",
+      "note": "Note",
+      "item": "Item",
+      "price": "Price",
+      "apply": "Apply",
+      "errors": {
+        "amount": "Amount must be greater than 0.",
+        "date": "Invalid or future date.",
+        "title": "Title is required.",
+        "habit": "Choose a habit.",
+        "time": "Invalid time."
+      }
+    }
   },
   "Assistant": {
     "pageTitle": "AI Assistant",

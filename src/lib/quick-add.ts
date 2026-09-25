@@ -1,4 +1,5 @@
-import { addDays, type DateKey } from "@/lib/date";
+import { addDays, isDateKey, type DateKey } from "@/lib/date";
+import { isLocalTime } from "@/lib/sleep";
 import type { Mood } from "@/lib/journal";
 
 /**
@@ -165,4 +166,31 @@ export function matchHabit<T extends { name: string }>(habits: T[], query: strin
     habits.find((h) => name(h).includes(q)) ??
     null
   );
+}
+
+/** Returns an error key when the edited command can't be saved, else null. */
+export function validateQuickAdd(q: QuickAdd, today: string): string | null {
+  const positive = (n: number) => Number.isFinite(n) && n > 0 && n <= 1_000_000_000_000;
+  switch (q.kind) {
+    case "expense":
+    case "income":
+      if (!positive(q.amount)) return "amount";
+      if (!isDateKey(q.date) || q.date > today) return "date";
+      return null;
+    case "todo":
+      if (!q.title.trim()) return "title";
+      if (q.dueDate !== null && !isDateKey(q.dueDate)) return "date";
+      return null;
+    case "habit":
+      return q.query.trim() ? null : "habit";
+    case "sleep":
+      return isLocalTime(q.bedtime) && isLocalTime(q.wakeTime) ? null : "time";
+    case "mood":
+      return null;
+    case "wish":
+      if (!q.name.trim()) return "title";
+      return positive(q.price) ? null : "amount";
+    case "priority":
+      return q.title.trim() ? null : "title";
+  }
 }

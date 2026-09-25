@@ -60,3 +60,15 @@ export function dueOccurrences(anchor: DateKey, nextDate: DateKey, frequency: Fr
   }
   return { dates, nextDate: cursor };
 }
+
+/** Editable fields; applies to occurrences generated from now on. */
+export const recurringPatchSchema = z.object({
+  isActive: z.boolean().optional(),
+  amount: z
+    .number({ invalid_type_error: "required" })
+    .positive("positive")
+    .max(1_000_000_000_000, "tooLarge")
+    .optional(),
+  category: z.string().min(1).optional(),
+  description: z.string().trim().max(200, "tooLong").nullish(),
+});

@@ -1,11 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Pause, Play, Repeat, Trash2 } from "lucide-react";
+import { Pause, Pencil, Play, Repeat, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { categoriesFor } from "@/lib/finance";
 import { toast } from "@/components/ui/toast";
 import { useFailureToast } from "@/components/common";
 import { sendJson, useInvalidate, useJson } from "@/hooks/use-json";
@@ -35,6 +39,7 @@ export function RecurringTab({ onAdd }: { onAdd: () => void }) {
   const { data } = useJson<{ today: string; currency: string; rules: Rule[] }>("/api/finance/recurring");
   const money = useMoney(data?.currency);
   const [deleting, setDeleting] = useState<Rule | null>(null);
+  const [editing, setEditing] = useState<Rule | null>(null);
 
   const setActive = async (rule: Rule, isActive: boolean) => {
     try {
@@ -79,6 +84,9 @@ export function RecurringTab({ onAdd }: { onAdd: () => void }) {
                   {money(rule.amount)}
                 </span>
                 <div className="flex">
+                  <Button variant="ghost" size="icon-sm" onClick={() => setEditing(rule)} aria-label={tc("edit")}>
+                    <Pencil />
+                  </Button>
                   <Button
                     variant="ghost"
                     size="icon-sm"
@@ -97,6 +105,7 @@ export function RecurringTab({ onAdd }: { onAdd: () => void }) {
         )}
       </CardContent>
 
+      <RecurringEditDialog rule={editing} onOpenChange={(open) => !open && setEditing(null)} />
       <ConfirmDialog
         open={!!deleting}
         onOpenChange={(open) => !open && setDeleting(null)}
@@ -114,5 +123,117 @@ export function RecurringTab({ onAdd }: { onAdd: () => void }) {
         }}
       />
     </Card>
+  );
+}
+
+function RecurringEditDialog({ rule, onOpenChange }: { rule: Rule | null; onOpenChange: (open: boolean) => void }) {
+  const t = useTranslations("Finance");
+  const tc = useTranslations("Common");
+  const categoryLabel = useCategoryLabel();
+  const invalidate = useInvalidate();
+  const onFail = useFailureToast();
+  const [form, setForm] = useState({ amount: "", category: "", description: "" });
+  const [error, setError] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (!rule) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- load the rule into the form each time it opens
+    setForm({ amount: String(rule.amount), category: rule.category, description: rule.description ?? "" });
+    setError(null);
+  }, [rule]);
+
+  const save = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!rule) return;
+    const amount = Number(form.amount);
+    if (!Number.isFinite(amount) || amount <= 0) {
+      setError(t("errors.positive"));
+      return;
+    }
+    setSaving(true);
+    try {
+      await sendJson(`/api/finance/recurring/${rule.id}`, "PATCH", {
+        amount,
+        category: form.category,
+        description: form.description,
+      });
+      toast.add({ title: tc("saved"), type: "success" });
+      onOpenChange(false);
+      invalidate();
+    } catch (err) {
+      onFail(err);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const selectClass =
+    "h-8 w-full rounded-lg border border-input bg-transparent px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30";
+
+  return (
+    <Dialog open={!!rule} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{t("editRecurring")}</DialogTitle>
+          <DialogDescription>{t("editRecurringHint")}</DialogDescription>
+        </DialogHeader>
+        {rule && (
+          <form id="recurring-edit" onSubmit={save} className="space-y-4" noValidate>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-2">
+                <Label htmlFor="rec-amount">{t("amount")}</Label>
+                <Input
+                  id="rec-amount"
+                  type="number"
+                  inputMode="decimal"
+                  min={0}
+                  step="any"
+                  value={form.amount}
+                  onChange={(e) => setForm((f) => ({ ...f, amount: e.target.value }))}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="rec-category">{t("category")}</Label>
+                <select
+                  id="rec-category"
+                  className={selectClass}
+                  value={form.category}
+                  onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
+                >
+                  {categoriesFor(rule.type).map((c) => (
+                    <option key={c} value={c}>
+                      {categoryLabel(c)}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="rec-description">{t("description")}</Label>
+              <Input
+                id="rec-description"
+                maxLength={200}
+                value={form.description}
+                onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
+              />
+            </div>
+            {error && (
+              <p className="text-xs text-destructive" role="alert">
+                {error}
+              </p>
+            )}
+          </form>
+        )}
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={saving}>
+            {tc("cancel")}
+          </Button>
+          <Button type="submit" form="recurring-edit" disabled={saving}>
+            {tc("save")}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

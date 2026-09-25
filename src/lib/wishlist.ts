@@ -18,3 +18,6 @@ export const wishlistSchema = z.object({
 export type WishlistInput = z.input<typeof wishlistSchema>;
 
 export const decisionSchema = z.object({ decision: z.enum(["bought", "skipped"]) });
+
+/** Editable fields of a waiting item (the waiting period stays as it was). */
+export const wishlistPatchSchema = wishlistSchema.omit({ waitDays: true }).partial();

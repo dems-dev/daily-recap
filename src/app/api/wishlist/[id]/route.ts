@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
 import { badRequest, notFound, readJson, serverError, unauthorized, validationError } from "@/lib/api";
 import { dateKeyToDate, todayKey } from "@/lib/date";
-import { decisionSchema } from "@/lib/wishlist";
+import { decisionSchema, wishlistPatchSchema } from "@/lib/wishlist";
 
 /**
  * Decide on a waiting item: POST { decision: "bought" | "skipped" }.
@@ -44,6 +44,35 @@ export async function POST(req: Request, ctx: RouteContext<"/api/wishlist/[id]">
     });
 
     return NextResponse.json({ id, status: parsed.data.decision });
+  } catch (error) {
+    return serverError(error);
+  }
+}
+
+/** Correct a waiting item's name, price, category, link or note. */
+export async function PATCH(req: Request, ctx: RouteContext<"/api/wishlist/[id]">) {
+  try {
+    const user = await getCurrentUser();
+    if (!user) return unauthorized();
+    const { id } = await ctx.params;
+
+    const parsed = wishlistPatchSchema.safeParse(await readJson(req));
+    if (!parsed.success) return validationError(parsed.error);
+    const { url, note, ...data } = parsed.data;
+
+    const item = await prisma.wishlistItem.findFirst({ where: { id, userId: user.id }, select: { status: true } });
+    if (!item) return notFound();
+    if (item.status !== "waiting") return badRequest("Only waiting items can be edited");
+
+    await prisma.wishlistItem.update({
+      where: { id },
+      data: {
+        ...data,
+        ...(url !== undefined && { url: url || null }),
+        ...(note !== undefined && { note: note || null }),
+      },
+    });
+    return NextResponse.json({ id });
   } catch (error) {
     return serverError(error);
   }

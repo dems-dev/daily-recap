@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Target, X } from "lucide-react";
+import { Pencil, Target, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -31,6 +31,7 @@ export function WeeklyPriorities({ date, title, emptyHint }: { date?: string; ti
   const { data } = useJson<PlanResponse>(`/api/plans${date ? `?date=${date}` : ""}`);
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
+  const [editing, setEditing] = useState<{ id: string; title: string } | null>(null);
 
   const add = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,6 +56,15 @@ export function WeeklyPriorities({ date, title, emptyHint }: { date?: string; ti
     } catch (err) {
       onFail(err);
     }
+  };
+
+  const saveTitle = async () => {
+    if (!editing) return;
+    const title = editing.title.trim();
+    const original = data?.priorities.find((p) => p.id === editing.id)?.title;
+    setEditing(null);
+    if (!title || title === original) return;
+    await patch(editing.id, { title });
   };
 
   const remove = async (id: string) => {
@@ -97,7 +107,43 @@ export function WeeklyPriorities({ date, title, emptyHint }: { date?: string; ti
                     aria-label={t(p.isDone ? "markOpen" : "markDone", { title: p.title })}
                   />
                   <span className="w-4 text-xs text-muted-foreground tabular-nums">{i + 1}</span>
-                  <span className={cn("flex-1 text-sm", p.isDone && "text-muted-foreground line-through")}>{p.title}</span>
+                  {editing?.id === p.id ? (
+                    <Input
+                      autoFocus
+                      value={editing.title}
+                      maxLength={120}
+                      aria-label={t("editTitle")}
+                      className="h-7 flex-1"
+                      onChange={(e) => setEditing({ id: p.id, title: e.target.value })}
+                      onBlur={saveTitle}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          saveTitle();
+                        } else if (e.key === "Escape") {
+                          setEditing(null);
+                        }
+                      }}
+                    />
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setEditing({ id: p.id, title: p.title })}
+                      className={cn("flex-1 text-left text-sm", p.isDone && "text-muted-foreground line-through")}
+                      title={t("editTitle")}
+                    >
+                      {p.title}
+                    </button>
+                  )}
+                  <Button
+                    variant="ghost"
+                    size="icon-xs"
+                    className="opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-visible:opacity-100"
+                    onClick={() => setEditing({ id: p.id, title: p.title })}
+                    aria-label={t("edit", { title: p.title })}
+                  >
+                    <Pencil />
+                  </Button>
                   <Button
                     variant="ghost"
                     size="icon-xs"
