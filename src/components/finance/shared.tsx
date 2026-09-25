@@ -1,36 +1,20 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { format } from "date-fns";
-import { enUS, id as idLocale } from "date-fns/locale";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { ConfirmDialog, FieldError as CommonFieldError, useDateFormat } from "@/components/common";
 import { formatCurrency } from "@/lib/format";
-import { dateKeyToLocalDate, shiftMonth, type DateKey, type MonthKey } from "@/lib/date";
+import { shiftMonth, type MonthKey } from "@/lib/date";
+
+export { ConfirmDialog, useDateFormat };
 
 export function useMoney(currency: string | undefined) {
   const locale = useLocale();
   return useCallback(
     (amount: number) => formatCurrency(amount, currency ?? "IDR", locale),
     [currency, locale]
-  );
-}
-
-export function useDateFormat() {
-  const locale = useLocale();
-  const dateLocale = locale === "id" ? idLocale : enUS;
-  return useCallback(
-    (key: DateKey, pattern = "d MMM yyyy") => format(dateKeyToLocalDate(key), pattern, { locale: dateLocale }),
-    [dateLocale]
   );
 }
 
@@ -41,7 +25,7 @@ export function useCategoryLabel() {
 }
 
 export function MonthSwitcher({ month, onChange }: { month: MonthKey; onChange: (m: MonthKey) => void }) {
-  const t = useTranslations("Finance");
+  const t = useTranslations("Common");
   const formatDate = useDateFormat();
 
   return (
@@ -59,57 +43,7 @@ export function MonthSwitcher({ month, onChange }: { month: MonthKey; onChange: 
   );
 }
 
-/** Field error text; `message` is a key under Finance.errors (set in the zod schemas). */
+/** Field error text; `message` is a key under Finance.errors. */
 export function FieldError({ message }: { message?: string }) {
-  const t = useTranslations("Finance.errors");
-  if (!message) return null;
-  return <p className="text-xs text-destructive">{t.has(message) ? t(message) : message}</p>;
-}
-
-export function ConfirmDialog({
-  open,
-  onOpenChange,
-  title,
-  description,
-  onConfirm,
-}: {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  title: string;
-  description?: string;
-  onConfirm: () => Promise<void>;
-}) {
-  const t = useTranslations("Finance");
-  const [busy, setBusy] = useState(false);
-
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          {description && <DialogDescription>{description}</DialogDescription>}
-        </DialogHeader>
-        <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={busy}>
-            {t("cancel")}
-          </Button>
-          <Button
-            variant="destructive"
-            disabled={busy}
-            onClick={async () => {
-              setBusy(true);
-              try {
-                await onConfirm();
-                onOpenChange(false);
-              } finally {
-                setBusy(false);
-              }
-            }}
-          >
-            {t("delete")}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
+  return <CommonFieldError message={message} ns="Finance.errors" />;
 }

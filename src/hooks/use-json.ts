@@ -1,6 +1,25 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { createContext, createElement, useCallback, useContext, useEffect, useMemo, useState } from "react";
+
+/**
+ * App-wide data version. Any mutation can call `useInvalidate()()` and every
+ * mounted useJson refetches — e.g. after a quick-add from the command palette.
+ */
+const DataVersionContext = createContext<{ version: number; invalidate: () => void }>({
+  version: 0,
+  invalidate: () => {},
+});
+
+export function DataVersionProvider({ children }: { children: React.ReactNode }) {
+  const [version, setVersion] = useState(0);
+  const value = useMemo(() => ({ version, invalidate: () => setVersion((v) => v + 1) }), [version]);
+  return createElement(DataVersionContext.Provider, { value }, children);
+}
+
+export function useInvalidate() {
+  return useContext(DataVersionContext).invalidate;
+}
 
 type Result<T> = { key: string | null; data: T | null; error: string | null };
 
@@ -10,8 +29,9 @@ type Result<T> = { key: string | null; data: T | null; error: string | null };
  */
 export function useJson<T>(url: string | null, refreshKey: unknown = 0) {
   const [reloadTick, setReloadTick] = useState(0);
+  const { version } = useContext(DataVersionContext);
   const [result, setResult] = useState<Result<T>>({ key: null, data: null, error: null });
-  const key = url === null ? null : `${url}#${String(refreshKey)}#${reloadTick}`;
+  const key = url === null ? null : `${url}#${String(refreshKey)}#${reloadTick}#${version}`;
 
   useEffect(() => {
     if (!url || key === null) return;

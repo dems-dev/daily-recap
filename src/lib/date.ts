@@ -165,3 +165,15 @@ export function dateKeyToLocalDate(key: DateKey): Date {
   const [y, m, d] = key.split("-").map(Number);
   return new Date(y, m - 1, d);
 }
+
+/** Shift a "YYYY-MM-DD" key by whole calendar days. */
+export function addDays(key: DateKey, days: number): DateKey {
+  const d = dateKeyToDate(key);
+  d.setUTCDate(d.getUTCDate() + days);
+  return dateToKey(d);
+}
+
+/** Whole calendar days from `from` to `to` (negative when `to` is earlier). */
+export function daysBetween(from: DateKey, to: DateKey) {
+  return Math.round((dateKeyToDate(to).getTime() - dateKeyToDate(from).getTime()) / 86_400_000);
+}

@@ -186,5 +186,133 @@
       "family": "Family",
       "other-expense": "Other"
     }
+  },
+  "Common": {
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "save": "Save",
+    "saved": "Saved",
+    "deleted": "Deleted",
+    "saveFailed": "Could not save",
+    "loadFailed": "Could not load data.",
+    "none": "None",
+    "more": "More",
+    "prevMonth": "Previous month",
+    "nextMonth": "Next month",
+    "prevDay": "Previous day",
+    "nextDay": "Next day",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "tomorrow": "Tomorrow",
+    "loading": "Loading…",
+    "errors": {
+      "required": "Required",
+      "tooLong": "Too long",
+      "invalidDate": "Invalid date",
+      "positive": "Must be greater than 0",
+      "tooLarge": "Number is too large"
+    }
+  },
+  "Todos": {
+    "pageTitle": "To-Do",
+    "addTask": "Add Task",
+    "editTask": "Edit Task",
+    "add": "Add",
+    "quickAddPlaceholder": "Quick add a task, then press Enter…",
+    "summary": "{open} open {open, plural, one {task} other {tasks}}{overdue, plural, =0 {} other { · # overdue}}",
+    "todayProgress": "{done} of {total} done",
+    "title": "Title",
+    "dueDate": "Due date",
+    "priorityLabel": "Priority",
+    "categoryLabel": "Category",
+    "notes": "Notes",
+    "views": {
+      "today": "Today",
+      "upcoming": "Upcoming",
+      "completed": "Completed",
+      "all": "All"
+    },
+    "empty": {
+      "today": "Nothing left for today. 🎉",
+      "upcoming": "No scheduled tasks.",
+      "completed": "No completed tasks yet.",
+      "all": "No tasks yet."
+    },
+    "priority": {
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low"
+    },
+    "category": {
+      "work": "Work",
+      "personal": "Personal",
+      "errands": "Errands",
+      "study": "Study"
+    },
+    "overdueBy": "{days, plural, one {# day} other {# days}} overdue",
+    "dueToday": "Today",
+    "dueTomorrow": "Tomorrow",
+    "markDone": "Mark done: {title}",
+    "markOpen": "Mark not done: {title}",
+    "deleteTitle": "Delete this task?",
+    "toast": {
+      "added": "Task added",
+      "updated": "Task updated",
+      "completed": "Done: {title}"
+    }
+  },
+  "Habits": {
+    "pageTitle": "Habits",
+    "archiveTitle": "Archived Habits",
+    "addHabit": "Add Habit",
+    "editHabit": "Edit Habit",
+    "name": "Name",
+    "namePlaceholder": "e.g. Drink 8 glasses of water",
+    "icon": "Icon",
+    "todayProgress": "Today: {done} of {total} habits done",
+    "streak": "{count, plural, =0 {No streak yet} other {# day streak}}",
+    "best": "Best {count} days",
+    "rate": "{percent}% in 30 days",
+    "last7Days": "Last 7 days: {name}",
+    "done": "done",
+    "notDone": "not done",
+    "empty": "No habits yet. Start with one small habit.",
+    "emptyArchive": "Archive is empty.",
+    "archive": "Archive",
+    "restore": "Restore",
+    "archived": "Habit archived",
+    "restored": "Habit restored",
+    "showArchive": "Show archive",
+    "backToActive": "Back to active habits",
+    "deleteTitle": "Delete this habit?",
+    "deleteDescription": "Its whole check-in history is deleted too. Archive it instead to keep it."
+  },
+  "Journal": {
+    "pageTitle": "Journal",
+    "todayEntry": "Today's entry",
+    "entriesThisMonth": "Entries this month",
+    "monthCount": "{count, plural, =0 {No entries this month} one {# day logged this month} other {# days logged this month}}",
+    "mood": "Mood",
+    "howWasYourDay": "How was your day?",
+    "moodRequired": "Pick a mood first.",
+    "moods": {
+      "great": "Great",
+      "good": "Good",
+      "okay": "Okay",
+      "bad": "Bad",
+      "terrible": "Terrible"
+    },
+    "titleLabel": "Title (optional)",
+    "content": "Notes",
+    "reflection": "Short reflection",
+    "contentPlaceholder": "What happened today? What did you learn?",
+    "gratitude": "Grateful for",
+    "gratitudePlaceholder": "Gratitude #{n}",
+    "tags": "Tags",
+    "tagsPlaceholder": "comma separated, e.g. work, family",
+    "saved": "Journal saved",
+    "deleteTitle": "Delete this entry?",
+    "futureDay": "This day hasn't happened yet."
   }
 }

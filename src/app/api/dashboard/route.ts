@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
 import { serverError, unauthorized } from "@/lib/api";
 import { dateKeyToDate, dayBoundsInTz, monthKeyOf, monthRange, todayKey } from "@/lib/date";
+import { todayTodosWhere } from "@/lib/todos";
 
 export async function GET() {
   try {
@@ -36,15 +37,8 @@ export async function GET() {
       prisma.waterLog.findUnique({ where: { userId_date: { userId, date: todayDate } } }),
       prisma.sleepLog.findUnique({ where: { userId_date: { userId, date: todayDate } } }),
       prisma.journal.findUnique({ where: { userId_date: { userId, date: todayDate } } }),
-      // Today's list: open tasks that are undated or due by today, plus tasks completed today.
       prisma.todo.findMany({
-        where: {
-          userId,
-          OR: [
-            { isCompleted: false, OR: [{ dueDate: null }, { dueDate: { lte: todayDate } }] },
-            { isCompleted: true, completedAt: { gte: todayBounds.start, lt: todayBounds.end } },
-          ],
-        },
+        where: todayTodosWhere(userId, todayDate, todayBounds),
         select: { isCompleted: true },
       }),
       prisma.finance.findMany({

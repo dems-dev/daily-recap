@@ -186,5 +186,133 @@
       "family": "Keluarga",
       "other-expense": "Lainnya"
     }
+  },
+  "Common": {
+    "cancel": "Batal",
+    "delete": "Hapus",
+    "edit": "Ubah",
+    "save": "Simpan",
+    "saved": "Tersimpan",
+    "deleted": "Berhasil dihapus",
+    "saveFailed": "Gagal menyimpan",
+    "loadFailed": "Gagal memuat data.",
+    "none": "Tidak ada",
+    "more": "Lainnya",
+    "prevMonth": "Bulan sebelumnya",
+    "nextMonth": "Bulan berikutnya",
+    "prevDay": "Hari sebelumnya",
+    "nextDay": "Hari berikutnya",
+    "today": "Hari ini",
+    "yesterday": "Kemarin",
+    "tomorrow": "Besok",
+    "loading": "Memuat…",
+    "errors": {
+      "required": "Wajib diisi",
+      "tooLong": "Terlalu panjang",
+      "invalidDate": "Tanggal tidak valid",
+      "positive": "Harus lebih dari 0",
+      "tooLarge": "Angka terlalu besar"
+    }
+  },
+  "Todos": {
+    "pageTitle": "To-Do",
+    "addTask": "Tambah Tugas",
+    "editTask": "Ubah Tugas",
+    "add": "Tambah",
+    "quickAddPlaceholder": "Tambah tugas cepat, lalu tekan Enter…",
+    "summary": "{open} tugas terbuka{overdue, plural, =0 {} other { · # terlambat}}",
+    "todayProgress": "{done} dari {total} selesai",
+    "title": "Judul",
+    "dueDate": "Tenggat",
+    "priorityLabel": "Prioritas",
+    "categoryLabel": "Kategori",
+    "notes": "Catatan",
+    "views": {
+      "today": "Hari ini",
+      "upcoming": "Mendatang",
+      "completed": "Selesai",
+      "all": "Semua"
+    },
+    "empty": {
+      "today": "Tidak ada tugas untuk hari ini. 🎉",
+      "upcoming": "Belum ada tugas terjadwal.",
+      "completed": "Belum ada tugas selesai.",
+      "all": "Belum ada tugas."
+    },
+    "priority": {
+      "high": "Tinggi",
+      "medium": "Sedang",
+      "low": "Rendah"
+    },
+    "category": {
+      "work": "Kerja",
+      "personal": "Pribadi",
+      "errands": "Urusan",
+      "study": "Belajar"
+    },
+    "overdueBy": "Terlambat {days, plural, other {# hari}}",
+    "dueToday": "Hari ini",
+    "dueTomorrow": "Besok",
+    "markDone": "Tandai selesai: {title}",
+    "markOpen": "Tandai belum selesai: {title}",
+    "deleteTitle": "Hapus tugas ini?",
+    "toast": {
+      "added": "Tugas ditambahkan",
+      "updated": "Tugas diperbarui",
+      "completed": "Selesai: {title}"
+    }
+  },
+  "Habits": {
+    "pageTitle": "Kebiasaan",
+    "archiveTitle": "Arsip Kebiasaan",
+    "addHabit": "Tambah Kebiasaan",
+    "editHabit": "Ubah Kebiasaan",
+    "name": "Nama",
+    "namePlaceholder": "mis. Minum 8 gelas air",
+    "icon": "Ikon",
+    "todayProgress": "Hari ini: {done} dari {total} kebiasaan dijalankan",
+    "streak": "{count, plural, =0 {Belum ada streak} other {Streak # hari}}",
+    "best": "Terbaik {count} hari",
+    "rate": "{percent}% dalam 30 hari",
+    "last7Days": "7 hari terakhir: {name}",
+    "done": "sudah",
+    "notDone": "belum",
+    "empty": "Belum ada kebiasaan. Mulai dengan satu kebiasaan kecil.",
+    "emptyArchive": "Arsip kosong.",
+    "archive": "Arsipkan",
+    "restore": "Aktifkan lagi",
+    "archived": "Kebiasaan diarsipkan",
+    "restored": "Kebiasaan diaktifkan lagi",
+    "showArchive": "Lihat arsip",
+    "backToActive": "Kembali ke kebiasaan aktif",
+    "deleteTitle": "Hapus kebiasaan ini?",
+    "deleteDescription": "Seluruh riwayat centangnya ikut terhapus. Pilih Arsipkan jika ingin menyimpannya."
+  },
+  "Journal": {
+    "pageTitle": "Jurnal",
+    "todayEntry": "Jurnal hari ini",
+    "entriesThisMonth": "Catatan bulan ini",
+    "monthCount": "{count, plural, =0 {Belum ada catatan bulan ini} other {# hari tercatat bulan ini}}",
+    "mood": "Suasana hati",
+    "howWasYourDay": "Bagaimana harimu?",
+    "moodRequired": "Pilih suasana hati dulu.",
+    "moods": {
+      "great": "Hebat",
+      "good": "Baik",
+      "okay": "Biasa",
+      "bad": "Kurang",
+      "terrible": "Buruk"
+    },
+    "titleLabel": "Judul (opsional)",
+    "content": "Catatan",
+    "reflection": "Refleksi singkat",
+    "contentPlaceholder": "Apa yang terjadi hari ini? Apa yang kamu pelajari?",
+    "gratitude": "Hal yang disyukuri",
+    "gratitudePlaceholder": "Syukur #{n}",
+    "tags": "Tag",
+    "tagsPlaceholder": "pisahkan dengan koma, mis. kerja, keluarga",
+    "saved": "Jurnal tersimpan",
+    "deleteTitle": "Hapus catatan hari ini?",
+    "futureDay": "Hari ini belum tiba."
   }
 }

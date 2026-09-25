@@ -18,6 +18,10 @@ model User {
   timezone     String   @default("Asia/Jakarta")
   weekStartDay String   @default("monday")
   theme        String   @default("system")
+  // Evening reminder (web push), sent at this local hour when the day's recap is empty
+  reminderEnabled Boolean @default(false)
+  reminderHour    Int     @default(20)
+  lastReminderAt  DateTime?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -38,6 +42,8 @@ model User {
   books            Book[]
   skills           Skill[]
   tilNotes         TilNote[]
+  recurringTransactions RecurringTransaction[]
+  pushSubscriptions     PushSubscription[]
 }
 
 model Finance {
@@ -50,6 +56,9 @@ model Finance {
   description   String?
   isRecurring   Boolean  @default(false)
   recurringType String?
+  // Set when this row was generated from a recurring rule
+  recurringId   String?
+  recurring     RecurringTransaction? @relation(fields: [recurringId], references: [id], onDelete: SetNull)
   date          DateTime
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -332,4 +341,35 @@ model TilNote {
   date      DateTime
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+/// A rule that generates Finance rows (rent, subscriptions, salary...).
+/// Rows are created lazily up to "today" whenever finance data is read.
+model RecurringTransaction {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type        String    // "income"|"expense"
+  amount      Float
+  category    String
+  description String?
+  frequency   String    // "weekly"|"monthly"|"yearly"
+  anchorDate  DateTime  // first occurrence; its day-of-month is kept for monthly/yearly
+  nextDate    DateTime  // next occurrence not yet generated
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  finances    Finance[]
+
+  @@index([userId, isActive, nextDate])
+}
+
+model PushSubscription {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
 }
