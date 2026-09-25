@@ -151,7 +151,7 @@ export function TransactionsTab({
                           {tx.type === "income" ? "+" : "−"}
                           {money(tx.amount)}
                         </span>
-                        <div className="flex opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100">
+                        <div className="flex">
                           <Button variant="ghost" size="icon-sm" onClick={() => onEdit(tx)} aria-label={t("edit")}>
                             <Pencil />
                           </Button>

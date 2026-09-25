@@ -138,7 +138,7 @@ export function WeeklyPriorities({ date, title, emptyHint }: { date?: string; ti
                   <Button
                     variant="ghost"
                     size="icon-xs"
-                    className="opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-visible:opacity-100"
+                    className="text-muted-foreground"
                     onClick={() => setEditing({ id: p.id, title: p.title })}
                     aria-label={t("edit", { title: p.title })}
                   >
@@ -147,7 +147,7 @@ export function WeeklyPriorities({ date, title, emptyHint }: { date?: string; ti
                   <Button
                     variant="ghost"
                     size="icon-xs"
-                    className="opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-visible:opacity-100"
+                    className="text-muted-foreground"
                     onClick={() => remove(p.id)}
                     aria-label={t("remove", { title: p.title })}
                   >

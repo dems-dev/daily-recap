@@ -308,7 +308,8 @@
       "added": "Tugas ditambahkan",
       "updated": "Tugas diperbarui",
       "completed": "Selesai: {title}"
-    }
+    },
+    "editTaskLabel": "Ubah atau hapus: {title}"
   },
   "Habits": {
     "pageTitle": "Kebiasaan",

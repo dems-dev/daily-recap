@@ -308,7 +308,8 @@
       "added": "Task added",
       "updated": "Task updated",
       "completed": "Done: {title}"
-    }
+    },
+    "editTaskLabel": "Edit or delete: {title}"
   },
   "Habits": {
     "pageTitle": "Habits",

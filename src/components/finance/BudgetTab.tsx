@@ -77,7 +77,7 @@ export function BudgetTab({
                     <span className="text-sm tabular-nums text-muted-foreground">
                       {money(b.spent)} / {money(b.amount)}
                     </span>
-                    <div className="flex opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100">
+                    <div className="flex">
                       <Button variant="ghost" size="icon-xs" onClick={() => setEditing(b)} aria-label={t("edit")}>
                         <Pencil />
                       </Button>

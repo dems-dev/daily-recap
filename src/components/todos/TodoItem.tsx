@@ -1,7 +1,8 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { AlertCircle, CalendarDays, Flag } from "lucide-react";
+import { AlertCircle, CalendarDays, Flag, Pencil } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useDateFormat } from "@/components/common";
 import { daysBetween, type DateKey } from "@/lib/date";
@@ -74,6 +75,17 @@ export function TodoItem({
           </p>
         )}
       </button>
+      {onOpen && (
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          className="text-muted-foreground"
+          onClick={() => onOpen(todo)}
+          aria-label={t("editTaskLabel", { title: todo.title })}
+        >
+          <Pencil />
+        </Button>
+      )}
     </li>
   );
 }
