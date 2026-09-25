@@ -22,11 +22,15 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
+    if (password.length < 8) {
+      setError(t("errors.passwordTooShort"));
       return;
     }
-    
+    if (password !== confirmPassword) {
+      setError(t("errors.passwordMismatch"));
+      return;
+    }
+
     setLoading(true);
     setError("");
 
@@ -40,13 +44,15 @@ export default function RegisterPage() {
       });
 
       if (res.ok) {
-        router.push("/login");
-      } else {
-        const data = await res.json();
-        setError(data.message || "Registration failed");
+        router.push("/login?registered=1");
+        return;
       }
-    } catch (err) {
-      setError("An error occurred. Please try again.");
+      const data = await res.json().catch(() => null);
+      const fieldError = data?.errors && (Object.values(data.errors).flat()[0] as string | undefined);
+      const key = data?.code ?? fieldError;
+      setError(key && t.has(`errors.${key}`) ? t(`errors.${key}`) : t("errors.generic"));
+    } catch {
+      setError(t("errors.generic"));
     } finally {
       setLoading(false);
     }
@@ -62,7 +68,7 @@ export default function RegisterPage() {
         <Card>
           <CardHeader>
             <CardTitle>{t("registerTitle")}</CardTitle>
-            <CardDescription>{t("registerTitle")}</CardDescription>
+            <CardDescription>{t("registerSubtitle")}</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -92,8 +98,11 @@ export default function RegisterPage() {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  minLength={8}
+                  aria-describedby="password-hint"
                   required
                 />
+                <p id="password-hint" className="text-xs text-muted-foreground">{t("passwordHint")}</p>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword">{t("confirmPassword")}</Label>

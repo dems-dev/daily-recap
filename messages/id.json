@@ -60,7 +60,9 @@
     "til": "TIL",
     "analytics": "Analitik",
     "settings": "Pengaturan",
-    "logout": "Keluar"
+    "logout": "Keluar",
+    "recap": "Recap",
+    "openMenu": "Buka menu"
   },
   "Auth": {
     "login": "Masuk",
@@ -72,7 +74,23 @@
     "noAccount": "Belum punya akun?",
     "haveAccount": "Sudah punya akun?",
     "loginTitle": "Masuk ke Daily Recap",
-    "registerTitle": "Daftar Akun Baru"
+    "registerTitle": "Daftar Akun Baru",
+    "loginSubtitle": "Masuk untuk melihat recap harianmu.",
+    "registerSubtitle": "Buat akun untuk mulai mencatat harimu.",
+    "passwordHint": "Minimal 8 karakter.",
+    "registeredNotice": "Akun berhasil dibuat. Silakan masuk.",
+    "errors": {
+      "invalidCredentials": "Email atau kata sandi salah.",
+      "rate_limited": "Terlalu banyak percobaan. Coba lagi dalam beberapa menit.",
+      "generic": "Terjadi kesalahan. Coba lagi.",
+      "passwordTooShort": "Kata sandi minimal 8 karakter.",
+      "passwordTooLong": "Kata sandi maksimal 72 karakter.",
+      "passwordMismatch": "Konfirmasi kata sandi tidak cocok.",
+      "email_taken": "Email sudah terdaftar.",
+      "invalidEmail": "Format email tidak valid.",
+      "required": "Wajib diisi.",
+      "tooLong": "Terlalu panjang."
+    }
   },
   "Finance": {
     "title": "Keuangan",

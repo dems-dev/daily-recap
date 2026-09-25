@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useRouter } from "@/i18n/routing";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,6 +15,8 @@ import { Sparkles } from "lucide-react";
 export default function LoginPage() {
   const t = useTranslations("Auth");
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const justRegistered = searchParams.get("registered") === "1";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -32,12 +35,16 @@ export default function LoginPage() {
       });
 
       if (res?.error) {
-        setError("Invalid email or password");
+        setError(res.code === "rate_limited" ? t("errors.rate_limited") : t("errors.invalidCredentials"));
       } else {
-        router.push("/");
+        // Only follow same-site relative paths.
+        const callbackUrl = searchParams.get("callbackUrl");
+        const target = callbackUrl?.startsWith("/") && !callbackUrl.startsWith("//") ? callbackUrl : "/";
+        // callbackUrl carries the locale prefix; the i18n router adds the current one back.
+        router.push(target.replace(/^\/(id|en)(?=\/|$)/, "") || "/");
       }
-    } catch (err) {
-      setError("An error occurred. Please try again.");
+    } catch {
+      setError(t("errors.generic"));
     } finally {
       setLoading(false);
     }
@@ -53,7 +60,7 @@ export default function LoginPage() {
         <Card>
           <CardHeader>
             <CardTitle>{t("loginTitle")}</CardTitle>
-            <CardDescription>{t("loginTitle")}</CardDescription>
+            <CardDescription>{t("loginSubtitle")}</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -77,7 +84,8 @@ export default function LoginPage() {
                   required
                 />
               </div>
-              {error && <p className="text-sm text-destructive">{error}</p>}
+              {justRegistered && !error && <p className="text-sm text-muted-foreground">{t("registeredNotice")}</p>}
+              {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
               <Button type="submit" className="w-full" disabled={loading}>
                 {loading ? "..." : t("login")}
               </Button>

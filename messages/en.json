@@ -60,7 +60,9 @@
     "til": "TIL",
     "analytics": "Analytics",
     "settings": "Settings",
-    "logout": "Logout"
+    "logout": "Logout",
+    "recap": "Recap",
+    "openMenu": "Open menu"
   },
   "Auth": {
     "login": "Login",
@@ -72,7 +74,23 @@
     "noAccount": "Don't have an account?",
     "haveAccount": "Already have an account?",
     "loginTitle": "Login to Daily Recap",
-    "registerTitle": "Create an Account"
+    "registerTitle": "Create an Account",
+    "loginSubtitle": "Sign in to see your daily recap.",
+    "registerSubtitle": "Create an account to start logging your days.",
+    "passwordHint": "At least 8 characters.",
+    "registeredNotice": "Account created. Please sign in.",
+    "errors": {
+      "invalidCredentials": "Wrong email or password.",
+      "rate_limited": "Too many attempts. Try again in a few minutes.",
+      "generic": "Something went wrong. Please try again.",
+      "passwordTooShort": "Password must be at least 8 characters.",
+      "passwordTooLong": "Password can be at most 72 characters.",
+      "passwordMismatch": "Passwords do not match.",
+      "email_taken": "This email is already registered.",
+      "invalidEmail": "Invalid email address.",
+      "required": "Required.",
+      "tooLong": "Too long."
+    }
   },
   "Finance": {
     "title": "Finance",

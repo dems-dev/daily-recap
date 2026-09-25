@@ -1,37 +1,34 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import prisma from "@/lib/prisma";
+import { readJson, serverError, validationError } from "@/lib/api";
+import { registerSchema } from "@/lib/auth-schemas";
+import { clientIp, rateLimit } from "@/lib/rate-limit";
+
+const MAX_REGISTRATIONS_PER_IP = 5;
+const WINDOW_MS = 60 * 60 * 1000;
 
 export async function POST(req: Request) {
   try {
-    const { name, email, password } = await req.json();
-
-    if (!name || !email || !password) {
+    const limit = rateLimit(`register:ip:${clientIp(req.headers)}`, MAX_REGISTRATIONS_PER_IP, WINDOW_MS);
+    if (!limit.ok) {
       return NextResponse.json(
-        { message: "Missing required fields" },
-        { status: 400 }
+        { message: "Too many attempts", code: "rate_limited" },
+        { status: 429, headers: { "Retry-After": String(limit.retryAfterSec) } }
       );
     }
 
-    const existingUser = await prisma.user.findUnique({
-      where: { email },
-    });
+    const parsed = registerSchema.safeParse(await readJson(req));
+    if (!parsed.success) return validationError(parsed.error);
+    const { name, email, password } = parsed.data;
 
+    const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
-      return NextResponse.json(
-        { message: "Email already in use" },
-        { status: 409 }
-      );
+      return NextResponse.json({ message: "Email already in use", code: "email_taken" }, { status: 409 });
     }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await prisma.user.create({
-      data: {
-        name,
-        email,
-        password: hashedPassword,
-      },
+      data: { name, email, password: await bcrypt.hash(password, 10) },
     });
 
     return NextResponse.json(
@@ -39,10 +36,6 @@ export async function POST(req: Request) {
       { status: 201 }
     );
   } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      { message: "Internal server error" },
-      { status: 500 }
-    );
+    return serverError(error);
   }
 }
