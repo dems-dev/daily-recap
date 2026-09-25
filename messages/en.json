@@ -49,7 +49,10 @@
     "noReflection": "No reflection yet",
     "todayTasks": "Today's tasks",
     "seeAll": "See all",
-    "noTasks": "Nothing due today."
+    "noTasks": "Nothing due today.",
+    "sleep": "Sleep",
+    "sleepQuality": "Quality {value}/5",
+    "sleepHint": "Log: sleep 23:00 06:30"
   },
   "Navigation": {
     "overview": "OVERVIEW",
@@ -185,7 +188,8 @@
       "tooLong": "Too long",
       "invalidCategory": "Choose a valid category",
       "nonZero": "Cannot be 0",
-      "exceedsSaved": "More than what is saved"
+      "exceedsSaved": "More than what is saved",
+      "invalidUrl": "Invalid link"
     },
     "categories": {
       "salary": "Salary",
@@ -225,7 +229,8 @@
     "recurringPaused": "Recurring transaction paused",
     "recurringResumed": "Recurring transaction resumed",
     "deleteRecurringTitle": "Delete this recurring transaction?",
-    "deleteRecurringDescription": "Transactions it already created are kept; only the schedule is removed."
+    "deleteRecurringDescription": "Transactions it already created are kept; only the schedule is removed.",
+    "wishlist": "Wishlist"
   },
   "Common": {
     "cancel": "Cancel",
@@ -396,7 +401,13 @@
     "doneTodo": "Task added: {title}",
     "doneHabit": "✓ {name}",
     "doneMood": "Today's mood saved",
-    "hint": "Start with - (expense), + (income), todo, done or mood. Enter to save."
+    "hint": "Start with - / + (money), todo, done, mood, sleep, wish or priority. Enter to save.",
+    "previewSleep": "Log sleep {bedtime} → {wakeTime} ({duration})",
+    "previewWish": "Wait before buying “{name}” {price} · {category}",
+    "previewPriority": "Add this week's priority: “{title}”",
+    "doneSleep": "Logged {duration} of sleep",
+    "doneWish": "“{name}” added to the wishlist",
+    "donePriority": "Priority added: {title}"
   },
   "Recap": {
     "pageTitle": "Recap",
@@ -452,7 +463,12 @@
       "habitsRate": "You kept {pct}% of your habits.",
       "todosDone": "{count, plural, one {# task} other {# tasks}} done (previous period: {prev}).",
       "moodAvg": "Average mood {avg} {emoji} across {days} logged days (of {total}).",
-      "noMood": "No mood logged yet — fill in the daily recap so patterns can show."
+      "noMood": "No mood logged yet — fill in the daily recap so patterns can show.",
+      "prioritiesDone": "{done} of {total} priorities done this week.",
+      "prioritiesAllDone": "All {total} priorities done this week! 🎯",
+      "sleepAvg": "Average sleep {duration} a night ({nights} nights logged).",
+      "sleepUp": "You slept {duration} on average, {diff} more than the previous period.",
+      "sleepDown": "You slept {duration} on average, {diff} less than the previous period."
     },
     "ai": {
       "title": "AI summary",
@@ -462,7 +478,11 @@
       "intro": "Ask AI to sum up this period in a few sentences.",
       "failed": "Could not create a summary. Try again later.",
       "privacy": "When you press the button, this period's data (including journal notes) is sent to an AI provider via the Vercel AI Gateway."
-    }
+    },
+    "sleepTitle": "Last night's sleep",
+    "weekPriorities": "This week's priorities",
+    "planNextWeek": "Plan next week",
+    "planNextWeekHint": "The weekend is a good time to pick next week's 3 priorities."
   },
   "Analytics": {
     "pageTitle": "Analytics",
@@ -477,7 +497,9 @@
       "mostProductiveDay": "Your most productive day is {weekday}: {avg} tasks done on average.",
       "biggestSpendingDay": "You usually spend the most on {weekday} — {pct}% above average ({avg}).",
       "weekendMood": "Your weekend mood is {delta} points {direction, select, higher {higher} other {lower}} than on weekdays.",
-      "journalConsistency": "You filled in the recap on {logged} of the last {days} days."
+      "journalConsistency": "You filled in the recap on {logged} of the last {days} days.",
+      "betterMoodAfterSleep": "After 7+ hours of sleep your mood is {delta} points higher on average ({good} vs {short} after < 6 hours).",
+      "moreTasksAfterSleep": "On workdays after enough sleep you finish {pct}% more tasks ({good} vs {short} a day)."
     },
     "moodTrend": "Mood trend",
     "moodTrendDesc": "7-day moving average.",
@@ -491,7 +513,17 @@
     "notEnoughMood": "Log your mood for a few more days to see this chart.",
     "noHabitData": "No habit data yet.",
     "noExpenseData": "No spending yet.",
-    "partialMonthNote": "The first and last months in the monthly chart may be partial (they follow the selected range)."
+    "partialMonthNote": "The first and last months in the monthly chart may be partial (they follow the selected range).",
+    "moodBySleep": "Mood by sleep length",
+    "moodBySleepDesc": "Average mood after nights of each length.",
+    "moodValue": "Average mood: {value}",
+    "noSleepData": "Log a few nights of sleep to see this chart.",
+    "sleepBuckets": {
+      "lt6": "< 6 h",
+      "6to7": "6–7 h",
+      "7to8": "7–8 h",
+      "gte8": "≥ 8 h"
+    }
   },
   "Settings": {
     "pageTitle": "Settings",
@@ -543,5 +575,92 @@
       "rateLimited": "Too many attempts. Try again later.",
       "invalidTimezone": "Invalid time zone."
     }
+  },
+  "Sleep": {
+    "pageTitle": "Sleep",
+    "lastDays": "{days} days",
+    "bedtime": "Went to bed",
+    "wakeTime": "Woke up",
+    "quality": "Sleep quality",
+    "notes": "Notes",
+    "notesPlaceholder": "e.g. woke up often, coffee in the afternoon",
+    "qualityLevels": {
+      "1": "Very poor",
+      "2": "Poor",
+      "3": "Okay",
+      "4": "Good",
+      "5": "Very good"
+    },
+    "durationPreview": "Duration: {duration}",
+    "saved": "Logged {duration} of sleep",
+    "avgDuration": "Average duration",
+    "nightsLogged": "{count, plural, one {# night} other {# nights}} logged",
+    "avgBedtime": "Average bedtime",
+    "consistency": "Bedtime consistency",
+    "consistencyHint": "Smaller is more regular",
+    "shortNights": "Nights < 6 h",
+    "avgQuality": "Average quality {value}/5",
+    "durationChart": "Sleep per night",
+    "durationChartDesc": "Dashed line = {hours} h target. Click a bar to edit that night.",
+    "empty": "No sleep logged yet.",
+    "notLogged": "Not logged",
+    "qualityValue": "Quality {value}/5",
+    "lastNight": "Last night",
+    "nightBefore": "Night before {date}",
+    "wokeUpOn": "Woke up on",
+    "history": "History",
+    "delete": "Delete",
+    "deleteTitle": "Delete this night?",
+    "deleted": "Night deleted",
+    "errors": {
+      "implausibleDuration": "That duration doesn't look right (30 min – 16 h). Check the times.",
+      "invalidTime": "Invalid time"
+    }
+  },
+  "Plans": {
+    "thisWeek": "This week's priorities",
+    "progress": "{done}/{total} done",
+    "empty": "Pick the {n} things that matter most this week. Fewer, clearer goals get done.",
+    "placeholder": "Add a priority…",
+    "placeholderExtra": "Extra priority (optional)…",
+    "add": "Add",
+    "markDone": "Mark done: {title}",
+    "markOpen": "Mark not done: {title}",
+    "remove": "Remove priority: {title}"
+  },
+  "Wishlist": {
+    "add": "Add to wishlist",
+    "waitingTitle": "Waiting",
+    "history": "Recent decisions",
+    "saved": "Money not spent",
+    "skippedCount": "{count, plural, one {# item} other {# items}} skipped",
+    "waitingTotal": "Total waiting",
+    "waitingCount": "{count, plural, one {# item} other {# items}} waiting",
+    "explainer": "Wait before you buy. If you still want it after a few days, buy it with a clear head; if not, the money stays yours.",
+    "empty": "Wishlist is empty. Next time you want something that isn't urgent, park it here first.",
+    "name": "Item",
+    "namePlaceholder": "e.g. Running shoes",
+    "price": "Price",
+    "waitDays": "Wait for",
+    "daysOption": "{count} days",
+    "url": "Link (optional)",
+    "note": "Why do you want it? (optional)",
+    "notePlaceholder": "What for? Do you already own something similar?",
+    "openLink": "Open link",
+    "readyToDecide": "Waiting period is over — time to decide",
+    "daysLeft": "{count, plural, one {# day} other {# days}} left (until {date})",
+    "waitProgress": "Waiting period for {name}",
+    "buy": "Buy",
+    "skip": "Skip",
+    "buyAnyway": "Buy anyway",
+    "earlyTitle": "Not yet",
+    "earlyDescription": "{name} still has {count, plural, one {# day} other {# days}} to wait. Buy it now anyway?",
+    "boughtToast": "Recorded as a {amount} expense",
+    "skippedToast": "Nice! {amount} stays in your pocket 💪",
+    "addedToast": "Waiting {days} days. We'll check back.",
+    "boughtOn": "bought {date}",
+    "skippedOn": "skipped {date}",
+    "deleteTitle": "Remove from history?",
+    "deleteDescription": "If it was bought, the expense stays in Finance."
   }
 }

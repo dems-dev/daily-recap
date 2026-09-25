@@ -36,6 +36,8 @@ function compactRecap(recap: RecapResult) {
       habits: recap.habits.map((h) => ({ name: h.name, done: h.done })),
       mood: recap.journal?.mood ?? null,
       reflection: recap.journal?.content.slice(0, 1500) ?? null,
+      sleepMinutes: recap.sleep?.duration ?? null,
+      sleepQuality1to5: recap.sleep?.quality ?? null,
       gratitude: recap.journal?.gratitude ?? [],
     };
   }

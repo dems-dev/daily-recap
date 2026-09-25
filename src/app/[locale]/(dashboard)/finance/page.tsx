@@ -12,6 +12,7 @@ import { TransactionsTab, type FinanceMonth } from "@/components/finance/Transac
 import { BudgetTab } from "@/components/finance/BudgetTab";
 import { SavingsTab } from "@/components/finance/SavingsTab";
 import { RecurringTab } from "@/components/finance/RecurringTab";
+import { WishlistTab } from "@/components/finance/WishlistTab";
 
 export default function FinancePage() {
   const t = useTranslations("Finance");
@@ -53,11 +54,12 @@ export default function FinancePage() {
       {error && <p className="text-sm text-destructive">{t("loadFailed")}</p>}
 
       <Tabs value={tab} onValueChange={(v) => setTab(String(v))}>
-        <TabsList>
+        <TabsList className="max-w-full overflow-x-auto">
           <TabsTrigger value="transactions">{t("transactions")}</TabsTrigger>
           <TabsTrigger value="budget">{t("budget")}</TabsTrigger>
           <TabsTrigger value="savings">{t("savingsGoals")}</TabsTrigger>
           <TabsTrigger value="recurring">{t("recurring")}</TabsTrigger>
+          <TabsTrigger value="wishlist">{t("wishlist")}</TabsTrigger>
         </TabsList>
         <TabsContent value="transactions" className="pt-4">
           <TransactionsTab
@@ -76,6 +78,9 @@ export default function FinancePage() {
         </TabsContent>
         <TabsContent value="recurring" className="pt-4">
           <RecurringTab onAdd={() => setDialog({ tx: null })} />
+        </TabsContent>
+        <TabsContent value="wishlist" className="pt-4">
+          <WishlistTab />
         </TabsContent>
       </Tabs>
 

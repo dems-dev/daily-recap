@@ -24,10 +24,22 @@ export function analyticsSeries(rows: DayRow[]) {
     return { date: r.date, mood: r.mood, avg7: window.length >= 3 ? Math.round(mean(window)! * 100) / 100 : null };
   });
 
+  // Average mood after short / ok / good / long nights.
+  const buckets = [
+    { key: "lt6", min: 0, max: 360 },
+    { key: "6to7", min: 360, max: 420 },
+    { key: "7to8", min: 420, max: 480 },
+    { key: "gte8", min: 480, max: Infinity },
+  ];
+  const moodBySleep = buckets.map((b) => {
+    const days = rows.filter((r) => r.mood !== null && r.sleepMinutes !== null && r.sleepMinutes >= b.min && r.sleepMinutes < b.max);
+    return { bucket: b.key, days: days.length, avgMood: mean(days.map((d) => d.mood!)) };
+  });
+
   // Spending per calendar month present in the rows.
   const byMonth = new Map<string, number>();
   for (const r of rows) byMonth.set(r.date.slice(0, 7), (byMonth.get(r.date.slice(0, 7)) ?? 0) + r.expense);
   const monthlyExpense = [...byMonth.entries()].map(([month, expense]) => ({ month, expense }));
 
-  return { expenseByMood, habitByWeekday, moodTrend, monthlyExpense };
+  return { expenseByMood, habitByWeekday, moodTrend, moodBySleep, monthlyExpense };
 }

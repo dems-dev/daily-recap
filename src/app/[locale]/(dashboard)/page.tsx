@@ -1,9 +1,9 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
 import { formatDistanceToNow } from "date-fns";
-import { ArrowRight, BookHeart, CheckSquare, ListTodo, Plus, Sparkles, Wallet, Zap } from "lucide-react";
+import { ArrowRight, BookHeart, CheckSquare, ListTodo, Moon, Plus, Sparkles, Wallet, Zap } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -16,6 +16,8 @@ import { TodoItem } from "@/components/todos/TodoItem";
 import { useToggleTodo } from "@/components/todos/use-toggle-todo";
 import { MOOD_EMOJI, type Mood } from "@/lib/journal";
 import type { TodoDTO } from "@/lib/todos";
+import { formatDuration } from "@/lib/sleep";
+import { WeeklyPriorities } from "@/components/plans/WeeklyPriorities";
 
 type Activity = {
   id: string;
@@ -32,6 +34,7 @@ type DashboardData = {
   habits: { total: number; doneToday: number };
   mind: { mood: Mood | null; hasReflection: boolean };
   productivity: { todosTotal: number; todosCompleted: number };
+  sleep: { duration: number; quality: number } | null;
   todayTodos: TodoDTO[];
   recentActivities: Activity[];
 };
@@ -75,6 +78,7 @@ export default function DashboardPage() {
   const dateLocale = useDateLocale();
   const { openPalette, openTransaction, openTodo } = useQuickAdd();
   const toggleTodo = useToggleTodo();
+  const locale = useLocale();
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -128,7 +132,7 @@ export default function DashboardPage() {
         </Button>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5">
         <StatCard
           title={t("finance")}
           icon={Wallet}
@@ -165,9 +169,17 @@ export default function DashboardPage() {
           }
           detail={data.mind.hasReflection ? t("reflectionWritten") : t("noReflection")}
         />
+        <StatCard
+          title={t("sleep")}
+          icon={Moon}
+          href="/health/sleep"
+          value={data.sleep ? formatDuration(data.sleep.duration, locale) : t("noLog")}
+          detail={data.sleep ? t("sleepQuality", { value: data.sleep.quality }) : t("sleepHint")}
+        />
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
+        <WeeklyPriorities />
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>{t("todayTasks")}</CardTitle>

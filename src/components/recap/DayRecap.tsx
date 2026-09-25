@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Check, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,6 +15,8 @@ import { MOOD_EMOJI, type JournalDTO } from "@/lib/journal";
 import type { TodoDTO } from "@/lib/todos";
 import { cn } from "@/lib/utils";
 import { AiSummary } from "./AiSummary";
+import { SleepForm, type SleepLogDTO } from "@/components/sleep/SleepForm";
+import { formatDuration } from "@/lib/sleep";
 
 export type DayRecapData = {
   period: "day";
@@ -29,6 +31,7 @@ export type DayRecapData = {
   todos: { completed: TodoDTO[]; open: TodoDTO[] };
   habits: { id: string; name: string; icon: string | null; done: boolean }[];
   journal: JournalDTO | null;
+  sleep: SleepLogDTO | null;
 };
 
 function Stat({ label, value }: { label: string; value: React.ReactNode }) {
@@ -48,6 +51,7 @@ export function DayRecap({ data }: { data: DayRecapData | null }) {
   const { toggle: toggleHabit, isDone } = useToggleHabit();
   const toggleTodo = useToggleTodo();
   const { openTransaction, openTodo } = useQuickAdd();
+  const locale = useLocale();
 
   if (!data) {
     return (
@@ -102,6 +106,22 @@ export function DayRecap({ data }: { data: DayRecapData | null }) {
         </div>
 
         <div className="space-y-6">
+          {!isFuture && (
+            <Card>
+              <CardHeader>
+                <CardTitle>{t("sleepTitle")}</CardTitle>
+                {data.sleep && (
+                  <p className="text-sm text-muted-foreground tabular-nums">
+                    {data.sleep.bedtime} → {data.sleep.wakeTime} · {formatDuration(data.sleep.duration, locale)}
+                  </p>
+                )}
+              </CardHeader>
+              <CardContent>
+                <SleepForm key={`${data.date}|${data.sleep?.duration ?? "new"}`} date={data.date} existing={data.sleep} compact />
+              </CardContent>
+            </Card>
+          )}
+
           <Card>
             <CardHeader>
               <CardTitle>{t("habitsTitle")}</CardTitle>

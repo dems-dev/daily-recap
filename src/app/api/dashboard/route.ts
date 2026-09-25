@@ -19,7 +19,7 @@ export async function GET() {
     const todayBounds = dayBoundsInTz(today, user.timezone);
     await materializeRecurring(userId, today);
 
-    const [finances, journal, todos, habits, recentFinances, recentJournals, recentTodos, recentHabitLogs] =
+    const [finances, journal, todos, habits, recentFinances, recentJournals, recentTodos, recentHabitLogs, sleep] =
       await Promise.all([
         prisma.finance.findMany({
           where: { userId, date: { gte: month.start, lt: month.end } },
@@ -54,6 +54,10 @@ export async function GET() {
           orderBy: { updatedAt: "desc" },
           take: 5,
           select: { id: true, updatedAt: true, habit: { select: { name: true } } },
+        }),
+        prisma.sleepLog.findUnique({
+          where: { userId_date: { userId, date: todayDate } },
+          select: { duration: true, quality: true },
         }),
       ]);
 
@@ -95,6 +99,7 @@ export async function GET() {
         todosTotal: todayTodos.length,
         todosCompleted: todayTodos.filter((t) => t.isCompleted).length,
       },
+      sleep: sleep ? { duration: sleep.duration, quality: sleep.quality } : null,
       todayTodos: todayTodos.slice(0, 6),
       recentActivities,
     });

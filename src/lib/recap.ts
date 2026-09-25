@@ -29,12 +29,15 @@ export type PeriodStats = {
   habitRate: number | null; // 0–1 over days with active habits
   moodAvg: number | null; // 1–5
   moodDays: number;
+  sleepAvg: number | null; // minutes
+  sleepNights: number;
 };
 
 export function periodStats(rows: DayRow[], income: number): PeriodStats {
   const habitDays = rows.filter((r) => r.habitsTotal > 0);
   const moods = rows.map((r) => r.mood).filter((m): m is number => m !== null);
   const habitSlots = habitDays.reduce((a, r) => a + r.habitsTotal, 0);
+  const sleeps = rows.map((r) => r.sleepMinutes).filter((m): m is number => m !== null);
   return {
     days: rows.length,
     expense: rows.reduce((a, r) => a + r.expense, 0),
@@ -43,6 +46,8 @@ export function periodStats(rows: DayRow[], income: number): PeriodStats {
     habitRate: habitSlots ? habitDays.reduce((a, r) => a + r.habitsDone, 0) / habitSlots : null,
     moodAvg: moods.length ? moods.reduce((a, b) => a + b, 0) / moods.length : null,
     moodDays: moods.length,
+    sleepAvg: sleeps.length ? Math.round(sleeps.reduce((a, b) => a + b, 0) / sleeps.length) : null,
+    sleepNights: sleeps.length,
   };
 }
 
@@ -55,9 +60,17 @@ export type Highlight = { key: string; params: Record<string, string | number> }
 export function periodHighlights(
   current: PeriodStats,
   previous: PeriodStats,
-  topCategory: { category: string; amount: number } | null
+  topCategory: { category: string; amount: number } | null,
+  priorities: { done: number; total: number } | null = null
 ): Highlight[] {
   const out: Highlight[] = [];
+
+  if (priorities && priorities.total > 0) {
+    out.push({
+      key: priorities.done === priorities.total ? "prioritiesAllDone" : "prioritiesDone",
+      params: { done: priorities.done, total: priorities.total },
+    });
+  }
 
   // Compare spending per day so a half-finished month isn't "down 50%".
   const perDay = (s: PeriodStats) => (s.days ? s.expense / s.days : 0);
@@ -89,6 +102,15 @@ export function periodHighlights(
 
   if (current.todosDone > 0) {
     out.push({ key: "todosDone", params: { count: current.todosDone, prev: previous.todosDone } });
+  }
+
+  if (current.sleepAvg !== null) {
+    const diff = previous.sleepAvg !== null ? current.sleepAvg - previous.sleepAvg : 0;
+    out.push(
+      Math.abs(diff) >= 20
+        ? { key: diff > 0 ? "sleepUp" : "sleepDown", params: { minutes: current.sleepAvg, diff: Math.abs(diff) } }
+        : { key: "sleepAvg", params: { minutes: current.sleepAvg, nights: current.sleepNights } }
+    );
   }
 
   if (current.moodAvg !== null) {

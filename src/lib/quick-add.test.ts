@@ -90,6 +90,30 @@ describe("parseQuickAdd — other commands", () => {
     expect(parseQuickAdd("mood ???", TODAY)).toBeNull();
   });
 
+  it("logs sleep from two clock times", () => {
+    expect(parseQuickAdd("tidur 23:30 06:15", TODAY)).toEqual({ kind: "sleep", bedtime: "23:30", wakeTime: "06:15" });
+    expect(parseQuickAdd("sleep 1.05 - 7.40", TODAY)).toEqual({ kind: "sleep", bedtime: "01:05", wakeTime: "07:40" });
+    expect(parseQuickAdd("tidur 25:00 06:00", TODAY)).toBeNull();
+  });
+
+  it("adds wishlist items with a guessed category", () => {
+    expect(parseQuickAdd("wish 350rb sepatu lari", TODAY)).toEqual({
+      kind: "wish",
+      price: 350_000,
+      name: "sepatu lari",
+      category: "shopping",
+    });
+    expect(parseQuickAdd("mau beli 1,2jt kursus desain", TODAY)).toMatchObject({ price: 1_200_000, category: "education" });
+    expect(parseQuickAdd("wish 350rb", TODAY)).toBeNull();
+  });
+
+  it("adds weekly priorities", () => {
+    expect(parseQuickAdd("prioritas selesaikan laporan Q3", TODAY)).toEqual({
+      kind: "priority",
+      title: "selesaikan laporan Q3",
+    });
+  });
+
   it("returns null for plain text", () => {
     expect(parseQuickAdd("halo", TODAY)).toBeNull();
     expect(parseQuickAdd("   ", TODAY)).toBeNull();

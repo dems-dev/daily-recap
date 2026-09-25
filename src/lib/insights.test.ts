@@ -11,6 +11,7 @@ function day(i: number, patch: Partial<DayRow> = {}): DayRow {
     habitsDone: 0,
     habitsTotal: 0,
     todosDone: 1,
+    sleepMinutes: null,
     ...patch,
   };
 }
@@ -64,6 +65,25 @@ describe("computeInsights", () => {
     const result = keys(rows);
     expect(result[0]).toBe("spendMoreOnBadDays");
     expect(result.at(-1)).toBe("journalConsistency");
+  });
+});
+
+describe("sleep insights", () => {
+  it("links longer sleep to better mood and more tasks on weekdays", () => {
+    // 20 weekdays from Wed 1 Jul, alternating good and short nights
+    const rows = Array.from({ length: 28 }, (_, i) => day(i))
+      .filter((d) => d.weekday !== 0 && d.weekday !== 6)
+      .map((d, i) =>
+        i % 2 ? { ...d, sleepMinutes: 450, mood: 4, todosDone: 4 } : { ...d, sleepMinutes: 330, mood: 3, todosDone: 2 }
+      );
+    const result = computeInsights(rows);
+    expect(result.find((x) => x.key === "betterMoodAfterSleep")?.params).toMatchObject({ delta: 1, good: 4, short: 3 });
+    expect(result.find((x) => x.key === "moreTasksAfterSleep")?.params).toMatchObject({ pct: 100 });
+  });
+
+  it("stays quiet without enough short nights", () => {
+    const rows = Array.from({ length: 10 }, (_, i) => day(i, { sleepMinutes: 450, mood: 4 }));
+    expect(keys(rows)).not.toContain("betterMoodAfterSleep");
   });
 });
 

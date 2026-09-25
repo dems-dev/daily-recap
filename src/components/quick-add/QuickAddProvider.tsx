@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import {
   BookHeart,
   CalendarCheck,
@@ -10,6 +10,7 @@ import {
   LineChart,
   ListTodo,
   Settings,
+  Moon,
   Sparkles,
   Wallet,
   Zap,
@@ -27,6 +28,8 @@ import { useMe } from "@/hooks/use-me";
 import { useRouter } from "@/i18n/routing";
 import { matchHabit, parseQuickAdd, type QuickAdd } from "@/lib/quick-add";
 import type { JournalDTO } from "@/lib/journal";
+import { formatDuration } from "@/lib/sleep";
+import { previewDuration } from "@/components/sleep/SleepForm";
 
 type QuickAddContextValue = {
   /** Open the palette, optionally with text already typed. */
@@ -50,6 +53,7 @@ const PAGES = [
   { key: "todos", href: "/productivity/todos", icon: CheckSquare },
   { key: "habits", href: "/productivity/habits", icon: ListTodo },
   { key: "journal", href: "/mind/journal", icon: BookHeart },
+  { key: "sleep", href: "/health/sleep", icon: Moon },
   { key: "analytics", href: "/analytics", icon: LineChart },
   { key: "settings", href: "/settings", icon: Settings },
 ] as const;
@@ -57,6 +61,7 @@ const PAGES = [
 export function QuickAddProvider({ children }: { children: React.ReactNode }) {
   const t = useTranslations("QuickAdd");
   const tNav = useTranslations("Navigation");
+  const locale = useLocale();
   const router = useRouter();
   const invalidate = useInvalidate();
   const onFail = useFailureToast();
@@ -109,6 +114,18 @@ export function QuickAddProvider({ children }: { children: React.ReactNode }) {
       }
       case "mood":
         return t("previewMood", { mood: t(`moods.${q.mood}`) });
+      case "sleep": {
+        const minutes = previewDuration(q.bedtime, q.wakeTime);
+        return t("previewSleep", {
+          bedtime: q.bedtime,
+          wakeTime: q.wakeTime,
+          duration: minutes === null ? "—" : formatDuration(minutes, locale),
+        });
+      }
+      case "wish":
+        return t("previewWish", { name: q.name, price: money(q.price), category: categoryLabel(q.category) });
+      case "priority":
+        return t("previewPriority", { title: q.title });
     }
   };
 
@@ -157,6 +174,24 @@ export function QuickAddProvider({ children }: { children: React.ReactNode }) {
           toast.add({ title: t("doneMood"), type: "success" });
           break;
         }
+        case "sleep": {
+          // Quality defaults to "okay"; it can be adjusted on the Sleep page.
+          const res = (await sendJson(`/api/sleep/${today}`, "PUT", {
+            bedtime: q.bedtime,
+            wakeTime: q.wakeTime,
+            quality: 3,
+          })) as { duration: number };
+          toast.add({ title: t("doneSleep", { duration: formatDuration(res.duration, locale) }), type: "success" });
+          break;
+        }
+        case "wish":
+          await sendJson("/api/wishlist", "POST", { name: q.name, price: q.price, category: q.category });
+          toast.add({ title: t("doneWish", { name: q.name }), type: "success" });
+          break;
+        case "priority":
+          await sendJson("/api/plans", "POST", { date: today, title: q.title });
+          toast.add({ title: t("donePriority", { title: q.title }), type: "success" });
+          break;
       }
       setOpen(false);
       setInput("");

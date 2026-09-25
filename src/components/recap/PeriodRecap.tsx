@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { ArrowDownRight, ArrowUpRight, Lightbulb, Minus } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -12,7 +12,10 @@ import { percentChange } from "@/lib/insights";
 import type { Highlight, PeriodStats } from "@/lib/recap";
 import { MOOD_EMOJI, MOODS } from "@/lib/journal";
 import { cn } from "@/lib/utils";
+import { formatDuration } from "@/lib/sleep";
 import { AiSummary } from "./AiSummary";
+import { WeeklyPriorities } from "@/components/plans/WeeklyPriorities";
+import { addDays } from "@/lib/date";
 
 export type PeriodRecapData = {
   period: "week" | "month";
@@ -83,6 +86,7 @@ export function PeriodRecap({ data }: { data: PeriodRecapData | null }) {
   const money = useMoney(data?.currency);
   const categoryLabel = useCategoryLabel();
   const formatDate = useDateFormat();
+  const locale = useLocale();
 
   if (!data) {
     return (
@@ -124,6 +128,14 @@ export function PeriodRecap({ data }: { data: PeriodRecapData | null }) {
         });
       case "moodAvg":
         return t("highlights.moodAvg", { ...p, emoji: moodEmoji(Number(p.avg)) });
+      case "sleepAvg":
+      case "sleepUp":
+      case "sleepDown":
+        return t(`highlights.${h.key}`, {
+          ...p,
+          duration: formatDuration(Number(p.minutes), locale),
+          diff: "diff" in p ? formatDuration(Number(p.diff), locale) : "",
+        });
       default:
         return t(`highlights.${h.key}`, p);
     }
@@ -233,6 +245,10 @@ export function PeriodRecap({ data }: { data: PeriodRecapData | null }) {
         </Card>
 
         <div className="space-y-6">
+          {data.period === "week" && <WeeklyPriorities date={data.start} title={t("weekPriorities")} />}
+          {data.period === "week" && data.start <= data.today && data.today <= data.end && (
+            <WeeklyPriorities date={addDays(data.end, 1)} title={t("planNextWeek")} emptyHint={t("planNextWeekHint")} />
+          )}
           <Card>
             <CardHeader>
               <CardTitle>{t("topCategories")}</CardTitle>

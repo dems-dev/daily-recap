@@ -33,6 +33,7 @@ type AnalyticsData = {
   expenseByMood: { mood: number; days: number; avgExpense: number | null }[];
   habitByWeekday: { weekday: number; rate: number | null }[];
   moodTrend: { date: string; mood: number | null; avg7: number | null }[];
+  moodBySleep: { bucket: "lt6" | "6to7" | "7to8" | "gte8"; days: number; avgMood: number | null }[];
   monthlyExpense: { month: string; expense: number }[];
 };
 
@@ -203,6 +204,34 @@ export default function AnalyticsPage() {
                 </div>
               ) : (
                 <p className="py-10 text-center text-sm text-muted-foreground">{t("notEnoughMood")}</p>
+              )}
+            </ChartCard>
+
+            <ChartCard title={t("moodBySleep")} description={t("moodBySleepDesc")}>
+              {data.moodBySleep.some((b) => b.days > 0) ? (
+                <div className="h-56" role="img" aria-label={t("moodBySleep")}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={data.moodBySleep} margin={{ top: 8, right: 0, bottom: 0, left: 0 }}>
+                      <CartesianGrid vertical={false} stroke="var(--border)" />
+                      <XAxis dataKey="bucket" tick={AXIS_TICK} tickLine={false} axisLine={{ stroke: "var(--border)" }} tickFormatter={(b: string) => t(`sleepBuckets.${b}`)} />
+                      <YAxis domain={[1, 5]} ticks={[1, 2, 3, 4, 5]} width={28} tick={AXIS_TICK} tickLine={false} axisLine={false} tickFormatter={(v: number) => moodEmoji(v)} />
+                      <Tooltip
+                        cursor={{ fill: "var(--muted)", opacity: 0.6 }}
+                        content={({ active, payload }) =>
+                          active && payload?.[0] ? (
+                            <TooltipBox
+                              title={`${t(`sleepBuckets.${payload[0].payload.bucket}`)} · ${t("dayCount", { count: payload[0].payload.days })}`}
+                              value={payload[0].payload.avgMood === null ? "—" : t("moodValue", { value: payload[0].payload.avgMood.toFixed(1) })}
+                            />
+                          ) : null
+                        }
+                      />
+                      <Bar dataKey="avgMood" fill="var(--viz-1)" radius={[4, 4, 0, 0]} maxBarSize={48} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              ) : (
+                <p className="py-10 text-center text-sm text-muted-foreground">{t("noSleepData")}</p>
               )}
             </ChartCard>
 

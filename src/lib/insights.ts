@@ -13,6 +13,7 @@ export type DayRow = {
   habitsDone: number;
   habitsTotal: number; // active habits that day
   todosDone: number;
+  sleepMinutes: number | null; // night that ended that morning
 };
 
 export type Insight = {
@@ -23,7 +24,9 @@ export type Insight = {
     | "mostProductiveDay"
     | "biggestSpendingDay"
     | "weekendMood"
-    | "journalConsistency";
+    | "journalConsistency"
+    | "betterMoodAfterSleep"
+    | "moreTasksAfterSleep";
   params: Record<string, string | number>;
   /** 0–1, used to order insights. */
   strength: number;
@@ -112,6 +115,39 @@ function weekendMood(rows: DayRow[]): Insight | null {
   };
 }
 
+const GOOD_SLEEP = 7 * 60;
+const SHORT_SLEEP = 6 * 60;
+
+function sleepVsMood(rows: DayRow[]): Insight | null {
+  const withBoth = rows.filter((r) => r.mood !== null && r.sleepMinutes !== null);
+  const good = withBoth.filter((r) => r.sleepMinutes! >= GOOD_SLEEP).map((r) => r.mood!);
+  const short = withBoth.filter((r) => r.sleepMinutes! < SHORT_SLEEP).map((r) => r.mood!);
+  if (good.length < MIN_GROUP_DAYS || short.length < MIN_GROUP_DAYS) return null;
+  const delta = mean(good) - mean(short);
+  if (delta < 0.5) return null;
+  return {
+    key: "betterMoodAfterSleep",
+    params: { delta: round1(delta), good: round1(mean(good)), short: round1(mean(short)) },
+    strength: Math.min(1, delta / 2),
+  };
+}
+
+function sleepVsTasks(rows: DayRow[]): Insight | null {
+  const logged = rows.filter((r) => r.sleepMinutes !== null && r.weekday !== 0 && r.weekday !== 6);
+  const good = logged.filter((r) => r.sleepMinutes! >= GOOD_SLEEP).map((r) => r.todosDone);
+  const short = logged.filter((r) => r.sleepMinutes! < SHORT_SLEEP).map((r) => r.todosDone);
+  if (good.length < MIN_GROUP_DAYS || short.length < MIN_GROUP_DAYS) return null;
+  const base = mean(short);
+  if (mean(good) <= base) return null;
+  const pct = base === 0 ? 100 : Math.round(((mean(good) - base) / base) * 100);
+  if (pct < 25) return null;
+  return {
+    key: "moreTasksAfterSleep",
+    params: { pct, good: round1(mean(good)), short: round1(base) },
+    strength: Math.min(1, pct / 100) * 0.9,
+  };
+}
+
 function journalConsistency(rows: DayRow[]): Insight | null {
   const last30 = rows.slice(-30);
   if (last30.length < 14) return null;
@@ -124,7 +160,7 @@ function journalConsistency(rows: DayRow[]): Insight | null {
 }
 
 export function computeInsights(rows: DayRow[]): Insight[] {
-  return [spendingVsMood, habitsVsMood, productiveDay, spendingDay, weekendMood, journalConsistency]
+  return [spendingVsMood, habitsVsMood, sleepVsMood, sleepVsTasks, productiveDay, spendingDay, weekendMood, journalConsistency]
     .map((rule) => rule(rows))
     .filter((i): i is Insight => i !== null)
     .sort((a, b) => b.strength - a.strength);

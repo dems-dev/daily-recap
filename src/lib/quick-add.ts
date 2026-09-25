@@ -10,12 +10,18 @@ import type { Mood } from "@/lib/journal";
  *   todo beli sayur besok   task due tomorrow        (also: tugas, task, t)
  *   done minum air          check a habit for today  (also: selesai, cek, ✓)
  *   mood baik capek tapi senang   set today's mood, append a note
+ *   tidur 23:30 06:15       log last night's sleep   (also: sleep)
+ *   wish 350rb sepatu       add to the wait-7-days wishlist (also: ingin, mau beli)
+ *   prioritas laporan Q3    add a priority for this week (also: fokus, priority)
  */
 export type QuickAdd =
   | { kind: "expense" | "income"; amount: number; category: string; description: string; date: DateKey }
   | { kind: "todo"; title: string; dueDate: DateKey | null }
   | { kind: "habit"; query: string }
-  | { kind: "mood"; mood: Mood; note: string };
+  | { kind: "mood"; mood: Mood; note: string }
+  | { kind: "sleep"; bedtime: string; wakeTime: string }
+  | { kind: "wish"; price: number; name: string; category: string }
+  | { kind: "priority"; title: string };
 
 const EXPENSE_KEYWORDS: Record<string, string[]> = {
   food: ["makan", "makanan", "kopi", "sarapan", "lunch", "dinner", "breakfast", "snack", "jajan", "minum", "resto", "gofood", "grabfood", "food", "coffee", "nasi", "bakso", "mie"],
@@ -118,6 +124,26 @@ export function parseQuickAdd(input: string, today: DateKey): QuickAdd | null {
 
   const habit = /^(done|selesai|cek|check|✓|✔)\s*(.+)$/i.exec(text);
   if (habit) return { kind: "habit", query: habit[2].trim() };
+
+  const sleep = /^(tidur|sleep)\s+(\d{1,2})[:.](\d{2})\s*(?:-|–|sampai|to|s\/d)?\s*(\d{1,2})[:.](\d{2})$/i.exec(text);
+  if (sleep) {
+    const [, , bh, bm, wh, wm] = sleep;
+    if (+bh > 23 || +wh > 23 || +bm > 59 || +wm > 59) return null;
+    const pad = (n: string) => n.padStart(2, "0");
+    return { kind: "sleep", bedtime: `${pad(bh)}:${bm}`, wakeTime: `${pad(wh)}:${wm}` };
+  }
+
+  const wish = /^(wish|ingin|mau beli)\s+(\d[\d.,]*)\s*(rb|ribu|k|jt|juta)?(?=\s|$)\s*(.+)$/i.exec(text);
+  if (wish) {
+    const price = parseAmount(wish[2], wish[3]);
+    const name = wish[4].trim();
+    if (price === null || !name) return null;
+    const category = guessCategory(name.toLowerCase().split(/\s+/), EXPENSE_KEYWORDS, "shopping");
+    return { kind: "wish", price, name, category };
+  }
+
+  const priority = /^(prioritas|fokus|priority|focus)\s+(.+)$/i.exec(text);
+  if (priority) return { kind: "priority", title: priority[2].trim() };
 
   const mood = /^mood\s+(\S+)\s*(.*)$/i.exec(text);
   if (mood) {

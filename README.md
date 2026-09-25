@@ -10,12 +10,15 @@ Bilingual (🇮🇩 Bahasa Indonesia / 🇬🇧 English), installable as a PWA, 
 | | |
 |---|---|
 | **Recap** | Daily view (reflection, habits, tasks and money for any date), weekly and monthly views with highlights and comparison to the previous period, optional AI summary |
-| **Insights** | Cross-module rules: mood vs spending, habits vs mood, most productive weekday, biggest spending day, weekend mood — each needs enough data on both sides before it says anything |
-| **Quick add (Ctrl+K)** | `-25rb kopi` · `+5jt gaji` · `-1,5jt sewa kemarin` · `todo beli sayur besok` · `done olahraga` · `mood baik capek tapi senang` |
+| **Insights** | Cross-module rules: mood vs spending, habits vs mood, sleep vs mood, sleep vs tasks, most productive weekday, biggest spending day, weekend mood — each needs enough data on both sides before it says anything |
+| **Quick add (Ctrl+K)** | `-25rb kopi` · `+5jt gaji` · `-1,5jt sewa kemarin` · `todo beli sayur besok` · `done olahraga` · `mood baik capek tapi senang` · `tidur 23:30 06:15` · `wish 350rb sepatu` · `prioritas laporan Q3` |
 | **Finance** | Transactions, monthly budgets, savings goals, recurring transactions (rent, subscriptions) |
 | **To-Do** | Today / upcoming / completed, due dates, priority, overdue |
 | **Habits** | 7-day check grid, current and best streak, 30-day completion rate, archive |
 | **Journal** | One entry per day: mood, reflection, gratitude, tags; mood calendar |
+| **Sleep** | Bed/wake times (time-zone and DST safe), quality, duration chart, bedtime consistency; feeds the mood/productivity insights |
+| **Weekly plan** | Pick up to 3 (max 5) priorities per week, check them off, reviewed in the weekly recap; plan next week from the recap |
+| **Wishlist "wait 7 days"** | Park non-urgent purchases for a few days; buy (recorded as an expense) or skip (counted as money saved) |
 | **PWA** | Installable, offline fallback page, web-push evening reminder when today's recap is empty |
 | **Your data** | Export everything as JSON or transactions as CSV; delete the account and all data |
 
@@ -115,5 +118,5 @@ SQLite can't be used on Vercel's serverless filesystem, so production needs Post
 
 ## Roadmap ideas
 Modules that exist in the schema but are hidden until finished (flip `ready` in
-`src/components/layout/Sidebar.tsx`): workout, sleep, water, body metrics, meditation, goals,
+`src/components/layout/Sidebar.tsx`): workout, water, body metrics, meditation, goals,
 pomodoro, books, skills, TIL.

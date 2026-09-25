@@ -44,6 +44,8 @@ model User {
   tilNotes         TilNote[]
   recurringTransactions RecurringTransaction[]
   pushSubscriptions     PushSubscription[]
+  weeklyPriorities      WeeklyPriority[]
+  wishlistItems         WishlistItem[]
 }
 
 model Finance {
@@ -136,12 +138,12 @@ model SleepLog {
   id        String   @id @default(cuid())
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  bedtime   DateTime
-  wakeTime  DateTime
+  bedtime   DateTime // instant
+  wakeTime  DateTime // instant
   duration  Int      // duration in minutes
   quality   Int      // 1-5
   notes     String?
-  date      DateTime
+  date      DateTime // calendar date of the morning you woke up
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -372,4 +374,41 @@ model PushSubscription {
   p256dh    String
   auth      String
   createdAt DateTime @default(now())
+}
+
+/// Up to a few priorities chosen for a week; checked off during the week and reviewed in the weekly recap.
+model WeeklyPriority {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  weekStart DateTime  // calendar date of the first day of the week (per User.weekStartDay)
+  title     String
+  isDone    Boolean   @default(false)
+  doneAt    DateTime?
+  order     Int       @default(0)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([userId, weekStart])
+}
+
+/// "Wait 7 days before buying": wanted purchases wait until waitUntil, then get bought or skipped.
+model WishlistItem {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  price     Float
+  category  String    // expense category key
+  url       String?
+  note      String?
+  addedOn   DateTime  // calendar date
+  waitUntil DateTime  // calendar date; decide on or after this day
+  status    String    @default("waiting") // "waiting"|"bought"|"skipped"
+  decidedOn DateTime? // calendar date
+  financeId String?   // the expense created when bought
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([userId, status])
 }

@@ -4,7 +4,8 @@
  *
  * Patterns are built in on purpose so the analytics have something to find:
  * mood follows how many habits were kept, low-mood days bring impulse spending,
- * Saturdays are shopping days and Tuesdays are the most productive.
+ * Saturdays are shopping days and Tuesdays are the most productive; short nights
+ * lower the next day's mood and output.
  */
 import { PrismaClient, type Prisma } from '@prisma/client'
 import * as bcrypt from 'bcryptjs'
@@ -18,6 +19,8 @@ import {
   shiftMonth,
   todayKey,
 } from '../src/lib/date'
+import { sleepWindow } from '../src/lib/sleep'
+import { periodRange } from '../src/lib/recap'
 
 const prisma = new PrismaClient()
 const DAYS = 90
@@ -112,6 +115,9 @@ async function main() {
   await prisma.todo.deleteMany(where)
   await prisma.habit.deleteMany(where)
   await prisma.journal.deleteMany(where)
+  await prisma.sleepLog.deleteMany(where)
+  await prisma.weeklyPriority.deleteMany(where)
+  await prisma.wishlistItem.deleteMany(where)
 
   const tz = user.timezone
   const today = todayKey(tz)
@@ -144,12 +150,32 @@ async function main() {
   const habitLogs: { habitId: string; date: Date; completed: boolean; createdAt: Date; updatedAt: Date }[] = []
   const todos: Prisma.TodoCreateManyInput[] = []
   const journals: Prisma.JournalCreateManyInput[] = []
+  const sleeps: Prisma.SleepLogCreateManyInput[] = []
+  const hhmm = (minutes: number) => {
+    const m = ((Math.round(minutes) % 1440) + 1440) % 1440
+    return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`
+  }
 
   for (let day = start; day <= today; day = addDays(day, 1)) {
     const date = dateKeyToDate(day)
     const weekday = date.getUTCDay()
     const isWeekend = weekday === 0 || weekday === 6
     const isToday = day === today
+
+    // Sleep (the night that ended this morning): ~6h50 on average, longer on weekends, some short nights.
+    const shortNight = chance(0.2)
+    const sleepMinutes = Math.round(
+      shortNight ? between(290, 355) : between(370, 470) + (isWeekend ? 35 : 0)
+    )
+    if (chance(0.9)) {
+      const bedMinute = 23 * 60 + between(-50, shortNight ? 90 : 40)
+      const win = sleepWindow(day, hhmm(bedMinute), hhmm(bedMinute + sleepMinutes), tz)
+      sleeps.push({
+        userId: user.id, date, bedtime: win.bedtime, wakeTime: win.wakeTime, duration: win.duration,
+        quality: Math.max(1, Math.min(5, Math.round((sleepMinutes - 240) / 60 + between(-0.8, 0.8)))),
+      })
+    }
+    const sleepEffect = sleepMinutes >= 420 ? 0.5 : sleepMinutes < 360 ? -0.8 : 0
 
     // Habits (today: only the morning ones so far)
     let kept = 0
@@ -163,7 +189,7 @@ async function main() {
     const habitScore = kept / habits.length
 
     // Mood follows habits, with noise and a small weekend lift.
-    const moodScore = Math.max(1, Math.min(5, Math.round(1.6 + 3 * habitScore + between(-0.9, 0.9) + (isWeekend ? 0.4 : 0))))
+    const moodScore = Math.max(1, Math.min(5, Math.round(1.6 + 3 * habitScore + sleepEffect + between(-0.9, 0.9) + (isWeekend ? 0.4 : 0))))
     const mood = MOODS[moodScore - 1]
 
     // Money
@@ -182,7 +208,7 @@ async function main() {
     if (chance(0.06)) tx('expense', roundTo(between(50_000, 250_000), 5_000), 'health', pick(['Obat', 'Vitamin', 'Dokter']), 11)
 
     // Tasks: Tuesdays are the productive day.
-    const done = Math.max(0, Math.round((weekday === 2 ? between(4, 7) : between(0.5, 3.5)) * (isWeekend ? 0.5 : 1)))
+    const done = Math.max(0, Math.round((weekday === 2 ? between(4, 7) : between(0.5, 3.5)) * (isWeekend ? 0.5 : 1) * (sleepMinutes < 360 ? 0.55 : 1)))
     for (let i = 0; i < done; i++) {
       const hour = 9 + i * 2
       if (isToday && hour > 13) break
@@ -218,6 +244,44 @@ async function main() {
   await prisma.habitLog.createMany({ data: habitLogs })
   await prisma.todo.createMany({ data: todos })
   await prisma.journal.createMany({ data: journals })
+  await prisma.sleepLog.createMany({ data: sleeps })
+
+  // Weekly priorities: past weeks mostly done, this week in progress.
+  const PRIORITY_POOL = [
+    'Selesaikan laporan bulanan', 'Olahraga 3x', 'Rapikan keuangan', 'Kirim proposal klien', 'Belajar Next.js 1 jam/hari',
+    'Telepon orang tua', 'Baca 1 buku', 'Beres-beres kamar', 'Siapkan presentasi', 'Tidur sebelum jam 23',
+  ]
+  const priorities: Prisma.WeeklyPriorityCreateManyInput[] = []
+  for (let d = periodRange('week', start, 'monday').start; d <= today; d = addDays(d, 7)) {
+    const week = periodRange('week', d, 'monday')
+    const isCurrent = week.start <= today && today <= week.end
+    for (let i = 0; i < 3; i++) {
+      const isDone = isCurrent ? i === 0 : chance(0.7)
+      priorities.push({
+        userId: user.id, weekStart: dateKeyToDate(week.start), title: pick(PRIORITY_POOL), order: i,
+        isDone, doneAt: isDone ? at(addDays(week.start, 2 + i), 18) : null, createdAt: at(addDays(week.start, -1), 20),
+      })
+    }
+  }
+  await prisma.weeklyPriority.createMany({ data: priorities })
+
+  // Wishlist: a couple still waiting, several skipped (money saved), one bought.
+  const wish = (name: string, price: number, category: string, addedDaysAgo: number, wait: number, status: string, note?: string) => ({
+    userId: user.id, name, price, category, note: note ?? null, status,
+    addedOn: dateKeyToDate(addDays(today, -addedDaysAgo)),
+    waitUntil: dateKeyToDate(addDays(today, wait - addedDaysAgo)),
+    decidedOn: status === 'waiting' ? null : dateKeyToDate(addDays(today, wait - addedDaysAgo)),
+  })
+  await prisma.wishlistItem.createMany({
+    data: [
+      wish('Sepatu lari', 850_000, 'shopping', 3, 7, 'waiting', 'Sepatu lama sudah tipis'),
+      wish('Keyboard mekanik', 1_250_000, 'shopping', 8, 7, 'waiting', 'Lebih nyaman untuk kerja'),
+      wish('Jaket denim', 450_000, 'shopping', 30, 7, 'skipped'),
+      wish('Langganan streaming tambahan', 120_000, 'entertainment', 45, 7, 'skipped'),
+      wish('Headphone baru', 1_800_000, 'shopping', 60, 14, 'skipped', 'Yang lama masih bagus'),
+      wish('Buku desain', 320_000, 'education', 20, 7, 'bought'),
+    ],
+  })
 
   const { year, month } = parseMonthKey(monthKeyOf(today))
   await prisma.budget.createMany({
@@ -237,7 +301,7 @@ async function main() {
   })
 
   console.log(
-    `Seeded ${DAYS} days: ${finances.length} transactions, ${habitLogs.length} habit check-ins, ${todos.length} tasks, ${journals.length} journal entries.`
+    `Seeded ${DAYS} days: ${finances.length} transactions, ${habitLogs.length} habit check-ins, ${todos.length} tasks, ${journals.length} journal entries, ${sleeps.length} nights, ${priorities.length} priorities.`
   )
 }
 

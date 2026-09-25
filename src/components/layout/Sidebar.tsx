@@ -68,7 +68,7 @@ const NAV: NavGroup[] = [
     items: [
       { key: "workout", href: "/health/workout", icon: Dumbbell, ready: false },
       { key: "nutrition", href: "/health/nutrition", icon: Apple, ready: false },
-      { key: "sleep", href: "/health/sleep", icon: Moon, ready: false },
+      { key: "sleep", href: "/health/sleep", icon: Moon, ready: true },
       { key: "body", href: "/health/body", icon: Scale, ready: false },
     ],
   },

@@ -12,6 +12,7 @@ import { isMood, MOOD_SCORE, serializeJournal } from "@/lib/journal";
 import type { CurrentUser } from "@/lib/session";
 import { compareTodos, serializeTodo } from "@/lib/todos";
 import { periodHighlights, periodRange, periodStats, previousRange, type Period } from "@/lib/recap";
+import { instantToLocalTime } from "@/lib/sleep";
 
 /** Everything the recap page shows for a day, week or month. */
 export async function buildRecap(user: CurrentUser, period: Period, date: DateKey, today: DateKey) {
@@ -26,12 +27,18 @@ export async function buildRecap(user: CurrentUser, period: Period, date: DateKe
   const prevElapsedEnd = prev.end < today ? prev.end : today;
 
   const hasElapsed = range.start <= today;
-  const [rows, prevRows, income, prevIncome, categories] = await Promise.all([
+  const [rows, prevRows, income, prevIncome, categories, priorities] = await Promise.all([
     hasElapsed ? loadDayRows(user, range.start, elapsedEnd) : Promise.resolve([]),
     loadDayRows(user, prev.start, prevElapsedEnd),
     sumIncome(user.id, range.start, range.end),
     sumIncome(user.id, prev.start, prev.end),
     expenseByCategory(user.id, range.start, range.end),
+    period === "week"
+      ? prisma.weeklyPriority.findMany({
+          where: { userId: user.id, weekStart: dateKeyToDate(range.start) },
+          select: { isDone: true },
+        })
+      : Promise.resolve(null),
   ]);
 
   const current = periodStats(rows, income);
@@ -48,7 +55,12 @@ export async function buildRecap(user: CurrentUser, period: Period, date: DateKe
     previous,
     topCategories: categories.slice(0, 5),
     daily: rows,
-    highlights: periodHighlights(current, previous, categories[0] ?? null),
+    highlights: periodHighlights(
+      current,
+      previous,
+      categories[0] ?? null,
+      priorities ? { done: priorities.filter((p) => p.isDone).length, total: priorities.length } : null
+    ),
   };
 }
 
@@ -58,7 +70,7 @@ export async function loadDayRows(user: CurrentUser, start: DateKey, end: DateKe
   const to = dateKeyToDate(addDays(end, 1));
   const instants = { start: dayBoundsInTz(start, user.timezone).start, end: dayBoundsInTz(end, user.timezone).end };
 
-  const [expenses, journals, habits, todos] = await Promise.all([
+  const [expenses, journals, habits, todos, sleeps] = await Promise.all([
     prisma.finance.groupBy({
       by: ["date"],
       where: { userId: user.id, type: "expense", date: { gte: from, lt: to } },
@@ -79,7 +91,12 @@ export async function loadDayRows(user: CurrentUser, start: DateKey, end: DateKe
       where: { userId: user.id, isCompleted: true, completedAt: { gte: instants.start, lt: instants.end } },
       select: { completedAt: true },
     }),
+    prisma.sleepLog.findMany({
+      where: { userId: user.id, date: { gte: from, lt: to } },
+      select: { date: true, duration: true },
+    }),
   ]);
+  const sleepBy = new Map(sleeps.map((s) => [dateToKey(s.date), s.duration]));
 
   const expenseBy = new Map(expenses.map((e) => [dateToKey(e.date), e._sum.amount ?? 0]));
   const moodBy = new Map(
@@ -110,6 +127,7 @@ export async function loadDayRows(user: CurrentUser, start: DateKey, end: DateKe
       habitsDone: done,
       habitsTotal: total,
       todosDone: todosBy.get(day) ?? 0,
+      sleepMinutes: sleepBy.get(day) ?? null,
     });
   }
   return rows;
@@ -138,7 +156,7 @@ async function dayRecap(user: CurrentUser, date: DateKey, today: DateKey) {
   const day = dateKeyToDate(date);
   const bounds = dayBoundsInTz(date, user.timezone);
 
-  const [finances, completedTodos, openTodos, habits, journal] = await Promise.all([
+  const [finances, completedTodos, openTodos, habits, journal, sleep] = await Promise.all([
     prisma.finance.findMany({ where: { userId: user.id, date: day }, orderBy: { createdAt: "asc" } }),
     prisma.todo.findMany({
       where: { userId: user.id, isCompleted: true, completedAt: { gte: bounds.start, lt: bounds.end } },
@@ -157,6 +175,7 @@ async function dayRecap(user: CurrentUser, date: DateKey, today: DateKey) {
       select: { id: true, name: true, icon: true, createdAt: true, logs: { where: { date: day, completed: true }, select: { id: true } } },
     }),
     prisma.journal.findUnique({ where: { userId_date: { userId: user.id, date: day } } }),
+    prisma.sleepLog.findUnique({ where: { userId_date: { userId: user.id, date: day } } }),
   ]);
 
   const income = finances.filter((f) => f.type === "income").reduce((a, f) => a + f.amount, 0);
@@ -187,6 +206,16 @@ async function dayRecap(user: CurrentUser, date: DateKey, today: DateKey) {
       .filter((h) => dateKeyInTz(h.createdAt, user.timezone) <= date || h.logs.length > 0)
       .map((h) => ({ id: h.id, name: h.name, icon: h.icon, done: h.logs.length > 0 })),
     journal: journal ? serializeJournal(journal) : null,
+    sleep: sleep
+      ? {
+          date,
+          bedtime: instantToLocalTime(sleep.bedtime, user.timezone),
+          wakeTime: instantToLocalTime(sleep.wakeTime, user.timezone),
+          duration: sleep.duration,
+          quality: sleep.quality,
+          notes: sleep.notes,
+        }
+      : null,
   };
 }
 

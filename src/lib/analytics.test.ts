@@ -10,6 +10,7 @@ const row = (date: string, patch: Partial<DayRow> = {}): DayRow => ({
   habitsDone: 0,
   habitsTotal: 0,
   todosDone: 0,
+  sleepMinutes: null,
   ...patch,
 });
 
@@ -42,6 +43,21 @@ describe("analyticsSeries", () => {
       row("2026-09-04", { mood: 3 }),
     ]);
     expect(moodTrend.map((m) => m.avg7)).toEqual([null, null, null, 3]);
+  });
+
+  it("buckets mood by sleep length", () => {
+    const { moodBySleep } = analyticsSeries([
+      row("2026-09-01", { mood: 2, sleepMinutes: 300 }),
+      row("2026-09-02", { mood: 5, sleepMinutes: 450 }),
+      row("2026-09-03", { mood: 3, sleepMinutes: 450 }),
+      row("2026-09-04", { sleepMinutes: 500 }), // no mood → ignored
+    ]);
+    expect(moodBySleep).toEqual([
+      { bucket: "lt6", days: 1, avgMood: 2 },
+      { bucket: "6to7", days: 0, avgMood: null },
+      { bucket: "7to8", days: 2, avgMood: 4 },
+      { bucket: "gte8", days: 0, avgMood: null },
+    ]);
   });
 
   it("totals spending per month", () => {

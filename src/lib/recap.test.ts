@@ -31,6 +31,7 @@ const row = (patch: Partial<DayRow>): DayRow => ({
   habitsDone: 0,
   habitsTotal: 0,
   todosDone: 0,
+  sleepMinutes: null,
   ...patch,
 });
 
@@ -52,12 +53,14 @@ describe("periodStats", () => {
       habitRate: 0.75,
       moodAvg: 3,
       moodDays: 2,
+      sleepAvg: null,
+      sleepNights: 0,
     });
   });
 });
 
 describe("periodHighlights", () => {
-  const base = { days: 7, expense: 700, income: 0, todosDone: 5, habitRate: 0.8, moodAvg: 4, moodDays: 5 };
+  const base = { days: 7, expense: 700, income: 0, todosDone: 5, habitRate: 0.8, moodAvg: 4, moodDays: 5, sleepAvg: 420, sleepNights: 7 };
 
   it("compares spending per day, not totals", () => {
     // 3 days at 100/day vs a full previous week at 100/day → no change mentioned
@@ -71,6 +74,26 @@ describe("periodHighlights", () => {
     expect(h).toContainEqual({ key: "expenseDown", params: { pct: 50 } });
     expect(h).toContainEqual({ key: "habitsDown", params: { points: 30 } });
     expect(h).toContainEqual({ key: "topCategory", params: { category: "food", amount: 200, pct: 57 } });
+  });
+
+  it("mentions sleep changes of 20+ minutes, otherwise the average", () => {
+    expect(periodHighlights({ ...base, sleepAvg: 380 }, base, null)).toContainEqual({
+      key: "sleepDown",
+      params: { minutes: 380, diff: 40 },
+    });
+    expect(periodHighlights({ ...base, sleepAvg: 430 }, base, null)).toContainEqual({
+      key: "sleepAvg",
+      params: { minutes: 430, nights: 7 },
+    });
+  });
+
+  it("leads with the week's priorities", () => {
+    expect(periodHighlights(base, base, null, { done: 2, total: 3 })[0]).toEqual({
+      key: "prioritiesDone",
+      params: { done: 2, total: 3 },
+    });
+    expect(periodHighlights(base, base, null, { done: 3, total: 3 })[0].key).toBe("prioritiesAllDone");
+    expect(periodHighlights(base, base, null, { done: 0, total: 0 }).map((h) => h.key)).not.toContain("prioritiesDone");
   });
 
   it("nudges when no mood was logged", () => {

@@ -49,7 +49,10 @@
     "noReflection": "Belum ada refleksi",
     "todayTasks": "Tugas hari ini",
     "seeAll": "Lihat semua",
-    "noTasks": "Tidak ada tugas untuk hari ini."
+    "noTasks": "Tidak ada tugas untuk hari ini.",
+    "sleep": "Tidur",
+    "sleepQuality": "Kualitas {value}/5",
+    "sleepHint": "Catat: tidur 23:00 06:30"
   },
   "Navigation": {
     "overview": "RINGKASAN",
@@ -185,7 +188,8 @@
       "tooLong": "Terlalu panjang",
       "invalidCategory": "Pilih kategori yang valid",
       "nonZero": "Tidak boleh 0",
-      "exceedsSaved": "Melebihi jumlah yang terkumpul"
+      "exceedsSaved": "Melebihi jumlah yang terkumpul",
+      "invalidUrl": "Tautan tidak valid"
     },
     "categories": {
       "salary": "Gaji",
@@ -225,7 +229,8 @@
     "recurringPaused": "Transaksi berulang dijeda",
     "recurringResumed": "Transaksi berulang dilanjutkan",
     "deleteRecurringTitle": "Hapus transaksi berulang ini?",
-    "deleteRecurringDescription": "Transaksi yang sudah terbuat tetap tersimpan; hanya jadwalnya yang dihapus."
+    "deleteRecurringDescription": "Transaksi yang sudah terbuat tetap tersimpan; hanya jadwalnya yang dihapus.",
+    "wishlist": "Wishlist"
   },
   "Common": {
     "cancel": "Batal",
@@ -396,7 +401,13 @@
     "doneTodo": "Tugas ditambahkan: {title}",
     "doneHabit": "✓ {name}",
     "doneMood": "Mood hari ini tersimpan",
-    "hint": "Awali dengan - (keluar), + (masuk), todo, done, atau mood. Enter untuk menyimpan."
+    "hint": "Awali dengan - / + (uang), todo, done, mood, tidur, wish, atau prioritas. Enter untuk menyimpan.",
+    "previewSleep": "Catat tidur {bedtime} → {wakeTime} ({duration})",
+    "previewWish": "Tunda beli “{name}” {price} · {category}",
+    "previewPriority": "Tambah prioritas minggu ini: “{title}”",
+    "doneSleep": "Tidur {duration} tercatat",
+    "doneWish": "“{name}” masuk wishlist",
+    "donePriority": "Prioritas ditambahkan: {title}"
   },
   "Recap": {
     "pageTitle": "Recap",
@@ -452,7 +463,12 @@
       "habitsRate": "Kamu menjalankan {pct}% dari kebiasaanmu.",
       "todosDone": "{count, plural, =1 {1 tugas} other {# tugas}} selesai (periode lalu: {prev}).",
       "moodAvg": "Rata-rata mood {avg} {emoji} dari {days} hari tercatat (dari {total} hari).",
-      "noMood": "Belum ada mood yang dicatat — isi recap harian supaya polanya terlihat."
+      "noMood": "Belum ada mood yang dicatat — isi recap harian supaya polanya terlihat.",
+      "prioritiesDone": "{done} dari {total} prioritas minggu ini tercapai.",
+      "prioritiesAllDone": "Semua {total} prioritas minggu ini tercapai! 🎯",
+      "sleepAvg": "Rata-rata tidur {duration} per malam ({nights} malam tercatat).",
+      "sleepUp": "Tidurmu rata-rata {duration}, naik {diff} dari periode lalu.",
+      "sleepDown": "Tidurmu rata-rata {duration}, turun {diff} dari periode lalu."
     },
     "ai": {
       "title": "Ringkasan AI",
@@ -462,7 +478,11 @@
       "intro": "Minta AI merangkum periode ini dalam beberapa kalimat.",
       "failed": "Gagal membuat ringkasan. Coba lagi nanti.",
       "privacy": "Data periode ini (termasuk catatan jurnal) dikirim ke penyedia AI lewat Vercel AI Gateway saat kamu menekan tombol."
-    }
+    },
+    "sleepTitle": "Tidur semalam",
+    "weekPriorities": "Prioritas minggu ini",
+    "planNextWeek": "Rencana minggu depan",
+    "planNextWeekHint": "Akhir pekan waktu yang pas untuk memilih 3 prioritas minggu depan."
   },
   "Analytics": {
     "pageTitle": "Analitik",
@@ -477,7 +497,9 @@
       "mostProductiveDay": "Hari paling produktifmu adalah {weekday}: rata-rata {avg} tugas selesai.",
       "biggestSpendingDay": "Pengeluaran paling besar biasanya di hari {weekday} — {pct}% di atas rata-rata ({avg}).",
       "weekendMood": "Mood-mu di akhir pekan {direction, select, higher {lebih baik} other {lebih rendah}} {delta} poin dibanding hari kerja.",
-      "journalConsistency": "Kamu mengisi recap {logged} dari {days} hari terakhir."
+      "journalConsistency": "Kamu mengisi recap {logged} dari {days} hari terakhir.",
+      "betterMoodAfterSleep": "Setelah tidur 7 jam atau lebih, mood-mu rata-rata {delta} poin lebih baik ({good} vs {short} setelah tidur < 6 jam).",
+      "moreTasksAfterSleep": "Di hari kerja setelah tidur cukup, kamu menyelesaikan {pct}% lebih banyak tugas ({good} vs {short} per hari)."
     },
     "moodTrend": "Tren mood",
     "moodTrendDesc": "Rata-rata bergerak 7 hari.",
@@ -491,7 +513,17 @@
     "notEnoughMood": "Catat mood beberapa hari lagi untuk melihat grafik ini.",
     "noHabitData": "Belum ada data kebiasaan.",
     "noExpenseData": "Belum ada pengeluaran.",
-    "partialMonthNote": "Bulan pertama dan terakhir pada grafik bulanan bisa jadi hanya sebagian (mengikuti rentang yang dipilih)."
+    "partialMonthNote": "Bulan pertama dan terakhir pada grafik bulanan bisa jadi hanya sebagian (mengikuti rentang yang dipilih).",
+    "moodBySleep": "Mood menurut lama tidur",
+    "moodBySleepDesc": "Rata-rata mood setelah malam dengan durasi tidur tertentu.",
+    "moodValue": "Rata-rata mood: {value}",
+    "noSleepData": "Catat tidur beberapa malam untuk melihat grafik ini.",
+    "sleepBuckets": {
+      "lt6": "< 6 jam",
+      "6to7": "6–7 jam",
+      "7to8": "7–8 jam",
+      "gte8": "≥ 8 jam"
+    }
   },
   "Settings": {
     "pageTitle": "Pengaturan",
@@ -543,5 +575,92 @@
       "rateLimited": "Terlalu banyak percobaan. Coba lagi nanti.",
       "invalidTimezone": "Zona waktu tidak valid."
     }
+  },
+  "Sleep": {
+    "pageTitle": "Tidur",
+    "lastDays": "{days} hari",
+    "bedtime": "Tidur jam",
+    "wakeTime": "Bangun jam",
+    "quality": "Kualitas tidur",
+    "notes": "Catatan",
+    "notesPlaceholder": "mis. sering terbangun, minum kopi sore",
+    "qualityLevels": {
+      "1": "Sangat buruk",
+      "2": "Kurang",
+      "3": "Cukup",
+      "4": "Nyenyak",
+      "5": "Sangat nyenyak"
+    },
+    "durationPreview": "Durasi: {duration}",
+    "saved": "Tidur {duration} tercatat",
+    "avgDuration": "Rata-rata durasi",
+    "nightsLogged": "{count} malam tercatat",
+    "avgBedtime": "Rata-rata jam tidur",
+    "consistency": "Konsistensi jam tidur",
+    "consistencyHint": "Makin kecil makin teratur",
+    "shortNights": "Malam < 6 jam",
+    "avgQuality": "Kualitas rata-rata {value}/5",
+    "durationChart": "Durasi tidur per malam",
+    "durationChartDesc": "Garis putus-putus = target {hours} jam. Klik batang untuk mengubah malam itu.",
+    "empty": "Belum ada catatan tidur.",
+    "notLogged": "Tidak dicatat",
+    "qualityValue": "Kualitas {value}/5",
+    "lastNight": "Tidur semalam",
+    "nightBefore": "Malam sebelum {date}",
+    "wokeUpOn": "Tanggal bangun",
+    "history": "Riwayat",
+    "delete": "Hapus",
+    "deleteTitle": "Hapus catatan tidur ini?",
+    "deleted": "Catatan tidur dihapus",
+    "errors": {
+      "implausibleDuration": "Durasi tidak masuk akal (30 menit – 16 jam). Periksa jam tidur dan bangun.",
+      "invalidTime": "Jam tidak valid"
+    }
+  },
+  "Plans": {
+    "thisWeek": "Prioritas minggu ini",
+    "progress": "{done}/{total} tercapai",
+    "empty": "Pilih {n} hal terpenting minggu ini. Sedikit tapi jelas lebih mudah dicapai.",
+    "placeholder": "Tambah prioritas…",
+    "placeholderExtra": "Prioritas tambahan (opsional)…",
+    "add": "Tambah",
+    "markDone": "Tandai tercapai: {title}",
+    "markOpen": "Tandai belum: {title}",
+    "remove": "Hapus prioritas: {title}"
+  },
+  "Wishlist": {
+    "add": "Tambah ke wishlist",
+    "waitingTitle": "Sedang ditunda",
+    "history": "Keputusan terakhir",
+    "saved": "Uang yang tidak jadi dibelanjakan",
+    "skippedCount": "{count} barang dibatalkan",
+    "waitingTotal": "Total yang ditunda",
+    "waitingCount": "{count} barang menunggu",
+    "explainer": "Tunda dulu sebelum membeli. Kalau setelah beberapa hari masih ingin, beli dengan tenang; kalau tidak, uangnya tetap aman.",
+    "empty": "Wishlist kosong. Lain kali ingin beli sesuatu yang tidak mendesak, simpan di sini dulu.",
+    "name": "Barang",
+    "namePlaceholder": "mis. Sepatu lari",
+    "price": "Harga",
+    "waitDays": "Tunda selama",
+    "daysOption": "{count} hari",
+    "url": "Tautan (opsional)",
+    "note": "Alasan ingin membeli (opsional)",
+    "notePlaceholder": "Untuk apa? Apakah sudah punya yang mirip?",
+    "openLink": "Buka tautan",
+    "readyToDecide": "Waktu tunda selesai — silakan putuskan",
+    "daysLeft": "{count} hari lagi (sampai {date})",
+    "waitProgress": "Waktu tunda {name}",
+    "buy": "Beli",
+    "skip": "Batal",
+    "buyAnyway": "Tetap beli",
+    "earlyTitle": "Belum waktunya",
+    "earlyDescription": "{name} masih ditunda {count} hari lagi. Yakin mau beli sekarang?",
+    "boughtToast": "Tercatat sebagai pengeluaran {amount}",
+    "skippedToast": "Mantap! {amount} tetap aman 💪",
+    "addedToast": "Ditunda {days} hari. Kita lihat lagi nanti.",
+    "boughtOn": "dibeli {date}",
+    "skippedOn": "dibatalkan {date}",
+    "deleteTitle": "Hapus dari riwayat?",
+    "deleteDescription": "Kalau sudah dibeli, pengeluarannya tetap tersimpan di Keuangan."
   }
 }
