@@ -1,0 +1,81 @@
+"use client";
+
+import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useJson } from "@/hooks/use-json";
+import { MonthSwitcher, useMoney } from "@/components/finance/shared";
+import { TransactionDialog, type Transaction } from "@/components/finance/TransactionDialog";
+import { TransactionsTab, type FinanceMonth } from "@/components/finance/TransactionsTab";
+import { BudgetTab } from "@/components/finance/BudgetTab";
+import { SavingsTab } from "@/components/finance/SavingsTab";
+
+export default function FinancePage() {
+  const t = useTranslations("Finance");
+  const [tab, setTab] = useState("transactions");
+  // null until the server tells us the current month in the user's timezone.
+  const [month, setMonth] = useState<string | null>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [dialog, setDialog] = useState<{ tx: Transaction | null } | null>(null);
+
+  const { data, loading, error } = useJson<FinanceMonth>(
+    month ? `/api/finance?month=${month}` : "/api/finance",
+    refreshKey
+  );
+  if (data && month === null) setMonth(data.month);
+
+  const money = useMoney(data?.currency);
+  const refresh = () => setRefreshKey((k) => k + 1);
+
+  // New transactions default to today if we're viewing this month, else the 1st of the viewed month.
+  const defaultDate = data ? (data.today.startsWith(data.month) ? data.today : `${data.month}-01`) : "";
+
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-3xl font-bold tracking-tight">{t("title")}</h1>
+        <div className="flex flex-wrap items-center gap-2">
+          {month && tab !== "savings" && <MonthSwitcher month={month} onChange={setMonth} />}
+          <Button className="gap-2" onClick={() => setDialog({ tx: null })} disabled={!data}>
+            <Plus className="h-4 w-4" /> {t("addTransaction")}
+          </Button>
+        </div>
+      </div>
+
+      {error && <p className="text-sm text-destructive">{t("loadFailed")}</p>}
+
+      <Tabs value={tab} onValueChange={(v) => setTab(String(v))}>
+        <TabsList>
+          <TabsTrigger value="transactions">{t("transactions")}</TabsTrigger>
+          <TabsTrigger value="budget">{t("budget")}</TabsTrigger>
+          <TabsTrigger value="savings">{t("savingsGoals")}</TabsTrigger>
+        </TabsList>
+        <TabsContent value="transactions" className="pt-4">
+          <TransactionsTab
+            data={data}
+            loading={loading}
+            money={money}
+            onEdit={(tx) => setDialog({ tx })}
+            onChanged={refresh}
+          />
+        </TabsContent>
+        <TabsContent value="budget" className="pt-4">
+          {month && <BudgetTab month={month} refreshKey={refreshKey} money={money} onChanged={refresh} />}
+        </TabsContent>
+        <TabsContent value="savings" className="pt-4">
+          <SavingsTab />
+        </TabsContent>
+      </Tabs>
+
+      <TransactionDialog
+        open={dialog !== null}
+        onOpenChange={(open) => !open && setDialog(null)}
+        transaction={dialog?.tx}
+        defaultDate={defaultDate}
+        onSaved={refresh}
+      />
+    </div>
+  );
+}
