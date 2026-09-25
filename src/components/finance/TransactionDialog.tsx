@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "@/components/ui/toast";
 import { sendJson } from "@/hooks/use-json";
 import { categoriesFor, transactionSchema, type TransactionInput, type TransactionType } from "@/lib/finance";
+import { FREQUENCIES, type Frequency } from "@/lib/recurring";
 import { cn } from "@/lib/utils";
 import { FieldError, useCategoryLabel } from "./shared";
 
@@ -39,9 +40,12 @@ export function TransactionDialog({
   });
   const { register, control, handleSubmit, reset, setValue, formState } = form;
   const type = useWatch({ control, name: "type" });
+  const [repeat, setRepeat] = useState<Frequency | "none">("none");
 
   useEffect(() => {
     if (!open) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- reset per open, like the form below
+    setRepeat("none");
     reset(
       transaction
         ? { ...transaction, description: transaction.description ?? "" }
@@ -57,9 +61,18 @@ export function TransactionDialog({
 
   const onSubmit = handleSubmit(async (values) => {
     try {
-      if (transaction) await sendJson(`/api/finance/${transaction.id}`, "PUT", values);
-      else await sendJson("/api/finance", "POST", values);
-      toast.add({ title: transaction ? t("toast.updated") : t("toast.added"), type: "success" });
+      if (transaction) {
+        await sendJson(`/api/finance/${transaction.id}`, "PUT", values);
+      } else if (repeat !== "none") {
+        const { date, ...rest } = values;
+        await sendJson("/api/finance/recurring", "POST", { ...rest, frequency: repeat, startDate: date });
+      } else {
+        await sendJson("/api/finance", "POST", values);
+      }
+      toast.add({
+        title: transaction ? t("toast.updated") : repeat !== "none" ? t("toast.recurringAdded") : t("toast.added"),
+        type: "success",
+      });
       onOpenChange(false);
       onSaved();
     } catch (err) {
@@ -150,6 +163,30 @@ export function TransactionDialog({
             <Input id="tx-description" placeholder={t("descriptionPlaceholder")} {...register("description")} />
             <FieldError message={formState.errors.description?.message} />
           </div>
+
+          {!transaction && (
+            <div className="space-y-2">
+              <Label>{t("repeat")}</Label>
+              <Select
+                value={repeat}
+                onValueChange={(v) => setRepeat((v ?? "none") as Frequency | "none")}
+                items={{ none: t("repeatNone"), ...Object.fromEntries(FREQUENCIES.map((f) => [f, t(`frequency.${f}`)])) }}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">{t("repeatNone")}</SelectItem>
+                  {FREQUENCIES.map((f) => (
+                    <SelectItem key={f} value={f}>
+                      {t(`frequency.${f}`)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {repeat !== "none" && <p className="text-xs text-muted-foreground">{t("repeatHint")}</p>}
+            </div>
+          )}
         </form>
 
         <DialogFooter>

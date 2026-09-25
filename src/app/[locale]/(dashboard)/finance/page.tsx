@@ -5,12 +5,13 @@ import { useTranslations } from "next-intl";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useJson } from "@/hooks/use-json";
+import { useInvalidate, useJson } from "@/hooks/use-json";
 import { MonthSwitcher, useMoney } from "@/components/finance/shared";
 import { TransactionDialog, type Transaction } from "@/components/finance/TransactionDialog";
 import { TransactionsTab, type FinanceMonth } from "@/components/finance/TransactionsTab";
 import { BudgetTab } from "@/components/finance/BudgetTab";
 import { SavingsTab } from "@/components/finance/SavingsTab";
+import { RecurringTab } from "@/components/finance/RecurringTab";
 
 export default function FinancePage() {
   const t = useTranslations("Finance");
@@ -27,7 +28,12 @@ export default function FinancePage() {
   if (data && month === null) setMonth(data.month);
 
   const money = useMoney(data?.currency);
-  const refresh = () => setRefreshKey((k) => k + 1);
+  const invalidate = useInvalidate();
+  // Local key for this page's own data; global invalidate for the dashboard, recap and other tabs.
+  const refresh = () => {
+    setRefreshKey((k) => k + 1);
+    invalidate();
+  };
 
   // New transactions default to today if we're viewing this month, else the 1st of the viewed month.
   const defaultDate = data ? (data.today.startsWith(data.month) ? data.today : `${data.month}-01`) : "";
@@ -37,7 +43,7 @@ export default function FinancePage() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-3xl font-bold tracking-tight">{t("title")}</h1>
         <div className="flex flex-wrap items-center gap-2">
-          {month && tab !== "savings" && <MonthSwitcher month={month} onChange={setMonth} />}
+          {month && (tab === "transactions" || tab === "budget") && <MonthSwitcher month={month} onChange={setMonth} />}
           <Button className="gap-2" onClick={() => setDialog({ tx: null })} disabled={!data}>
             <Plus className="h-4 w-4" /> {t("addTransaction")}
           </Button>
@@ -51,6 +57,7 @@ export default function FinancePage() {
           <TabsTrigger value="transactions">{t("transactions")}</TabsTrigger>
           <TabsTrigger value="budget">{t("budget")}</TabsTrigger>
           <TabsTrigger value="savings">{t("savingsGoals")}</TabsTrigger>
+          <TabsTrigger value="recurring">{t("recurring")}</TabsTrigger>
         </TabsList>
         <TabsContent value="transactions" className="pt-4">
           <TransactionsTab
@@ -66,6 +73,9 @@ export default function FinancePage() {
         </TabsContent>
         <TabsContent value="savings" className="pt-4">
           <SavingsTab />
+        </TabsContent>
+        <TabsContent value="recurring" className="pt-4">
+          <RecurringTab onAdd={() => setDialog({ tx: null })} />
         </TabsContent>
       </Tabs>
 

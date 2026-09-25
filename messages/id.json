@@ -173,7 +173,8 @@
       "updated": "Transaksi diperbarui",
       "deleted": "Berhasil dihapus",
       "saved": "Berhasil disimpan",
-      "failed": "Gagal menyimpan"
+      "failed": "Gagal menyimpan",
+      "recurringAdded": "Transaksi berulang ditambahkan"
     },
     "errors": {
       "required": "Wajib diisi",
@@ -202,7 +203,29 @@
       "education": "Pendidikan",
       "family": "Keluarga",
       "other-expense": "Lainnya"
-    }
+    },
+    "recurring": "Berulang",
+    "recurringTitle": "Transaksi berulang",
+    "recurringDescription": "Dibuat otomatis sesuai jadwal — cocok untuk gaji, sewa, dan langganan.",
+    "addRecurring": "Tambah transaksi berulang",
+    "noRecurring": "Belum ada transaksi berulang.",
+    "repeat": "Ulangi",
+    "repeatNone": "Tidak diulang",
+    "repeatHint": "Transaksi akan dibuat otomatis mulai tanggal di atas, termasuk yang sudah lewat.",
+    "frequency": {
+      "weekly": "Mingguan",
+      "monthly": "Bulanan",
+      "yearly": "Tahunan"
+    },
+    "nextOn": "berikutnya {date}",
+    "paused": "dijeda",
+    "generatedCount": "{count} kali dibuat",
+    "pause": "Jeda",
+    "resume": "Lanjutkan",
+    "recurringPaused": "Transaksi berulang dijeda",
+    "recurringResumed": "Transaksi berulang dilanjutkan",
+    "deleteRecurringTitle": "Hapus transaksi berulang ini?",
+    "deleteRecurringDescription": "Transaksi yang sudah terbuat tetap tersimpan; hanya jadwalnya yang dihapus."
   },
   "Common": {
     "cancel": "Batal",
@@ -469,5 +492,56 @@
     "noHabitData": "Belum ada data kebiasaan.",
     "noExpenseData": "Belum ada pengeluaran.",
     "partialMonthNote": "Bulan pertama dan terakhir pada grafik bulanan bisa jadi hanya sebagian (mengikuti rentang yang dipilih)."
+  },
+  "Settings": {
+    "pageTitle": "Pengaturan",
+    "profile": "Profil & preferensi",
+    "name": "Nama",
+    "language": "Bahasa",
+    "currency": "Mata uang",
+    "weekStart": "Awal minggu",
+    "weekdays": {
+      "monday": "Senin",
+      "sunday": "Minggu"
+    },
+    "timezone": "Zona waktu",
+    "timezoneHint": "Menentukan kapan \"hari ini\" dimulai untuk recap, kebiasaan, dan pengingat.",
+    "reminder": "Pengingat malam",
+    "reminderDescription": "Notifikasi di perangkat ini kalau recap hari ini belum diisi.",
+    "reminderToggle": "Kirim pengingat",
+    "reminderHour": "Jam pengingat",
+    "reminderHourHint": "Di paket Vercel Hobby, cron hanya jalan sekali sehari (20:00 WIB), jadi pengingat datang di jam itu atau sesudahnya.",
+    "pushNotConfigured": "Notifikasi belum diaktifkan di server (kunci VAPID belum diisi).",
+    "pushUnsupported": "Browser ini tidak mendukung notifikasi push. Di iPhone, pasang aplikasi ke Layar Utama dulu.",
+    "pushBlocked": "Notifikasi diblokir di browser. Izinkan lewat pengaturan situs, lalu muat ulang halaman.",
+    "permissionDenied": "Izin notifikasi tidak diberikan.",
+    "reminderOn": "Pengingat diaktifkan",
+    "reminderOff": "Pengingat dimatikan",
+    "sendTest": "Kirim notifikasi uji",
+    "testSent": "Notifikasi uji terkirim",
+    "testNoDevice": "Tidak ada perangkat terdaftar",
+    "unsubscribeDevice": "Lepas perangkat ini",
+    "security": "Keamanan",
+    "currentPassword": "Kata sandi saat ini",
+    "newPassword": "Kata sandi baru",
+    "confirmPassword": "Ulangi kata sandi baru",
+    "changePassword": "Ganti kata sandi",
+    "passwordChanged": "Kata sandi diganti",
+    "data": "Data kamu",
+    "dataDescription": "Unduh semua catatanmu kapan saja, atau hapus akun beserta seluruh datanya.",
+    "exportJson": "Ekspor semua (JSON)",
+    "exportCsv": "Ekspor transaksi (CSV)",
+    "deleteAccount": "Hapus akun",
+    "deleteAccountDescription": "Akun dan semua data (keuangan, tugas, kebiasaan, jurnal) dihapus permanen. Ekspor dulu kalau ingin menyimpan salinan.",
+    "deleteConfirmTitle": "Hapus akun secara permanen?",
+    "deleteConfirmDescription": "Semua data untuk {email} akan dihapus dan tidak bisa dikembalikan. Masukkan kata sandi untuk melanjutkan.",
+    "deleteForever": "Hapus permanen",
+    "errors": {
+      "passwordTooShort": "Kata sandi baru minimal 8 karakter.",
+      "passwordMismatch": "Konfirmasi kata sandi tidak cocok.",
+      "wrongPassword": "Kata sandi salah.",
+      "rateLimited": "Terlalu banyak percobaan. Coba lagi nanti.",
+      "invalidTimezone": "Zona waktu tidak valid."
+    }
   }
 }

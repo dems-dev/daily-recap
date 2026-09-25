@@ -173,7 +173,8 @@
       "updated": "Transaction updated",
       "deleted": "Deleted",
       "saved": "Saved",
-      "failed": "Could not save"
+      "failed": "Could not save",
+      "recurringAdded": "Recurring transaction added"
     },
     "errors": {
       "required": "Required",
@@ -202,7 +203,29 @@
       "education": "Education",
       "family": "Family",
       "other-expense": "Other"
-    }
+    },
+    "recurring": "Recurring",
+    "recurringTitle": "Recurring transactions",
+    "recurringDescription": "Created automatically on schedule — for salary, rent and subscriptions.",
+    "addRecurring": "Add recurring transaction",
+    "noRecurring": "No recurring transactions yet.",
+    "repeat": "Repeat",
+    "repeatNone": "Doesn't repeat",
+    "repeatHint": "Transactions are created automatically from the date above, including past ones.",
+    "frequency": {
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "yearly": "Yearly"
+    },
+    "nextOn": "next {date}",
+    "paused": "paused",
+    "generatedCount": "{count, plural, one {created once} other {created # times}}",
+    "pause": "Pause",
+    "resume": "Resume",
+    "recurringPaused": "Recurring transaction paused",
+    "recurringResumed": "Recurring transaction resumed",
+    "deleteRecurringTitle": "Delete this recurring transaction?",
+    "deleteRecurringDescription": "Transactions it already created are kept; only the schedule is removed."
   },
   "Common": {
     "cancel": "Cancel",
@@ -469,5 +492,56 @@
     "noHabitData": "No habit data yet.",
     "noExpenseData": "No spending yet.",
     "partialMonthNote": "The first and last months in the monthly chart may be partial (they follow the selected range)."
+  },
+  "Settings": {
+    "pageTitle": "Settings",
+    "profile": "Profile & preferences",
+    "name": "Name",
+    "language": "Language",
+    "currency": "Currency",
+    "weekStart": "Week starts on",
+    "weekdays": {
+      "monday": "Monday",
+      "sunday": "Sunday"
+    },
+    "timezone": "Time zone",
+    "timezoneHint": "Decides when \"today\" starts for the recap, habits and reminders.",
+    "reminder": "Evening reminder",
+    "reminderDescription": "A notification on this device when today's recap is still empty.",
+    "reminderToggle": "Send reminders",
+    "reminderHour": "Reminder time",
+    "reminderHourHint": "On the Vercel Hobby plan the cron runs once a day (13:00 UTC), so the reminder arrives at that time or later.",
+    "pushNotConfigured": "Notifications aren't enabled on the server (VAPID keys missing).",
+    "pushUnsupported": "This browser doesn't support push notifications. On iPhone, add the app to your Home Screen first.",
+    "pushBlocked": "Notifications are blocked in your browser. Allow them in site settings, then reload.",
+    "permissionDenied": "Notification permission was not granted.",
+    "reminderOn": "Reminder turned on",
+    "reminderOff": "Reminder turned off",
+    "sendTest": "Send test notification",
+    "testSent": "Test notification sent",
+    "testNoDevice": "No registered devices",
+    "unsubscribeDevice": "Remove this device",
+    "security": "Security",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Repeat new password",
+    "changePassword": "Change password",
+    "passwordChanged": "Password changed",
+    "data": "Your data",
+    "dataDescription": "Download all your entries at any time, or delete your account and everything in it.",
+    "exportJson": "Export everything (JSON)",
+    "exportCsv": "Export transactions (CSV)",
+    "deleteAccount": "Delete account",
+    "deleteAccountDescription": "Your account and all data (money, tasks, habits, journal) are permanently deleted. Export first if you want a copy.",
+    "deleteConfirmTitle": "Permanently delete your account?",
+    "deleteConfirmDescription": "All data for {email} will be deleted and can't be recovered. Enter your password to continue.",
+    "deleteForever": "Delete forever",
+    "errors": {
+      "passwordTooShort": "New password must be at least 8 characters.",
+      "passwordMismatch": "Passwords do not match.",
+      "wrongPassword": "Wrong password.",
+      "rateLimited": "Too many attempts. Try again later.",
+      "invalidTimezone": "Invalid time zone."
+    }
   }
 }

@@ -6,7 +6,7 @@
  * mood follows how many habits were kept, low-mood days bring impulse spending,
  * Saturdays are shopping days and Tuesdays are the most productive.
  */
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, type Prisma } from '@prisma/client'
 import * as bcrypt from 'bcryptjs'
 import {
   DEFAULT_TIMEZONE,
@@ -140,10 +140,10 @@ async function main() {
     },
   })
 
-  const finances: Parameters<typeof prisma.finance.createMany>[0]['data'] = []
+  const finances: Prisma.FinanceCreateManyInput[] = []
   const habitLogs: { habitId: string; date: Date; completed: boolean; createdAt: Date; updatedAt: Date }[] = []
-  const todos: Parameters<typeof prisma.todo.createMany>[0]['data'] = []
-  const journals: Parameters<typeof prisma.journal.createMany>[0]['data'] = []
+  const todos: Prisma.TodoCreateManyInput[] = []
+  const journals: Prisma.JournalCreateManyInput[] = []
 
   for (let day = start; day <= today; day = addDays(day, 1)) {
     const date = dateKeyToDate(day)
