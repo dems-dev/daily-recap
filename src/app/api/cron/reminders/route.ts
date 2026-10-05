@@ -51,11 +51,29 @@ export async function GET(req: Request) {
       }
 
       const isId = user.locale !== "en";
+      let title = isId ? "Waktunya recap harian ✨" : "Time for your daily recap ✨";
+      let body = isId
+        ? "Dua menit saja: catat mood dan refleksi hari ini."
+        : "Two minutes: log your mood and a short reflection.";
+
+      const pendingWishlistCount = await prisma.wishlistItem.count({
+        where: {
+          userId: user.id,
+          status: "waiting",
+          waitUntil: { lte: today },
+        },
+      });
+
+      if (pendingWishlistCount > 0) {
+        title = isId ? "Recap & Wishlist ✨" : "Recap & Wishlist ✨";
+        body += isId 
+          ? ` Oh ya, ada ${pendingWishlistCount} barang di wishlist yang sudah lewat 7 hari!`
+          : ` Also, ${pendingWishlistCount} item(s) in your wishlist are ready to be decided!`;
+      }
+
       const { sent } = await sendPushToUser(user.id, {
-        title: isId ? "Waktunya recap harian ✨" : "Time for your daily recap ✨",
-        body: isId
-          ? "Dua menit saja: catat mood dan refleksi hari ini."
-          : "Two minutes: log your mood and a short reflection.",
+        title,
+        body,
         url: "/recap",
         tag: "evening-reminder",
       });

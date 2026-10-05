@@ -32,8 +32,8 @@ export default {
 
         const ip = clientIp(request.headers)
         const emailKey = `login:email:${email}`
-        if (!rateLimit(`login:ip:${ip}`, MAX_ATTEMPTS_PER_IP, WINDOW_MS).ok) throw new RateLimitedError()
-        if (!rateLimit(emailKey, MAX_FAILURES_PER_EMAIL, WINDOW_MS).ok) throw new RateLimitedError()
+        if (!(await rateLimit(`login:ip:${ip}`, MAX_ATTEMPTS_PER_IP, WINDOW_MS)).ok) throw new RateLimitedError()
+        if (!(await rateLimit(emailKey, MAX_FAILURES_PER_EMAIL, WINDOW_MS)).ok) throw new RateLimitedError()
 
         const user = await prisma.user.findUnique({ where: { email } })
         const isPasswordValid = await bcrypt.compare(password, user?.password ?? DUMMY_HASH)

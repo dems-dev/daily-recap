@@ -75,7 +75,7 @@ export async function DELETE(req: Request) {
   try {
     const current = await getCurrentUser();
     if (!current) return unauthorized();
-    if (!rateLimit(`delete-account:${current.id}`, 5, 15 * 60 * 1000).ok) {
+    if (!(await rateLimit(`delete-account:${current.id}`, 5, 15 * 60 * 1000)).ok) {
       return NextResponse.json({ message: "Too many attempts", code: "rate_limited" }, { status: 429 });
     }
 

@@ -8,9 +8,9 @@ import type { CurrentUser } from "@/lib/session";
  */
 export const AI_MODELS = {
   /** Cheap and fast: parsing free text, short summaries. */
-  fast: process.env.AI_FAST_MODEL || "anthropic/claude-haiku-4.5",
+  fast: process.env.AI_FAST_MODEL || "openai/gpt-4o-mini",
   /** Better at multi-step tool use and reasoning: the data assistant and weekly coach. */
-  smart: process.env.AI_SMART_MODEL || "anthropic/claude-sonnet-5",
+  smart: process.env.AI_SMART_MODEL || "openai/gpt-4o",
 };
 
 /** True when the server can reach the AI Gateway. */

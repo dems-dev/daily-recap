@@ -20,7 +20,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "AI is not available", code: "aiDisabled" }, { status: 403 });
     }
 
-    const limit = rateLimit(`ai-chat:${user.id}`, 20, 10 * 60 * 1000);
+    const limit = await rateLimit(`ai-chat:${user.id}`, 20, 10 * 60 * 1000);
     if (!limit.ok) {
       return NextResponse.json(
         { message: "Too many messages, try again in a few minutes", code: "rate_limited" },

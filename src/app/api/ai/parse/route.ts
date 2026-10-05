@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     const parsed = bodySchema.safeParse(await readJson(req));
     if (!parsed.success) return validationError(parsed.error);
 
-    const limit = rateLimit(`ai-parse:${user.id}`, 30, 60 * 60 * 1000);
+    const limit = await rateLimit(`ai-parse:${user.id}`, 30, 60 * 60 * 1000);
     if (!limit.ok) {
       return NextResponse.json(
         { message: "Too many requests", code: "rate_limited" },

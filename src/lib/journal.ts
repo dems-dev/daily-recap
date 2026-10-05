@@ -6,11 +6,11 @@ export const MOODS = ["great", "good", "okay", "bad", "terrible"] as const;
 export type Mood = (typeof MOODS)[number];
 
 export const MOOD_EMOJI: Record<Mood, string> = {
-  great: "😄",
-  good: "🙂",
+  great: "🤩",
+  good: "😊",
   okay: "😐",
-  bad: "😕",
-  terrible: "😢",
+  bad: "😔",
+  terrible: "😫",
 };
 
 /** 5 = great … 1 = terrible, for averages and insights. */
@@ -30,10 +30,10 @@ export const journalSchema = z.object({
 });
 export type JournalInput = z.input<typeof journalSchema>;
 
-function parseList(json: string | null): string[] {
+function parseList(json: unknown): string[] {
   if (!json) return [];
   try {
-    const value = JSON.parse(json);
+    const value = typeof json === "string" ? JSON.parse(json) : json;
     return Array.isArray(value) ? value.filter((v): v is string => typeof v === "string") : [];
   } catch {
     return [];

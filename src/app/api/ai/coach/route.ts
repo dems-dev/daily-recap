@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     if (!parsed.success) return validationError(parsed.error);
     if (parsed.data.date > todayKey(user.timezone)) return badRequest("Cannot review a future week");
 
-    const limit = rateLimit(`ai-coach:${user.id}`, 10, 60 * 60 * 1000);
+    const limit = await rateLimit(`ai-coach:${user.id}`, 10, 60 * 60 * 1000);
     if (!limit.ok) {
       return NextResponse.json({ message: "Too many requests", code: "rate_limited" }, { status: 429 });
     }

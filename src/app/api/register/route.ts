@@ -10,7 +10,7 @@ const WINDOW_MS = 60 * 60 * 1000;
 
 export async function POST(req: Request) {
   try {
-    const limit = rateLimit(`register:ip:${clientIp(req.headers)}`, MAX_REGISTRATIONS_PER_IP, WINDOW_MS);
+    const limit = await rateLimit(`register:ip:${clientIp(req.headers)}`, MAX_REGISTRATIONS_PER_IP, WINDOW_MS);
     if (!limit.ok) {
       return NextResponse.json(
         { message: "Too many attempts", code: "rate_limited" },

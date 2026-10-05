@@ -10,7 +10,7 @@ export async function POST() {
     const user = await getCurrentUser();
     if (!user) return unauthorized();
     if (!pushConfigured()) return badRequest("Push is not configured on this server");
-    if (!rateLimit(`push-test:${user.id}`, 5, 10 * 60 * 1000).ok) {
+    if (!(await rateLimit(`push-test:${user.id}`, 5, 10 * 60 * 1000)).ok) {
       return NextResponse.json({ message: "Too many test notifications" }, { status: 429 });
     }
 

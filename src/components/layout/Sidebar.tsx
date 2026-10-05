@@ -53,32 +53,32 @@ const NAV: NavGroup[] = [
     items: [
       { key: "todos", href: "/productivity/todos", icon: CheckSquare, ready: true },
       { key: "habits", href: "/productivity/habits", icon: ListTodo, ready: true },
-      { key: "goals", href: "/productivity/goals", icon: Target, ready: false },
-      { key: "pomodoro", href: "/productivity/pomodoro", icon: Timer, ready: false },
+      { key: "goals", href: "/productivity/goals", icon: Target, ready: true },
+      { key: "pomodoro", href: "/productivity/pomodoro", icon: Timer, ready: true },
     ],
   },
   {
     key: "mind",
     items: [
       { key: "journal", href: "/mind/journal", icon: BookHeart, ready: true },
-      { key: "meditation", href: "/mind/meditation", icon: Smile, ready: false },
+      { key: "meditation", href: "/mind/meditation", icon: Smile, ready: true },
     ],
   },
   {
     key: "health",
     items: [
-      { key: "workout", href: "/health/workout", icon: Dumbbell, ready: false },
-      { key: "nutrition", href: "/health/nutrition", icon: Apple, ready: false },
+      { key: "workout", href: "/health/workout", icon: Dumbbell, ready: true },
+      { key: "nutrition", href: "/health/nutrition", icon: Apple, ready: true },
       { key: "sleep", href: "/health/sleep", icon: Moon, ready: true },
-      { key: "body", href: "/health/body", icon: Scale, ready: false },
+      { key: "body", href: "/health/body", icon: Scale, ready: true },
     ],
   },
   {
     key: "learning",
     items: [
-      { key: "books", href: "/learning/books", icon: BookOpen, ready: false },
-      { key: "skills", href: "/learning/skills", icon: GraduationCap, ready: false },
-      { key: "til", href: "/learning/til", icon: Lightbulb, ready: false },
+      { key: "books", href: "/learning/books", icon: BookOpen, ready: true },
+      { key: "skills", href: "/learning/skills", icon: GraduationCap, ready: true },
+      { key: "til", href: "/learning/til", icon: Lightbulb, ready: true },
     ],
   },
   {
@@ -101,15 +101,17 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const { data: session } = useSession();
 
   return (
-    <div className="flex h-full flex-col">
-      <div className="flex h-14 items-center border-b px-4 gap-2">
-        <Sparkles className="h-6 w-6 text-primary" />
-        <span className="font-bold text-lg tracking-tight">Daily Recap</span>
+    <div className="flex h-full flex-col bg-background/60 backdrop-blur-md">
+      <div className="flex h-16 items-center border-b border-border/50 px-6 gap-3">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-primary/70 text-primary-foreground shadow-sm">
+          <Sparkles className="h-5 w-5" />
+        </div>
+        <span className="font-bold text-lg tracking-tight text-gradient">Daily Recap</span>
       </div>
-      <nav className="flex-1 overflow-y-auto py-4 px-3">
+      <nav className="flex-1 overflow-y-auto py-6 px-4">
         {VISIBLE_NAV.map((group) => (
-          <div key={group.key} className="mb-6">
-            <h4 className="mb-2 px-2 text-xs font-semibold uppercase text-muted-foreground tracking-wider">
+          <div key={group.key} className="mb-8">
+            <h4 className="mb-3 px-3 text-xs font-bold uppercase text-muted-foreground/70 tracking-widest">
               {t(group.key)}
             </h4>
             <div className="space-y-1">
@@ -122,13 +124,16 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
                     onClick={onNavigate}
                     aria-current={isActive ? "page" : undefined}
                     className={cn(
-                      "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                      "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200",
                       isActive
-                        ? "bg-primary/10 text-primary"
-                        : "text-muted-foreground hover:bg-muted hover:text-primary"
+                        ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
+                        : "text-muted-foreground hover:bg-muted/80 hover:text-foreground"
                     )}
                   >
-                    <item.icon className="h-4 w-4" />
+                    <item.icon className={cn(
+                      "h-5 w-5 transition-transform duration-200", 
+                      isActive ? "text-primary-foreground" : "text-muted-foreground group-hover:text-primary group-hover:scale-110"
+                    )} />
                     {t(item.key === "finance" ? "transactions" : item.key)}
                   </Link>
                 );
@@ -137,19 +142,19 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
           </div>
         ))}
       </nav>
-      <div className="border-t p-4">
-        <div className="flex items-center gap-3 mb-4">
-          <Avatar>
-            <AvatarFallback>{session?.user?.name?.charAt(0) || "U"}</AvatarFallback>
+      <div className="border-t border-border/50 p-4">
+        <div className="flex items-center gap-3 mb-4 rounded-xl p-2 hover:bg-muted/50 transition-colors">
+          <Avatar className="h-10 w-10 border border-border/50 shadow-sm">
+            <AvatarFallback className="bg-primary/10 text-primary">{session?.user?.name?.charAt(0) || "U"}</AvatarFallback>
           </Avatar>
           <div className="flex min-w-0 flex-col">
-            <span className="text-sm font-medium truncate">{session?.user?.name}</span>
+            <span className="text-sm font-semibold truncate">{session?.user?.name}</span>
             <span className="text-xs text-muted-foreground truncate">{session?.user?.email}</span>
           </div>
         </div>
         <Button
-          variant="outline"
-          className="w-full justify-start gap-2"
+          variant="ghost"
+          className="w-full justify-start gap-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-xl"
           onClick={() => signOut({ redirectTo: "/login" })}
         >
           <LogOut className="h-4 w-4" />
@@ -169,18 +174,18 @@ export function Sidebar() {
       {/* Mobile Sidebar */}
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger
-          render={<Button variant="ghost" size="icon" className="md:hidden fixed top-2.5 left-2 z-40" />}
+          render={<Button variant="outline" size="icon" className="md:hidden fixed top-3 left-3 z-40 bg-background/80 backdrop-blur-sm border-border/50 shadow-sm rounded-xl" />}
           aria-label={t("openMenu")}
         >
           <Menu className="h-5 w-5" />
         </SheetTrigger>
-        <SheetContent side="left" className="w-[280px] p-0">
+        <SheetContent side="left" className="w-[280px] p-0 border-r-0 shadow-2xl glass">
           <SidebarContent onNavigate={() => setIsOpen(false)} />
         </SheetContent>
       </Sheet>
 
       {/* Desktop Sidebar */}
-      <div className="hidden md:flex h-screen w-[280px] flex-col border-r bg-card">
+      <div className="hidden md:flex h-screen w-[280px] flex-col border-r border-border/50 bg-background/40 backdrop-blur-xl">
         <SidebarContent />
       </div>
     </>

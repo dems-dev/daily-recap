@@ -14,10 +14,11 @@ import { useCategoryLabel, useMoney } from "@/components/finance/shared";
 import { useQuickAdd } from "@/components/quick-add/QuickAddProvider";
 import { TodoItem } from "@/components/todos/TodoItem";
 import { useToggleTodo } from "@/components/todos/use-toggle-todo";
-import { MOOD_EMOJI, type Mood } from "@/lib/journal";
+import { type Mood } from "@/lib/journal";
 import type { TodoDTO } from "@/lib/todos";
 import { formatDuration } from "@/lib/sleep";
 import { WeeklyPriorities } from "@/components/plans/WeeklyPriorities";
+import { MoodIcon } from "@/components/common";
 
 type Activity = {
   id: string;
@@ -161,7 +162,7 @@ export default function DashboardPage() {
           value={
             data.mind.mood ? (
               <span>
-                <span aria-hidden>{MOOD_EMOJI[data.mind.mood]}</span> {tJournal(`moods.${data.mind.mood}`)}
+                <MoodIcon mood={data.mind.mood} className="mr-2" /> {tJournal(`moods.${data.mind.mood}`)}
               </span>
             ) : (
               t("noLog")

@@ -27,7 +27,7 @@ export async function POST(req: Request) {
     const today = todayKey(user.timezone);
     if (date > today) return badRequest("Cannot summarize the future");
 
-    const limit = rateLimit(`ai-summary:${user.id}`, 10, 60 * 60 * 1000);
+    const limit = await rateLimit(`ai-summary:${user.id}`, 10, 60 * 60 * 1000);
     if (!limit.ok) {
       return NextResponse.json(
         { message: "Too many summaries, try again later", code: "rate_limited" },
