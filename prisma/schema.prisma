@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -66,6 +66,8 @@ model Finance {
   date          DateTime
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+
+  @@index([userId, type, date])
 }
 
 model Budget {
@@ -115,7 +117,7 @@ model Exercise {
   workoutId String
   workout   Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
   name      String
-  sets      String   // JSON string: [{reps, weight, duration}]
+  sets      Json   // [{reps, weight, duration}]
   order     Int
 }
 
@@ -188,8 +190,8 @@ model Journal {
   title     String?
   content   String
   mood      String   // "great"|"good"|"okay"|"bad"|"terrible"
-  gratitude String?  // JSON string array
-  tags      String?  // JSON string array
+  gratitude Json?
+  tags      Json?
   date      DateTime
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -224,6 +226,8 @@ model Todo {
   order       Int?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+
+  @@index([userId, isCompleted, dueDate])
 }
 
 model Habit {
@@ -249,6 +253,7 @@ model HabitLog {
   updatedAt DateTime @updatedAt
 
   @@unique([habitId, date])
+  @@index([habitId, completed, date])
 }
 
 model Goal {
@@ -304,7 +309,7 @@ model Book {
   status      String    // "want-to-read"|"reading"|"finished"
   rating      Int?
   review      String?
-  quotes      String?   // JSON string array
+  quotes      Json?
   startDate   DateTime?
   finishDate  DateTime?
   createdAt   DateTime  @default(now())
@@ -318,7 +323,7 @@ model Skill {
   name      String
   category  String?
   level     String         // "beginner"|"intermediate"|"advanced"
-  resources String?        // JSON string array
+  resources Json?
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
   sessions  SkillSession[]
@@ -340,7 +345,7 @@ model TilNote {
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   content   String
-  tags      String?  // JSON string array
+  tags      Json?
   source    String?
   date      DateTime
   createdAt DateTime @default(now())
