@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Local AI smoke-test scratch script, not part of the app.
+    "test-ai.ts",
   ]),
 ]);
 
