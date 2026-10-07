@@ -16,6 +16,7 @@ import {
 import { toast } from "@/components/ui/toast";
 import { ConfirmDialog, PageHeader, useDateFormat, useFailureToast } from "@/components/common";
 import { HabitDialog } from "@/components/habits/HabitDialog";
+import { HabitIcon } from "@/components/habits/HabitIcon";
 import { useToggleHabit } from "@/components/habits/use-toggle-habit";
 import type { HabitDTO, HabitsResponse } from "@/components/habits/habit-types";
 import { sendJson, useInvalidate, useJson } from "@/hooks/use-json";
@@ -77,8 +78,8 @@ export default function HabitsPage() {
               {data.habits.map((habit) => (
                 <li key={habit.id} className="flex flex-col gap-3 py-3 sm:flex-row sm:items-center">
                   <div className="flex min-w-0 flex-1 items-center gap-3">
-                    <span className="text-2xl" aria-hidden>
-                      {habit.icon ?? "•"}
+                    <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary" aria-hidden>
+                      <HabitIcon icon={habit.icon} className="size-5" />
                     </span>
                     <div className="min-w-0">
                       <p className="truncate font-medium">{habit.name}</p>

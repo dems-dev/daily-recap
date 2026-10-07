@@ -793,5 +793,181 @@
     "added": "Ditambahkan",
     "failed": "Coach gagal membuat ulasan. Coba lagi nanti.",
     "privacy": "Ringkasan minggu ini dikirim ke penyedia AI lewat Vercel AI Gateway."
+  },
+  "Nutrition": {
+    "title": "Nutrisi & Air",
+    "waterTitle": "Pelacak Air",
+    "waterDescription": "Lacak asupan air harianmu.",
+    "glassesToday": "gelas hari ini"
+  },
+  "Productivity": {
+    "pomodoroTitle": "Pomodoro",
+    "timer": "Timer Fokus",
+    "start": "Mulai",
+    "stop": "Berhenti",
+    "stats": "Statistik",
+    "statsDesc": "Waktu fokusmu",
+    "today": "Hari ini",
+    "thisWeek": "Minggu ini",
+    "byCategory": "Per Kategori",
+    "goalsTitle": "Tujuan",
+    "addGoal": "Tambah Tujuan",
+    "noGoals": "Belum ada tujuan.",
+    "editGoal": "Edit Tujuan",
+    "goalTitle": "Judul Tujuan",
+    "description": "Deskripsi",
+    "category": "Kategori",
+    "type": "Tipe",
+    "targetDate": "Tanggal Target",
+    "deleteGoalTitle": "Hapus tujuan ini?",
+    "deleteGoalDesc": "Ini akan menghapus tujuan beserta semua milestone-nya.",
+    "addMilestone": "Tambah Milestone",
+    "editMilestone": "Edit Milestone",
+    "milestoneTitle": "Judul Milestone"
+  },
+  "Learning": {
+    "booksTitle": "Buku",
+    "addBook": "Tambah Buku",
+    "noBooks": "Belum ada buku.",
+    "reading": "Sedang dibaca",
+    "wantToRead": "Ingin dibaca",
+    "finished": "Selesai",
+    "editBook": "Edit Buku",
+    "bookTitle": "Judul Buku",
+    "author": "Penulis",
+    "status": "Status",
+    "totalPages": "Total Halaman",
+    "currentPage": "Halaman Saat Ini",
+    "rating": "Rating",
+    "review": "Ulasan",
+    "deleteBookTitle": "Hapus buku ini?",
+    "deleteBookDesc": "Tindakan ini tidak bisa dibatalkan.",
+    "tilTitle": "Hari Ini Saya Belajar",
+    "addTil": "Tambah Catatan",
+    "noTil": "Belum ada catatan TIL.",
+    "editTil": "Edit Catatan",
+    "content": "Konten",
+    "tags": "Tag",
+    "sourceUrl": "URL Sumber (opsional)",
+    "date": "Tanggal",
+    "deleteTilTitle": "Hapus catatan ini?",
+    "deleteTilDesc": "Ini akan menghapus catatan secara permanen."
+  },
+  "Health": {
+    "bodyTitle": "Metrik Tubuh",
+    "logBody": "Catat Tubuh",
+    "latestWeight": "Berat terkini",
+    "latestBodyFat": "Lemak tubuh terkini",
+    "weightTrend": "Tren Berat",
+    "weight": "Berat",
+    "bodyFat": "Lemak tubuh",
+    "height": "Tinggi",
+    "last30Days": "30 hari terakhir",
+    "noData": "Belum ada data",
+    "notEnoughData": "Data belum cukup untuk grafik",
+    "latestHeight": "Tinggi",
+    "bmi": "BMI",
+    "bmiScale": "15 sampai 35",
+    "idealWeight": "Berat ideal",
+    "idealRange": "{min}–{max} kg",
+    "toHealthyLose": "{kg} kg di atas rentang sehat",
+    "toHealthyGain": "{kg} kg di bawah rentang sehat",
+    "inHealthyRange": "Dalam rentang sehat — mantap!",
+    "cat": {
+      "underweight": "Berat kurang",
+      "normal": "Ideal",
+      "overweight": "Berlebih",
+      "obese": "Obesitas"
+    },
+    "insightsTitle": "Insight kesehatan",
+    "yourDetails": "Detail kamu",
+    "yourDetailsHint": "Untuk estimasi kalori. Disimpan di perangkat ini saja.",
+    "sex": "Jenis kelamin",
+    "sexMale": "Pria",
+    "sexFemale": "Wanita",
+    "birthYear": "Tahun lahir",
+    "activity": "Tingkat aktivitas",
+    "act": {
+      "sedentary": "Jarang gerak",
+      "light": "Ringan",
+      "moderate": "Sedang",
+      "active": "Aktif",
+      "veryActive": "Sangat aktif"
+    },
+    "targetWeight": "Target berat (kg)",
+    "optional": "opsional",
+    "bmr": "Kalori istirahat (BMR)",
+    "tdee": "Pemeliharaan",
+    "targetCalories": "Target harian",
+    "kcal": "kkal",
+    "macros": "Makro harian",
+    "protein": "Protein",
+    "carbs": "Karbo",
+    "fat": "Lemak",
+    "grams": "{g} g",
+    "completeProfile": "Isi tinggi, jenis kelamin, tahun lahir, dan aktivitas untuk melihat target kalori & makro.",
+    "disclaimer": "Estimasi kesehatan umum, bukan nasihat medis.",
+    "recTitle": "Rekomendasi",
+    "recExercise": "Olahraga",
+    "recDiet": "Nutrisi",
+    "recLifestyle": "Gaya hidup",
+    "recommendations": {
+      "lose": {
+        "exercise": [
+          "Kardio sedang 150–300 menit/minggu (jalan cepat, sepeda, renang).",
+          "2–3 sesi latihan beban seluruh tubuh untuk jaga otot.",
+          "Tingkatkan langkah harian ke 8.000–10.000.",
+          "Mulai ringan, tingkatkan bertahap."
+        ],
+        "diet": [
+          "Defisit kalori wajar (~500 kkal/hari).",
+          "Protein di tiap makan agar kenyang & otot terjaga.",
+          "Separuh piring sayur; kurangi minuman manis.",
+          "Minum air sebelum makan dan jaga porsi."
+        ],
+        "lifestyle": [
+          "Tidur 7–9 jam — kurang tidur bikin lapar.",
+          "Timbang berat mingguan di jam yang sama.",
+          "Rencanakan menu agar tidak makan impulsif.",
+          "Kelola stres; stres memicu ngidam."
+        ]
+      },
+      "maintain": {
+        "exercise": [
+          "Pertahankan kardio 150 menit/minggu + 2 sesi beban.",
+          "Kombinasikan kardio, beban, dan mobilitas.",
+          "Tetap aktif harian — naik tangga, jalan kaki."
+        ],
+        "diet": [
+          "Makan sekitar kalori pemeliharaan.",
+          "Protein tetap tinggi, menu seimbang.",
+          "Nikmati camilan secukupnya.",
+          "Cukupi cairan."
+        ],
+        "lifestyle": [
+          "Jaga tidur 7–9 jam.",
+          "Catat metrik tubuh bulanan untuk deteksi dini.",
+          "Pertahankan rutinitas harian konsisten."
+        ]
+      },
+      "gain": {
+        "exercise": [
+          "Latihan beban progresif 3–4×/minggu.",
+          "Kardio ringan saja agar surplus terjaga.",
+          "Utamakan gerakan compound: squat, deadlift, press."
+        ],
+        "diet": [
+          "Surplus kalori wajar (~300 kkal/hari).",
+          "Tambah makanan padat kalori: kacang, susu, minyak zaitun, nasi.",
+          "Protein 1,6–2,0 g/kg; usahakan 4–5 kali makan.",
+          "Shake membantu jika sulit makan banyak."
+        ],
+        "lifestyle": [
+          "Tidur 7–9 jam untuk pemulihan.",
+          "Sabar — menaikkan berat butuh waktu.",
+          "Pantau mingguan; target ~0,25–0,5 kg/minggu."
+        ]
+      }
+    }
   }
 }

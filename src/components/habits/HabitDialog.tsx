@@ -14,8 +14,9 @@ import { sendJson, useInvalidate } from "@/hooks/use-json";
 import { habitSchema, type HabitInput } from "@/lib/habits";
 import { cn } from "@/lib/utils";
 import type { HabitDTO } from "./habit-types";
+import { HABIT_ICON_KEYS, HabitIcon } from "./HabitIcon";
 
-const ICONS = ["💧", "🏃", "📚", "🧘", "💪", "🥗", "😴", "✍️", "🙏", "🚭", "💊", "🎸"];
+const ICONS = HABIT_ICON_KEYS;
 
 export function HabitDialog({
   open,
@@ -79,11 +80,11 @@ export function HabitDialog({
                   aria-pressed={icon === option}
                   onClick={() => setValue("icon", option)}
                   className={cn(
-                    "flex size-9 items-center justify-center rounded-lg border text-lg transition-colors",
-                    icon === option ? "border-primary bg-primary/10" : "border-transparent hover:bg-muted"
+                    "flex size-9 items-center justify-center rounded-lg border transition-colors",
+                    icon === option ? "border-primary bg-primary/10 text-primary" : "border-transparent text-muted-foreground hover:bg-muted"
                   )}
                 >
-                  {option}
+                  <HabitIcon icon={option} className="size-5" />
                 </button>
               ))}
             </div>

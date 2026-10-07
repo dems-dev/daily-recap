@@ -807,7 +807,115 @@
     "latestBodyFat": "Latest Body Fat",
     "weightTrend": "Weight Trend",
     "weight": "Weight",
-    "bodyFat": "Body Fat"
+    "bodyFat": "Body Fat",
+    "height": "Height",
+    "last30Days": "Last 30 days",
+    "noData": "No data yet",
+    "notEnoughData": "Not enough data for the chart",
+    "latestHeight": "Height",
+    "bmi": "BMI",
+    "bmiScale": "15 to 35",
+    "idealWeight": "Ideal weight",
+    "idealRange": "{min}–{max} kg",
+    "toHealthyLose": "{kg} kg above a healthy range",
+    "toHealthyGain": "{kg} kg below a healthy range",
+    "inHealthyRange": "In a healthy range — nice!",
+    "cat": {
+      "underweight": "Underweight",
+      "normal": "Normal",
+      "overweight": "Overweight",
+      "obese": "Obese"
+    },
+    "insightsTitle": "Health insights",
+    "yourDetails": "Your details",
+    "yourDetailsHint": "Used to estimate calories. Saved on this device only.",
+    "sex": "Sex",
+    "sexMale": "Male",
+    "sexFemale": "Female",
+    "birthYear": "Birth year",
+    "activity": "Activity level",
+    "act": {
+      "sedentary": "Sedentary",
+      "light": "Light",
+      "moderate": "Moderate",
+      "active": "Active",
+      "veryActive": "Very active"
+    },
+    "targetWeight": "Target weight (kg)",
+    "optional": "optional",
+    "bmr": "Resting burn (BMR)",
+    "tdee": "Maintenance",
+    "targetCalories": "Daily target",
+    "kcal": "kcal",
+    "macros": "Daily macros",
+    "protein": "Protein",
+    "carbs": "Carbs",
+    "fat": "Fat",
+    "grams": "{g} g",
+    "completeProfile": "Add your height, sex, birth year and activity to see calorie & macro targets.",
+    "disclaimer": "General wellness estimates, not medical advice.",
+    "recTitle": "Recommendations",
+    "recExercise": "Exercise",
+    "recDiet": "Nutrition",
+    "recLifestyle": "Lifestyle",
+    "recommendations": {
+      "lose": {
+        "exercise": [
+          "150–300 min of moderate cardio weekly (brisk walk, cycling, swim).",
+          "2–3 full-body strength sessions to keep muscle while losing fat.",
+          "Build daily steps toward 8,000–10,000.",
+          "Start light and progress gradually."
+        ],
+        "diet": [
+          "Eat in a modest ~500 kcal/day deficit.",
+          "Protein at every meal keeps you full and protects muscle.",
+          "Half your plate vegetables; cut sugary drinks.",
+          "Drink water before meals and mind portions."
+        ],
+        "lifestyle": [
+          "Sleep 7–9 h — poor sleep increases hunger.",
+          "Weigh in weekly at the same time.",
+          "Plan meals ahead to avoid impulse eating.",
+          "Manage stress; it fuels cravings."
+        ]
+      },
+      "maintain": {
+        "exercise": [
+          "Keep 150 min/week cardio plus 2 strength sessions.",
+          "Mix cardio, strength and mobility for balance.",
+          "Stay active daily — stairs, walks, standing breaks."
+        ],
+        "diet": [
+          "Eat around your maintenance calories.",
+          "Keep protein high and meals balanced.",
+          "Enjoy treats in moderation.",
+          "Stay well hydrated."
+        ],
+        "lifestyle": [
+          "Protect 7–9 h of sleep.",
+          "Log body metrics monthly to catch drift early.",
+          "Keep a consistent daily routine."
+        ]
+      },
+      "gain": {
+        "exercise": [
+          "Progressive strength training 3–4×/week.",
+          "Keep cardio light to preserve a surplus.",
+          "Prioritise compound lifts: squat, deadlift, press."
+        ],
+        "diet": [
+          "Eat in a ~300 kcal/day surplus.",
+          "Add calorie-dense foods: nuts, dairy, olive oil, rice.",
+          "Protein 1.6–2.0 g/kg; aim for 4–5 meals/day.",
+          "A shake helps if eating enough is hard."
+        ],
+        "lifestyle": [
+          "Sleep 7–9 h for recovery.",
+          "Be patient — gaining well takes time.",
+          "Track weekly; target ~0.25–0.5 kg/week."
+        ]
+      }
+    }
   },
   "Productivity": {
     "pomodoroTitle": "Pomodoro",

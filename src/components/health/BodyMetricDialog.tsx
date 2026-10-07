@@ -75,16 +75,28 @@ export function BodyMetricDialog({
               <FieldError message={formState.errors.weight?.message} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="body-fat">{t("bodyFat")} (%)</Label>
+              <Label htmlFor="body-height">{t("height")} (cm)</Label>
               <Input
-                id="body-fat"
+                id="body-height"
                 type="number"
                 step="0.1"
-                aria-invalid={!!formState.errors.bodyFat}
-                {...register("bodyFat", { valueAsNumber: true })}
+                aria-invalid={!!formState.errors.height}
+                {...register("height", { valueAsNumber: true })}
               />
-              <FieldError message={formState.errors.bodyFat?.message} />
+              <FieldError message={formState.errors.height?.message} />
             </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="body-fat">{t("bodyFat")} (%)</Label>
+            <Input
+              id="body-fat"
+              type="number"
+              step="0.1"
+              aria-invalid={!!formState.errors.bodyFat}
+              {...register("bodyFat", { valueAsNumber: true })}
+            />
+            <FieldError message={formState.errors.bodyFat?.message} />
           </div>
 
           <div className="space-y-2">
