@@ -304,7 +304,7 @@
       "all": "All"
     },
     "empty": {
-      "today": "Nothing left for today. 🎉",
+      "today": "Nothing left for today.",
       "upcoming": "No scheduled tasks.",
       "completed": "No completed tasks yet.",
       "all": "No tasks yet."
@@ -485,7 +485,7 @@
       "spent": "Spent"
     },
     "highlights": {
-      "expenseDown": "Your daily spending is down {pct}% from the previous period. 👏",
+      "expenseDown": "Your daily spending is down {pct}% from the previous period.",
       "expenseUp": "Your daily spending is up {pct}% from the previous period.",
       "topCategory": "Biggest spending on {category}: {amount} ({pct}% of total).",
       "habitsUp": "Habits kept went up {points} percentage points. You're getting more consistent!",
@@ -495,7 +495,7 @@
       "moodAvg": "Average mood {avg} across {days} logged days (of {total}).",
       "noMood": "No mood logged yet — fill in the daily recap so patterns can show.",
       "prioritiesDone": "{done} of {total} priorities done this week.",
-      "prioritiesAllDone": "All {total} priorities done this week! 🎯",
+      "prioritiesAllDone": "All {total} priorities done this week!",
       "sleepAvg": "Average sleep {duration} a night ({nights} nights logged).",
       "sleepUp": "You slept {duration} on average, {diff} more than the previous period.",
       "sleepDown": "You slept {duration} on average, {diff} less than the previous period."
@@ -698,7 +698,7 @@
     "earlyTitle": "Not yet",
     "earlyDescription": "{name} still has {count, plural, one {# day} other {# days}} to wait. Buy it now anyway?",
     "boughtToast": "Recorded as a {amount} expense",
-    "skippedToast": "Nice! {amount} stays in your pocket 💪",
+    "skippedToast": "Nice! {amount} stays in your pocket",
     "addedToast": "Waiting {days} days. We'll check back.",
     "boughtOn": "bought {date}",
     "skippedOn": "skipped {date}",

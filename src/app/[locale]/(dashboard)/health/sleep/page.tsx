@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Trash2 } from "lucide-react";
+import { Trash2, Star } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -198,8 +198,8 @@ export default function SleepPage() {
                         </span>
                       </button>
                       <span className="tabular-nums">{formatDuration(log.duration, locale)}</span>
-                      <span className="w-10 text-right text-muted-foreground tabular-nums" aria-label={t("qualityValue", { value: log.quality })}>
-                        ★{log.quality}
+                      <span className="flex w-10 items-center justify-end gap-0.5 text-muted-foreground tabular-nums" aria-label={t("qualityValue", { value: log.quality })}>
+                        <Star className="size-3.5 fill-amber-400 text-amber-400" /> {log.quality}
                       </span>
                       <Button variant="ghost" size="icon-sm" onClick={() => setDeleting(log.date)} aria-label={t("delete")}>
                         <Trash2 />

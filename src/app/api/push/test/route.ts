@@ -17,7 +17,7 @@ export async function POST() {
     const isId = user.locale !== "en";
     const result = await sendPushToUser(user.id, {
       title: "Daily Recap",
-      body: isId ? "Notifikasi berhasil diaktifkan 🎉" : "Notifications are working 🎉",
+      body: isId ? "Notifikasi berhasil diaktifkan" : "Notifications are working",
       url: "/settings",
       tag: "test",
     });

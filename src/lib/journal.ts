@@ -5,14 +5,6 @@ import { dateToKey } from "@/lib/date";
 export const MOODS = ["great", "good", "okay", "bad", "terrible"] as const;
 export type Mood = (typeof MOODS)[number];
 
-export const MOOD_EMOJI: Record<Mood, string> = {
-  great: "🤩",
-  good: "😊",
-  okay: "😐",
-  bad: "😔",
-  terrible: "😫",
-};
-
 /** 5 = great … 1 = terrible, for averages and insights. */
 export const MOOD_SCORE: Record<Mood, number> = { great: 5, good: 4, okay: 3, bad: 2, terrible: 1 };
 

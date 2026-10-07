@@ -304,7 +304,7 @@
       "all": "Semua"
     },
     "empty": {
-      "today": "Tidak ada tugas untuk hari ini. 🎉",
+      "today": "Tidak ada tugas untuk hari ini.",
       "upcoming": "Belum ada tugas terjadwal.",
       "completed": "Belum ada tugas selesai.",
       "all": "Belum ada tugas."
@@ -485,7 +485,7 @@
       "spent": "Keluar"
     },
     "highlights": {
-      "expenseDown": "Pengeluaran harianmu turun {pct}% dibanding periode sebelumnya. 👏",
+      "expenseDown": "Pengeluaran harianmu turun {pct}% dibanding periode sebelumnya.",
       "expenseUp": "Pengeluaran harianmu naik {pct}% dibanding periode sebelumnya.",
       "topCategory": "Pengeluaran terbesar untuk {category}: {amount} ({pct}% dari total).",
       "habitsUp": "Kebiasaan yang dijalankan naik {points} poin persentase. Konsistensimu membaik!",
@@ -495,7 +495,7 @@
       "moodAvg": "Rata-rata mood {avg} dari {days} hari tercatat (dari {total} hari).",
       "noMood": "Belum ada mood yang dicatat — isi recap harian supaya polanya terlihat.",
       "prioritiesDone": "{done} dari {total} prioritas minggu ini tercapai.",
-      "prioritiesAllDone": "Semua {total} prioritas minggu ini tercapai! 🎯",
+      "prioritiesAllDone": "Semua {total} prioritas minggu ini tercapai!",
       "sleepAvg": "Rata-rata tidur {duration} per malam ({nights} malam tercatat).",
       "sleepUp": "Tidurmu rata-rata {duration}, naik {diff} dari periode lalu.",
       "sleepDown": "Tidurmu rata-rata {duration}, turun {diff} dari periode lalu."
@@ -698,7 +698,7 @@
     "earlyTitle": "Belum waktunya",
     "earlyDescription": "{name} masih ditunda {count} hari lagi. Yakin mau beli sekarang?",
     "boughtToast": "Tercatat sebagai pengeluaran {amount}",
-    "skippedToast": "Mantap! {amount} tetap aman 💪",
+    "skippedToast": "Mantap! {amount} tetap aman",
     "addedToast": "Ditunda {days} hari. Kita lihat lagi nanti.",
     "boughtOn": "dibeli {date}",
     "skippedOn": "dibatalkan {date}",
