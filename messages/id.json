@@ -280,7 +280,9 @@
       "invalidDate": "Tanggal tidak valid",
       "positive": "Harus lebih dari 0",
       "tooLarge": "Angka terlalu besar"
-    }
+    },
+    "date": "Tanggal",
+    "notes": "Catatan"
   },
   "Todos": {
     "pageTitle": "To-Do",

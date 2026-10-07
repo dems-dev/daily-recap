@@ -280,7 +280,9 @@
       "invalidDate": "Invalid date",
       "positive": "Must be greater than 0",
       "tooLarge": "Number is too large"
-    }
+    },
+    "date": "Date",
+    "notes": "Notes"
   },
   "Todos": {
     "pageTitle": "To-Do",
