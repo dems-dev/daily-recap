@@ -800,7 +800,32 @@
     "title": "Nutrition & Water",
     "waterTitle": "Water Tracker",
     "waterDescription": "Track your daily water intake.",
-    "glassesToday": "glasses today"
+    "glassesToday": "glasses today",
+    "mealsTitle": "Meals today",
+    "addMeal": "Add meal",
+    "mealName": "What did you eat?",
+    "mealType": "Meal",
+    "calories": "Calories",
+    "protein": "Protein",
+    "carbs": "Carbs",
+    "fat": "Fat",
+    "kcal": "kcal",
+    "optional": "optional",
+    "noMeals": "No meals logged today.",
+    "totalToday": "Total today",
+    "ofTarget": "of {target} kcal target",
+    "remaining": "{n} kcal left",
+    "over": "{n} kcal over",
+    "setTargetHint": "Add your details on Body Metrics to see a calorie target.",
+    "deleteMealTitle": "Delete this meal?",
+    "deleteMealDesc": "This action cannot be undone.",
+    "waterGoal": "{percent}% of daily goal",
+    "types": {
+      "breakfast": "Breakfast",
+      "lunch": "Lunch",
+      "dinner": "Dinner",
+      "snack": "Snack"
+    }
   },
   "Health": {
     "bodyTitle": "Body Metrics",

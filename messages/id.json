@@ -800,7 +800,32 @@
     "title": "Nutrisi & Air",
     "waterTitle": "Pelacak Air",
     "waterDescription": "Lacak asupan air harianmu.",
-    "glassesToday": "gelas hari ini"
+    "glassesToday": "gelas hari ini",
+    "mealsTitle": "Makan hari ini",
+    "addMeal": "Tambah makanan",
+    "mealName": "Makan apa?",
+    "mealType": "Waktu makan",
+    "calories": "Kalori",
+    "protein": "Protein",
+    "carbs": "Karbo",
+    "fat": "Lemak",
+    "kcal": "kkal",
+    "optional": "opsional",
+    "noMeals": "Belum ada makanan hari ini.",
+    "totalToday": "Total hari ini",
+    "ofTarget": "dari target {target} kkal",
+    "remaining": "sisa {n} kkal",
+    "over": "lebih {n} kkal",
+    "setTargetHint": "Isi detail di Metrik Tubuh untuk melihat target kalori.",
+    "deleteMealTitle": "Hapus makanan ini?",
+    "deleteMealDesc": "Tindakan ini tidak bisa dibatalkan.",
+    "waterGoal": "{percent}% dari target harian",
+    "types": {
+      "breakfast": "Sarapan",
+      "lunch": "Makan siang",
+      "dinner": "Makan malam",
+      "snack": "Camilan"
+    }
   },
   "Productivity": {
     "pomodoroTitle": "Pomodoro",
