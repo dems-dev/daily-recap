@@ -971,5 +971,61 @@
         ]
       }
     }
+  },
+  "Workout": {
+    "title": "Olahraga",
+    "logWorkout": "Catat olahraga",
+    "updateWorkout": "Perbarui olahraga",
+    "name": "Nama",
+    "namePlaceholder": "mis. Lari Pagi, Push Day",
+    "type": "Tipe",
+    "duration": "Durasi (menit)",
+    "notes": "Catatan",
+    "notesPlaceholder": "Bagaimana rasanya?",
+    "save": "Simpan olahraga",
+    "recent": "Olahraga terakhir",
+    "noWorkouts": "Belum ada olahraga tercatat.",
+    "thisWeek": "Minggu ini",
+    "sessions": "{count} sesi",
+    "minLabel": "{min} mnt",
+    "totalTime": "Total waktu",
+    "deleteTitle": "Hapus olahraga ini?",
+    "deleteDesc": "Tindakan ini tidak bisa dibatalkan.",
+    "types": {
+      "strength": "Kekuatan",
+      "cardio": "Kardio",
+      "flexibility": "Fleksibilitas",
+      "sports": "Olahraga",
+      "other": "Lainnya"
+    }
+  },
+  "Meditation": {
+    "title": "Meditasi",
+    "timer": "Timer",
+    "start": "Mulai",
+    "pause": "Jeda",
+    "resume": "Lanjut",
+    "reset": "Reset",
+    "type": "Tipe",
+    "minUnit": "{min} mnt",
+    "logWithoutTimer": "Catat tanpa timer",
+    "notes": "Catatan",
+    "notesPlaceholder": "Bagaimana rasanya?",
+    "recent": "Sesi terakhir",
+    "noSessions": "Belum ada sesi.",
+    "thisWeek": "Minggu ini",
+    "sessions": "{count} sesi",
+    "totalMinutes": "Total menit",
+    "completeTitle": "Sesi selesai",
+    "completeBody": "Kamu bermeditasi selama {min} mnt.",
+    "deleteTitle": "Hapus sesi ini?",
+    "deleteDesc": "Tindakan ini tidak bisa dibatalkan.",
+    "types": {
+      "guided": "Terpandu",
+      "breathing": "Pernapasan",
+      "silent": "Hening",
+      "yoga": "Yoga",
+      "body-scan": "Pindai tubuh"
+    }
   }
 }

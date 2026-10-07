@@ -971,5 +971,61 @@
     "date": "Date",
     "deleteTilTitle": "Delete this note?",
     "deleteTilDesc": "This will remove the note permanently."
+  },
+  "Workout": {
+    "title": "Workout",
+    "logWorkout": "Log a workout",
+    "updateWorkout": "Update workout",
+    "name": "Name",
+    "namePlaceholder": "e.g. Morning Run, Push Day",
+    "type": "Type",
+    "duration": "Duration (minutes)",
+    "notes": "Notes",
+    "notesPlaceholder": "How did it feel?",
+    "save": "Save workout",
+    "recent": "Recent workouts",
+    "noWorkouts": "No workouts logged yet.",
+    "thisWeek": "This week",
+    "sessions": "{count} sessions",
+    "minLabel": "{min} min",
+    "totalTime": "Total time",
+    "deleteTitle": "Delete this workout?",
+    "deleteDesc": "This action cannot be undone.",
+    "types": {
+      "strength": "Strength",
+      "cardio": "Cardio",
+      "flexibility": "Flexibility",
+      "sports": "Sports",
+      "other": "Other"
+    }
+  },
+  "Meditation": {
+    "title": "Meditation",
+    "timer": "Timer",
+    "start": "Start",
+    "pause": "Pause",
+    "resume": "Resume",
+    "reset": "Reset",
+    "type": "Type",
+    "minUnit": "{min} min",
+    "logWithoutTimer": "Log without timer",
+    "notes": "Notes",
+    "notesPlaceholder": "How did it feel?",
+    "recent": "Recent sessions",
+    "noSessions": "No sessions yet.",
+    "thisWeek": "This week",
+    "sessions": "{count} sessions",
+    "totalMinutes": "Total minutes",
+    "completeTitle": "Session complete",
+    "completeBody": "You meditated for {min} min.",
+    "deleteTitle": "Delete this session?",
+    "deleteDesc": "This action cannot be undone.",
+    "types": {
+      "guided": "Guided",
+      "breathing": "Breathing",
+      "silent": "Silent",
+      "yoga": "Yoga",
+      "body-scan": "Body scan"
+    }
   }
 }
