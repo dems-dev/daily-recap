@@ -860,7 +860,24 @@
     "progress": "Progres",
     "daysLeft": "{days} hari lagi",
     "dueToday": "Jatuh tempo hari ini",
-    "overdue": "Terlambat {days} hari"
+    "overdue": "Terlambat {days} hari",
+    "focus": "Fokus",
+    "shortBreak": "Istirahat pendek",
+    "longBreak": "Istirahat panjang",
+    "minUnit": "{min} mnt",
+    "sessionsCount": "{count} sesi",
+    "categoryLabel": "Kategori",
+    "focusOn": "Sedang mengerjakan apa?",
+    "focusOnPlaceholder": "opsional",
+    "weekSuffix": "minggu ini",
+    "completeTitle": "Sesi fokus selesai",
+    "completeBody": "Mantap — {min} mnt tercatat.",
+    "cat": {
+      "work": "Kerja",
+      "study": "Belajar",
+      "side-project": "Proyek sampingan",
+      "creative": "Kreatif"
+    }
   },
   "Learning": {
     "booksTitle": "Buku",

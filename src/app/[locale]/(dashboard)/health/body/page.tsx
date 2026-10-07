@@ -30,6 +30,7 @@ import {
   Line,
   LineChart,
   ReferenceArea,
+  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -421,6 +422,14 @@ export default function BodyMetricsPage() {
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" />
                   {range ? (
                     <ReferenceArea y1={range.min} y2={range.max} fill="var(--viz-good)" fillOpacity={0.1} />
+                  ) : null}
+                  {profile.target ? (
+                    <ReferenceLine
+                      y={profile.target}
+                      stroke="var(--primary)"
+                      strokeDasharray="5 4"
+                      label={{ value: `${t("targetWeight").split(" ")[0]} ${profile.target}`, position: "insideTopRight", fill: "var(--primary)", fontSize: 11 }}
+                    />
                   ) : null}
                   <XAxis dataKey="label" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "var(--muted-foreground)" }} dy={10} />
                   <YAxis domain={["dataMin - 1", "dataMax + 1"]} axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "var(--muted-foreground)" }} />

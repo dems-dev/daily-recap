@@ -977,7 +977,24 @@
     "progress": "Progress",
     "daysLeft": "{days} days left",
     "dueToday": "Due today",
-    "overdue": "{days} days overdue"
+    "overdue": "{days} days overdue",
+    "focus": "Focus",
+    "shortBreak": "Short break",
+    "longBreak": "Long break",
+    "minUnit": "{min} min",
+    "sessionsCount": "{count} sessions",
+    "categoryLabel": "Category",
+    "focusOn": "What are you working on?",
+    "focusOnPlaceholder": "optional",
+    "weekSuffix": "this week",
+    "completeTitle": "Focus session done",
+    "completeBody": "Nice — {min} min logged.",
+    "cat": {
+      "work": "Work",
+      "study": "Study",
+      "side-project": "Side project",
+      "creative": "Creative"
+    }
   },
   "Learning": {
     "booksTitle": "Books",
