@@ -970,7 +970,30 @@
     "sourceUrl": "Source URL (optional)",
     "date": "Date",
     "deleteTilTitle": "Delete this note?",
-    "deleteTilDesc": "This will remove the note permanently."
+    "deleteTilDesc": "This will remove the note permanently.",
+    "skillsTitle": "Skills",
+    "addSkill": "Add skill",
+    "updateSkill": "Update skill",
+    "skillName": "Skill name",
+    "skillNamePlaceholder": "e.g. Spanish, React, Guitar",
+    "category": "Category",
+    "categoryPlaceholder": "optional",
+    "level": "Level",
+    "mySkills": "My skills",
+    "noSkills": "No skills tracked yet.",
+    "logSession": "Log session",
+    "sessionDuration": "Duration (minutes)",
+    "sessionNotes": "Notes",
+    "totalTime": "total",
+    "hm": "{h}h {m}m",
+    "deleteSkillTitle": "Delete this skill?",
+    "deleteSkillDesc": "This removes the skill and all its sessions.",
+    "levels": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
+    },
+    "unknownAuthor": "Unknown author"
   },
   "Workout": {
     "title": "Workout",

@@ -853,7 +853,30 @@
     "sourceUrl": "URL Sumber (opsional)",
     "date": "Tanggal",
     "deleteTilTitle": "Hapus catatan ini?",
-    "deleteTilDesc": "Ini akan menghapus catatan secara permanen."
+    "deleteTilDesc": "Ini akan menghapus catatan secara permanen.",
+    "skillsTitle": "Keterampilan",
+    "addSkill": "Tambah keterampilan",
+    "updateSkill": "Perbarui keterampilan",
+    "skillName": "Nama keterampilan",
+    "skillNamePlaceholder": "mis. Bahasa Spanyol, React, Gitar",
+    "category": "Kategori",
+    "categoryPlaceholder": "opsional",
+    "level": "Tingkat",
+    "mySkills": "Keterampilanku",
+    "noSkills": "Belum ada keterampilan.",
+    "logSession": "Catat sesi",
+    "sessionDuration": "Durasi (menit)",
+    "sessionNotes": "Catatan",
+    "totalTime": "total",
+    "hm": "{h}j {m}m",
+    "deleteSkillTitle": "Hapus keterampilan ini?",
+    "deleteSkillDesc": "Ini menghapus keterampilan beserta semua sesinya.",
+    "levels": {
+      "beginner": "Pemula",
+      "intermediate": "Menengah",
+      "advanced": "Mahir"
+    },
+    "unknownAuthor": "Penulis tak diketahui"
   },
   "Health": {
     "bodyTitle": "Metrik Tubuh",

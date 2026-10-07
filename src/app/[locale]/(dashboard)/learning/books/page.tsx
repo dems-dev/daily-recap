@@ -14,6 +14,7 @@ import { Progress } from "@/components/ui/progress";
 
 export default function BooksPage() {
   const t = useTranslations("Learning");
+  const tc = useTranslations("Common");
   const { data, loading } = useJson<{ books: BookDTO[] }>("/api/books");
   const invalidate = useInvalidate();
   const onFail = useFailureToast();
@@ -42,7 +43,7 @@ export default function BooksPage() {
       <Card key={book.id} className="flex flex-col">
         <CardHeader className="pb-2">
           <CardTitle className="text-lg leading-tight">{book.title}</CardTitle>
-          <div className="text-sm text-muted-foreground">{book.author ?? "Unknown Author"}</div>
+          <div className="text-sm text-muted-foreground">{book.author ?? t("unknownAuthor")}</div>
         </CardHeader>
         <CardContent className="flex-1 pb-4">
           {book.status === "reading" && progress !== null && (
@@ -79,7 +80,7 @@ export default function BooksPage() {
               setDialogOpen(true);
             }}
           >
-            Edit
+            {tc("edit")}
           </Button>
           <Button
             variant="ghost"
@@ -87,7 +88,7 @@ export default function BooksPage() {
             className="text-destructive hover:text-destructive"
             onClick={() => setDeletingId(book.id)}
           >
-            Delete
+            {tc("delete")}
           </Button>
         </CardFooter>
       </Card>
@@ -120,7 +121,7 @@ export default function BooksPage() {
           {reading.length > 0 && (
             <section className="space-y-4">
               <div className="flex items-center gap-2">
-                <Badge variant="default">Reading</Badge>
+                <Badge variant="default">{reading.length}</Badge>
                 <h2 className="text-xl font-semibold">{t("reading")}</h2>
               </div>
               <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">{reading.map(renderBook)}</div>
@@ -130,7 +131,7 @@ export default function BooksPage() {
           {wantToRead.length > 0 && (
             <section className="space-y-4">
               <div className="flex items-center gap-2">
-                <Badge variant="secondary">Up Next</Badge>
+                <Badge variant="secondary">{wantToRead.length}</Badge>
                 <h2 className="text-xl font-semibold">{t("wantToRead")}</h2>
               </div>
               <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">{wantToRead.map(renderBook)}</div>
@@ -140,7 +141,7 @@ export default function BooksPage() {
           {finished.length > 0 && (
             <section className="space-y-4">
               <div className="flex items-center gap-2">
-                <Badge variant="outline">Finished</Badge>
+                <Badge variant="outline">{finished.length}</Badge>
                 <h2 className="text-xl font-semibold">{t("finished")}</h2>
               </div>
               <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">{finished.map(renderBook)}</div>
