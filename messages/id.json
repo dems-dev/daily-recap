@@ -657,7 +657,11 @@
     "errors": {
       "implausibleDuration": "Durasi tidak masuk akal (30 menit – 16 jam). Periksa jam tidur dan bangun.",
       "invalidTime": "Jam tidak valid"
-    }
+    },
+    "sleepDebt": "Utang tidur",
+    "behind": "di bawah target",
+    "ahead": "di atas target",
+    "debtHint": "vs {hours} jam / malam"
   },
   "Plans": {
     "thisWeek": "Prioritas minggu ini",
@@ -852,7 +856,11 @@
     "deleteGoalDesc": "Ini akan menghapus tujuan beserta semua milestone-nya.",
     "addMilestone": "Tambah Milestone",
     "editMilestone": "Edit Milestone",
-    "milestoneTitle": "Judul Milestone"
+    "milestoneTitle": "Judul Milestone",
+    "progress": "Progres",
+    "daysLeft": "{days} hari lagi",
+    "dueToday": "Jatuh tempo hari ini",
+    "overdue": "Terlambat {days} hari"
   },
   "Learning": {
     "booksTitle": "Buku",

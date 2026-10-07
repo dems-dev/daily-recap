@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Target, Plus, ChevronDown, ChevronRight, CheckCircle2, Circle } from "lucide-react";
+import { Target, Plus, ChevronDown, ChevronRight, CheckCircle2, Circle, CalendarClock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { PageHeader, useDateFormat, ConfirmDialog, useFailureToast } from "@/components/common";
 import { useJson, sendJson, useInvalidate } from "@/hooks/use-json";
 import { type GoalDTO, type MilestoneDTO } from "@/lib/goals";
+import { daysBetween, todayKey } from "@/lib/date";
 import { GoalDialog } from "@/components/productivity/GoalDialog";
 import { MilestoneDialog } from "@/components/productivity/MilestoneDialog";
 import { Progress } from "@/components/ui/progress";
@@ -20,6 +21,7 @@ export default function GoalsPage() {
   const invalidate = useInvalidate();
   const onFail = useFailureToast();
   const format = useDateFormat();
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingGoal, setEditingGoal] = useState<GoalDTO | null>(null);
@@ -103,9 +105,19 @@ export default function GoalsPage() {
                         <Badge variant="secondary" className="text-[10px] capitalize">
                           {goal.type.replace("-", " ")}
                         </Badge>
-                        {goal.targetDate && (
-                          <span className="text-xs text-muted-foreground">Due: {format(goal.targetDate)}</span>
-                        )}
+                        {goal.targetDate && !goal.isCompleted ? (
+                          (() => {
+                            const days = daysBetween(todayKey(tz), goal.targetDate);
+                            const label = days > 0 ? t("daysLeft", { days }) : days === 0 ? t("dueToday") : t("overdue", { days: -days });
+                            return (
+                              <span className={`inline-flex items-center gap-1 text-xs ${days < 0 ? "text-destructive" : "text-muted-foreground"}`}>
+                                <CalendarClock className="size-3" /> {label}
+                              </span>
+                            );
+                          })()
+                        ) : goal.targetDate ? (
+                          <span className="text-xs text-muted-foreground">{format(goal.targetDate)}</span>
+                        ) : null}
                       </div>
                     </div>
                   </div>
@@ -115,7 +127,7 @@ export default function GoalsPage() {
 
                   <div className="space-y-2">
                     <div className="flex items-center justify-between text-sm">
-                      <span className="font-medium">Progress</span>
+                      <span className="font-medium">{t("progress")}</span>
                       <span className="text-muted-foreground">{Math.round(goal.progress * 100)}%</span>
                     </div>
                     <Progress value={goal.progress * 100} className="h-2" />

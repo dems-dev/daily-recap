@@ -657,7 +657,11 @@
     "errors": {
       "implausibleDuration": "That duration doesn't look right (30 min – 16 h). Check the times.",
       "invalidTime": "Invalid time"
-    }
+    },
+    "sleepDebt": "Sleep debt",
+    "behind": "behind target",
+    "ahead": "ahead of target",
+    "debtHint": "vs {hours}h / night"
   },
   "Plans": {
     "thisWeek": "This week's priorities",
@@ -969,7 +973,11 @@
     "deleteGoalDesc": "This will delete the goal and all its milestones.",
     "addMilestone": "Add Milestone",
     "editMilestone": "Edit Milestone",
-    "milestoneTitle": "Milestone Title"
+    "milestoneTitle": "Milestone Title",
+    "progress": "Progress",
+    "daysLeft": "{days} days left",
+    "dueToday": "Due today",
+    "overdue": "{days} days overdue"
   },
   "Learning": {
     "booksTitle": "Books",

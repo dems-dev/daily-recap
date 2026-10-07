@@ -87,7 +87,7 @@ export default function SleepPage() {
         <Skeleton className="h-80" />
       ) : (
         <>
-          <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
             <Stat
               label={t("avgDuration")}
               value={data.stats.avgDuration ? formatDuration(Math.round(data.stats.avgDuration), locale) : "—"}
@@ -104,6 +104,16 @@ export default function SleepPage() {
               value={data.stats.shortNights}
               detail={data.stats.avgQuality ? t("avgQuality", { value: data.stats.avgQuality.toFixed(1) }) : undefined}
             />
+            {(() => {
+              const debt = data.logs.reduce((s, l) => s + (TARGET_HOURS * 60 - l.duration), 0);
+              return (
+                <Stat
+                  label={t("sleepDebt")}
+                  value={data.stats.nights ? formatDuration(Math.abs(debt), locale) : "—"}
+                  detail={data.stats.nights ? (debt > 0 ? t("behind") : t("ahead")) : t("debtHint", { hours: TARGET_HOURS })}
+                />
+              );
+            })()}
           </div>
 
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
