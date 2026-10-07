@@ -12,6 +12,7 @@
     "typecheck": "next typegen && tsc --noEmit"
   },
   "dependencies": {
+    "@ai-sdk/google": "^4.0.88",
     "@ai-sdk/react": "^4.0.117",
     "@base-ui/react": "^1.8.0",
     "@hookform/resolvers": "^5.9.1",

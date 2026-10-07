@@ -11,7 +11,7 @@ Bilingual (🇮🇩 Bahasa Indonesia / 🇬🇧 English), installable as a PWA, 
 |---|---|
 | **Recap** | Daily view (reflection, habits, tasks and money for any date), weekly and monthly views with highlights and comparison to the previous period, optional AI summary |
 | **Insights** | Cross-module rules: mood vs spending, habits vs mood, sleep vs mood, sleep vs tasks, most productive weekday, biggest spending day, weekend mood — each needs enough data on both sides before it says anything |
-| **AI (optional)** | *Tell me about your day*: free text → reviewed entries (structured output); **AI Assistant** that answers questions from your data with read-only tools (agent + streaming chat); **weekly coach** with one-click priorities; recap summaries. Off unless `AI_GATEWAY_API_KEY` is set, and each user can turn it off |
+| **AI (optional)** | *Tell me about your day*: free text → reviewed entries (structured output); **AI Assistant** that answers questions from your data with read-only tools (agent + streaming chat); **weekly coach** with one-click priorities; recap summaries. Off unless `GOOGLE_GENERATIVE_AI_API_KEY` is set, and each user can turn it off |
 | **Quick add (Ctrl+K)** | `-25rb kopi` · `+5jt gaji` · `-1,5jt sewa kemarin` · `todo beli sayur besok` · `done olahraga` · `mood baik capek tapi senang` · `tidur 23:30 06:15` · `wish 350rb sepatu` · `prioritas laporan Q3` |
 | **Finance** | Transactions, monthly budgets, savings goals, recurring transactions (rent, subscriptions) |
 | **To-Do** | Today / upcoming / completed, due dates, priority, overdue |
@@ -53,8 +53,8 @@ Sign in with **demo@dailyrecap.com / demo1234**. The seed is deterministic and o
 | `AUTH_TRUST_HOST` | self-hosting | `true` when running `next start` yourself; not needed on Vercel |
 | `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` | for reminders | `npx web-push generate-vapid-keys`; subject is `mailto:you@…` |
 | `CRON_SECRET` | for reminders | Random string; Vercel Cron sends it as a Bearer token |
-| `AI_GATEWAY_API_KEY` | optional | Enables the AI features (Vercel AI Gateway); on Vercel the OIDC token works too |
-| `AI_FAST_MODEL` / `AI_SMART_MODEL` | optional | Defaults `anthropic/claude-haiku-4.5` (logging, summaries) / `anthropic/claude-sonnet-5` (assistant, coach) |
+| `GOOGLE_GENERATIVE_AI_API_KEY` | optional | Enables the AI features (Google Gemini); get a key at https://aistudio.google.com/apikey |
+| `AI_FAST_MODEL` / `AI_SMART_MODEL` | optional | Gemini model ids; both default to `gemini-flash-lite-latest` |
 
 ### Scripts
 
