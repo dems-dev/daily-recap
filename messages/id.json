@@ -1106,5 +1106,42 @@
       "yoga": "Yoga",
       "body-scan": "Pindai tubuh"
     }
+  },
+  "Landing": {
+    "tagline": "Seluruh hidupmu, terangkum tiap hari.",
+    "subtitle": "Keuangan, kebiasaan, kesehatan, mood, belajar, dan tujuan — satu aplikasi privat yang mengubah catatan tersebar jadi insight nyata.",
+    "tryDemo": "Coba demo",
+    "demoHint": "Tanpa daftar — jelajahi akun yang sudah penuh data.",
+    "signUp": "Daftar gratis",
+    "login": "Masuk",
+    "featuresTitle": "Semua dalam satu tempat",
+    "featuresSub": "Tiga belas pelacak yang terhubung, satu rangkuman harian.",
+    "footer": "Privat secara default — datamu tetap milikmu.",
+    "features": {
+      "finance": {
+        "title": "Keuangan",
+        "desc": "Transaksi, anggaran, target tabungan & tagihan berulang, dengan grafik jelas."
+      },
+      "productivity": {
+        "title": "Kebiasaan & tujuan",
+        "desc": "Rentetan, milestone & prioritas mingguan yang menjagamu tetap di jalur."
+      },
+      "health": {
+        "title": "Kesehatan",
+        "desc": "Tidur, olahraga, nutrisi & metrik tubuh dengan BMI, target kalori & makro."
+      },
+      "mind": {
+        "title": "Pikiran",
+        "desc": "Jurnal dengan mood & rasa syukur, plus timer meditasi terpandu."
+      },
+      "focus": {
+        "title": "Fokus & belajar",
+        "desc": "Timer Pomodoro, buku, keterampilan & catatan hari-ini-belajar."
+      },
+      "insights": {
+        "title": "Insight AI",
+        "desc": "Analitik lintas-modul & asisten yang menjawab dari datamu sendiri."
+      }
+    }
   }
 }

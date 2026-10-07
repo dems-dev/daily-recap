@@ -58,13 +58,19 @@ export default {
       // We will handle localization routes, so the pathname might be /id/login or /en/login
       const pathname = nextUrl.pathname;
       const isAuthRoute = pathname.includes('/login') || pathname.includes('/register');
+      const isLanding = pathname.includes('/welcome');
 
-      if (isAuthRoute) {
+      // Public pages. Logged-in users are sent straight to the app.
+      if (isAuthRoute || isLanding) {
         if (isLoggedIn) return Response.redirect(new URL('/', nextUrl));
         return true;
       }
 
       if (!isLoggedIn) {
+        // Visitors landing on the root see the marketing page; deep links go to login.
+        const isRoot = /^\/(en|id)?\/?$/.test(pathname);
+        if (isRoot) return Response.redirect(new URL('/welcome', nextUrl));
+
         let callbackUrl = pathname;
         if (nextUrl.search) callbackUrl += nextUrl.search;
 

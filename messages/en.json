@@ -1106,5 +1106,42 @@
       "yoga": "Yoga",
       "body-scan": "Body scan"
     }
+  },
+  "Landing": {
+    "tagline": "Your whole life, recapped daily.",
+    "subtitle": "Money, habits, health, mood, learning and goals — one private app that turns scattered logging into real insight.",
+    "tryDemo": "Try the demo",
+    "demoHint": "No sign-up — explore a fully loaded account.",
+    "signUp": "Sign up free",
+    "login": "Log in",
+    "featuresTitle": "Everything in one place",
+    "featuresSub": "Thirteen connected trackers, one daily recap.",
+    "footer": "Private by default — your data stays yours.",
+    "features": {
+      "finance": {
+        "title": "Finance",
+        "desc": "Transactions, budgets, savings goals and recurring bills, with clear charts."
+      },
+      "productivity": {
+        "title": "Habits & goals",
+        "desc": "Streaks, milestones and weekly priorities that keep you on track."
+      },
+      "health": {
+        "title": "Health",
+        "desc": "Sleep, workouts, nutrition and body metrics with BMI, calorie & macro targets."
+      },
+      "mind": {
+        "title": "Mind",
+        "desc": "A journal with moods and gratitude, plus a guided meditation timer."
+      },
+      "focus": {
+        "title": "Focus & learning",
+        "desc": "A Pomodoro timer, books, skills and today-I-learned notes."
+      },
+      "insights": {
+        "title": "AI insights",
+        "desc": "Cross-module analytics and an assistant that answers from your own data."
+      }
+    }
   }
 }
