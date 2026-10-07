@@ -5,7 +5,7 @@ import { readJson, serverError, unauthorized, validationError } from "@/lib/api"
 import { dateKeyToDate, todayKey } from "@/lib/date";
 import { mealSchema, serializeMeal } from "@/lib/meals";
 
-/** GET /api/meals?date=YYYY-MM-DD — meals logged for a date (default today). */
+/** GET /api/meals?date=YYYY-MM-DD - meals logged for a date (default today). */
 export async function GET(req: Request) {
   try {
     const user = await getCurrentUser();
@@ -26,7 +26,7 @@ export async function GET(req: Request) {
   }
 }
 
-/** POST /api/meals — log a meal. */
+/** POST /api/meals - log a meal. */
 export async function POST(req: Request) {
   try {
     const user = await getCurrentUser();

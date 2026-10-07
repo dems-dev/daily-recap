@@ -74,12 +74,12 @@ export function WishlistTab() {
       <div className="grid gap-3 sm:grid-cols-3">
         <div className="rounded-xl border bg-card p-4">
           <p className="text-xs font-medium text-muted-foreground">{t("saved")}</p>
-          <p className="mt-1 text-2xl font-bold tabular-nums">{data ? money(data.stats.savedTotal) : "—"}</p>
+          <p className="mt-1 text-2xl font-bold tabular-nums">{data ? money(data.stats.savedTotal) : "-"}</p>
           <p className="mt-0.5 text-xs text-muted-foreground">{data && t("skippedCount", { count: data.stats.skippedCount })}</p>
         </div>
         <div className="rounded-xl border bg-card p-4">
           <p className="text-xs font-medium text-muted-foreground">{t("waitingTotal")}</p>
-          <p className="mt-1 text-2xl font-bold tabular-nums">{data ? money(data.stats.waitingTotal) : "—"}</p>
+          <p className="mt-1 text-2xl font-bold tabular-nums">{data ? money(data.stats.waitingTotal) : "-"}</p>
           <p className="mt-0.5 text-xs text-muted-foreground">{data && t("waitingCount", { count: data.waiting.length })}</p>
         </div>
         <div className="flex items-center rounded-xl border bg-muted/40 p-4 text-sm text-muted-foreground">{t("explainer")}</div>

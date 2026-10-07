@@ -4,7 +4,7 @@ import { createContext, createElement, useCallback, useContext, useEffect, useMe
 
 /**
  * App-wide data version. Any mutation can call `useInvalidate()()` and every
- * mounted useJson refetches — e.g. after a quick-add from the command palette.
+ * mounted useJson refetches - e.g. after a quick-add from the command palette.
  */
 const DataVersionContext = createContext<{ version: number; invalidate: () => void }>({
   version: 0,

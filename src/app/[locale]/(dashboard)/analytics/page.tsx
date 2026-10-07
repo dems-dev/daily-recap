@@ -192,7 +192,7 @@ export default function AnalyticsPage() {
                           active && payload?.[0] ? (
                             <TooltipBox
                               title={`${moodLabel(payload[0].payload.mood)} · ${t("dayCount", { count: payload[0].payload.days })}`}
-                              value={payload[0].payload.avgExpense === null ? "—" : money(payload[0].payload.avgExpense)}
+                              value={payload[0].payload.avgExpense === null ? "-" : money(payload[0].payload.avgExpense)}
                             />
                           ) : null
                         }
@@ -220,7 +220,7 @@ export default function AnalyticsPage() {
                           active && payload?.[0] ? (
                             <TooltipBox
                               title={`${t(`sleepBuckets.${payload[0].payload.bucket}`)} · ${t("dayCount", { count: payload[0].payload.days })}`}
-                              value={payload[0].payload.avgMood === null ? "—" : t("moodValue", { value: payload[0].payload.avgMood.toFixed(1) })}
+                              value={payload[0].payload.avgMood === null ? "-" : t("moodValue", { value: payload[0].payload.avgMood.toFixed(1) })}
                             />
                           ) : null
                         }
@@ -248,7 +248,7 @@ export default function AnalyticsPage() {
                           active && payload?.[0] ? (
                             <TooltipBox
                               title={formatDate(weekdayKey(payload[0].payload.weekday), "EEEE")}
-                              value={payload[0].payload.rate === null ? "—" : `${Math.round(payload[0].payload.rate * 100)}%`}
+                              value={payload[0].payload.rate === null ? "-" : `${Math.round(payload[0].payload.rate * 100)}%`}
                             />
                           ) : null
                         }

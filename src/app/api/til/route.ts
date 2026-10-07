@@ -5,7 +5,7 @@ import { readJson, serverError, unauthorized, validationError } from "@/lib/api"
 import { dateKeyToDate, todayKey } from "@/lib/date";
 import { tilSchema, serializeTil } from "@/lib/til";
 
-/** GET /api/til — list TIL notes, newest first. */
+/** GET /api/til - list TIL notes, newest first. */
 export async function GET(req: Request) {
   try {
     const user = await getCurrentUser();
@@ -34,7 +34,7 @@ export async function GET(req: Request) {
   }
 }
 
-/** POST /api/til — create a TIL note. */
+/** POST /api/til - create a TIL note. */
 export async function POST(req: Request) {
   try {
     const user = await getCurrentUser();

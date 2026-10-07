@@ -9,7 +9,7 @@ import { materializeRecurring } from "@/lib/recurring-server";
 
 const RANGES = [30, 90, 180] as const;
 
-/** GET /api/analytics?days=30|90|180 — cross-module insights and chart series. */
+/** GET /api/analytics?days=30|90|180 - cross-module insights and chart series. */
 export async function GET(req: Request) {
   try {
     const user = await getCurrentUser();

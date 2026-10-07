@@ -4,7 +4,7 @@ import { getCurrentUser } from "@/lib/session";
 import { notFound, readJson, serverError, unauthorized, validationError } from "@/lib/api";
 import { milestoneSchema } from "@/lib/goals";
 
-/** POST /api/goals/[id]/milestones — create a new milestone. */
+/** POST /api/goals/[id]/milestones - create a new milestone. */
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const user = await getCurrentUser();

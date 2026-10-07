@@ -38,7 +38,7 @@ function range(from: string, to: string, maxDays: number): { from: DateKey; to: 
 
 /**
  * The "ask your data" assistant. Built per request so every tool is bound to the
- * signed-in user on the server — the model can't pick a user, and every tool is read-only.
+ * signed-in user on the server - the model can't pick a user, and every tool is read-only.
  */
 export function createDataAgent(user: CurrentUser, model: LanguageModel = AI_MODELS.smart) {
   const today = todayKey(user.timezone);

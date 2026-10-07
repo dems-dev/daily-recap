@@ -90,13 +90,13 @@ export default function SleepPage() {
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
             <Stat
               label={t("avgDuration")}
-              value={data.stats.avgDuration ? formatDuration(Math.round(data.stats.avgDuration), locale) : "—"}
+              value={data.stats.avgDuration ? formatDuration(Math.round(data.stats.avgDuration), locale) : "-"}
               detail={t("nightsLogged", { count: data.stats.nights })}
             />
-            <Stat label={t("avgBedtime")} value={data.stats.avgBedtime ?? "—"} />
+            <Stat label={t("avgBedtime")} value={data.stats.avgBedtime ?? "-"} />
             <Stat
               label={t("consistency")}
-              value={data.stats.bedtimeSpread !== null ? `± ${data.stats.bedtimeSpread}m` : "—"}
+              value={data.stats.bedtimeSpread !== null ? `± ${data.stats.bedtimeSpread}m` : "-"}
               detail={t("consistencyHint")}
             />
             <Stat
@@ -109,7 +109,7 @@ export default function SleepPage() {
               return (
                 <Stat
                   label={t("sleepDebt")}
-                  value={data.stats.nights ? formatDuration(Math.abs(debt), locale) : "—"}
+                  value={data.stats.nights ? formatDuration(Math.abs(debt), locale) : "-"}
                   detail={data.stats.nights ? (debt > 0 ? t("behind") : t("ahead")) : t("debtHint", { hours: TARGET_HOURS })}
                 />
               );

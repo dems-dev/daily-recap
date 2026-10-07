@@ -2,7 +2,7 @@ import * as React from "react";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "cn";
 
-/** Friendly placeholder for empty lists — icon chip + message + optional action. */
+/** Friendly placeholder for empty lists - icon chip + message + optional action. */
 export function EmptyState({
   icon: Icon,
   title,

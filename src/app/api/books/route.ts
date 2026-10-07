@@ -4,7 +4,7 @@ import { getCurrentUser } from "@/lib/session";
 import { readJson, serverError, unauthorized, validationError } from "@/lib/api";
 import { bookSchema, serializeBook } from "@/lib/books";
 
-/** GET /api/books?status=reading|want-to-read|finished&page=1&limit=20 — list books. */
+/** GET /api/books?status=reading|want-to-read|finished&page=1&limit=20 - list books. */
 export async function GET(req: Request) {
   try {
     const user = await getCurrentUser();
@@ -48,7 +48,7 @@ export async function GET(req: Request) {
   }
 }
 
-/** POST /api/books — add a new book. */
+/** POST /api/books - add a new book. */
 export async function POST(req: Request) {
   try {
     const user = await getCurrentUser();

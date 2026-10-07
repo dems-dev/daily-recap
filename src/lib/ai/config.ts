@@ -7,7 +7,7 @@ import type { CurrentUser } from "@/lib/session";
  * AI runs through Google's Gemini API via the AI SDK's `@ai-sdk/google` provider,
  * authenticated with GOOGLE_GENERATIVE_AI_API_KEY. The "-latest" alias tracks the current
  * Flash-Lite so a model deprecation doesn't break us. Flash-Lite has no "thinking" overhead,
- * so it stays fast (~1–2s) — important for the streaming chat agent. Override per task with
+ * so it stays fast (~1–2s) - important for the streaming chat agent. Override per task with
  * AI_FAST_MODEL / AI_SMART_MODEL (e.g. set AI_SMART_MODEL="gemini-3.8-flash" for stronger
  * reasoning at the cost of higher latency).
  */

@@ -18,7 +18,7 @@ const SELECT_CLASS =
 const R = 45;
 const CIRC = 2 * Math.PI * R;
 
-/** A short pleasant three-note chime via Web Audio — no asset needed. */
+/** A short pleasant three-note chime via Web Audio - no asset needed. */
 function playChime() {
   try {
     const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;

@@ -2,7 +2,7 @@ import * as React from "react";
 import { cn } from "cn";
 
 /**
- * Tiny rounded flag SVGs — consistent everywhere (OS flag emoji don't render on
+ * Tiny rounded flag SVGs - consistent everywhere (OS flag emoji don't render on
  * Windows). Just the two locales the app ships with.
  */
 export function Flag({

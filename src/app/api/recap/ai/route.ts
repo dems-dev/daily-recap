@@ -11,7 +11,7 @@ import { rateLimit } from "@/lib/rate-limit";
 
 const bodySchema = z.object({ period: z.enum(PERIODS), date: z.string().refine(isDateKey) });
 
-/** POST { period, date } → { summary } — written by the AI Gateway from the recap data. */
+/** POST { period, date } → { summary } - written by the AI Gateway from the recap data. */
 export async function POST(req: Request) {
   try {
     const user = await getCurrentUser();

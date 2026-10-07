@@ -14,7 +14,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-/** Custom habit icons (lucide) — consistent on every device, unlike OS emoji. */
+/** Custom habit icons (lucide) - consistent on every device, unlike OS emoji. */
 export const HABIT_ICON_KEYS = [
   "water",
   "run",

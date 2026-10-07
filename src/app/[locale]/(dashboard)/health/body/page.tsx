@@ -104,7 +104,7 @@ export default function BodyMetricsPage() {
   const sorted = useMemo(() => (metrics ? [...metrics].sort((a, b) => a.date.localeCompare(b.date)) : []), [metrics]);
   const latest = metrics?.[0];
   const latestWeight = latest?.weight ?? null;
-  // Height is a stable attribute — take the most recent entry that has one.
+  // Height is a stable attribute - take the most recent entry that has one.
   const latestHeight = useMemo(() => {
     for (const m of sorted.slice().reverse()) if (m.height) return m.height;
     return null;
@@ -154,13 +154,13 @@ export default function BodyMetricsPage() {
         <StatCard
           label={t("latestWeight")}
           icon={Scale}
-          value={loading ? "…" : latestWeight ?? "—"}
+          value={loading ? "…" : latestWeight ?? "-"}
           unit={latestWeight ? "kg" : undefined}
         />
         <StatCard
           label={t("latestHeight")}
           icon={Ruler}
-          value={loading ? "…" : latestHeight ?? "—"}
+          value={loading ? "…" : latestHeight ?? "-"}
           unit={latestHeight ? "cm" : undefined}
         />
         <Card>
@@ -171,7 +171,7 @@ export default function BodyMetricsPage() {
           <CardContent>
             <div className="flex items-baseline gap-2">
               <span className="font-heading text-2xl font-bold tabular-nums">
-                {bmiValue !== null ? round(bmiValue) : "—"}
+                {bmiValue !== null ? round(bmiValue) : "-"}
               </span>
               {category ? (
                 <span
@@ -187,7 +187,7 @@ export default function BodyMetricsPage() {
         <StatCard
           label={t("latestBodyFat")}
           icon={ActivityIcon}
-          value={loading ? "…" : latest?.bodyFat ?? "—"}
+          value={loading ? "…" : latest?.bodyFat ?? "-"}
           unit={latest?.bodyFat ? "%" : undefined}
         />
       </div>
@@ -308,7 +308,7 @@ export default function BodyMetricsPage() {
                 className="h-9 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
               >
                 <option value="" disabled>
-                  —
+                  -
                 </option>
                 {ACTIVITY_LEVELS.map((a) => (
                   <option key={a} value={a}>

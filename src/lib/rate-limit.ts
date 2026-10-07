@@ -2,7 +2,7 @@
  * Fixed-window rate limiter kept in memory.
  *
  * Good enough for a single server. On serverless (several instances) each
- * instance counts separately, so limits are per-instance — swap this for a
+ * instance counts separately, so limits are per-instance - swap this for a
  * shared store (e.g. Upstash Redis) before relying on it in production.
  */
 

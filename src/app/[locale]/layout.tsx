@@ -11,7 +11,7 @@ import { Toaster } from "@/components/ui/toast";
 import { ServiceWorkerRegister } from "@/components/pwa/ServiceWorkerRegister";
 
 const inter = Inter({ subsets: ["latin"] });
-// Display font for headings — gives the UI a distinct personality while body text stays Inter.
+// Display font for headings - gives the UI a distinct personality while body text stays Inter.
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   weight: ["500", "600", "700"],

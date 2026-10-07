@@ -34,12 +34,12 @@
       "todo": "Task completed",
       "habit": "Habit"
     },
-    "metaDescription": "Log money, tasks, habits and a journal — then see the recap of your day.",
+    "metaDescription": "Log money, tasks, habits and a journal - then see the recap of your day.",
     "quickAdd": "Quick add",
     "addTransaction": "Transaction",
     "addTask": "Task",
     "openRecap": "Today's recap",
-    "recapPending": "Today's recap is still empty — it takes two minutes before bed.",
+    "recapPending": "Today's recap is still empty - it takes two minutes before bed.",
     "recapDone": "Today's recap is done. Nice!",
     "habits": "Habits",
     "habitsToday": "done today",
@@ -54,7 +54,7 @@
     "sleepQuality": "Quality {value}/5",
     "sleepHint": "Log: sleep 23:00 06:30",
     "todayProgress": "of today done",
-    "allCaughtUp": "All caught up — nothing left for today.",
+    "allCaughtUp": "All caught up - nothing left for today.",
     "activityHint": "Log something and it will show up here.",
     "weeklyActivity": "This week's activity",
     "activePercent": "{value}% active",
@@ -64,9 +64,9 @@
     "focusToday": "Focus time today",
     "noFocus": "No focus session yet",
     "nudgeTasks": "Finish {count} more {count, plural, one {task} other {tasks}} to reach {percent}%",
-    "allDoneToday": "Everything done for today — nice work!",
+    "allDoneToday": "Everything done for today - nice work!",
     "welcomeTitle": "Welcome to Daily Recap",
-    "welcomeSubtitle": "Let's set up your day — a minute is all it takes.",
+    "welcomeSubtitle": "Let's set up your day - a minute is all it takes.",
     "stepTransaction": "Log your first transaction",
     "stepTask": "Add a task for today",
     "stepHabit": "Create a habit to track",
@@ -231,7 +231,7 @@
     },
     "recurring": "Recurring",
     "recurringTitle": "Recurring transactions",
-    "recurringDescription": "Created automatically on schedule — for salary, rent and subscriptions.",
+    "recurringDescription": "Created automatically on schedule - for salary, rent and subscriptions.",
     "addRecurring": "Add recurring transaction",
     "noRecurring": "No recurring transactions yet.",
     "repeat": "Repeat",
@@ -253,7 +253,7 @@
     "deleteRecurringDescription": "Transactions it already created are kept; only the schedule is removed.",
     "wishlist": "Wishlist",
     "editRecurring": "Edit recurring transaction",
-    "editRecurringHint": "Changes apply to upcoming transactions. Ones already created stay as they are — edit them in the Transactions tab if needed.",
+    "editRecurringHint": "Changes apply to upcoming transactions. Ones already created stay as they are - edit them in the Transactions tab if needed.",
     "nearLimit": "Almost at your limit ({percent}%)"
   },
   "Common": {
@@ -496,7 +496,7 @@
       "habitsRate": "You kept {pct}% of your habits.",
       "todosDone": "{count, plural, one {# task} other {# tasks}} done (previous period: {prev}).",
       "moodAvg": "Average mood {avg} across {days} logged days (of {total}).",
-      "noMood": "No mood logged yet — fill in the daily recap so patterns can show.",
+      "noMood": "No mood logged yet - fill in the daily recap so patterns can show.",
       "prioritiesDone": "{done} of {total} priorities done this week.",
       "prioritiesAllDone": "All {total} priorities done this week!",
       "sleepAvg": "Average sleep {duration} a night ({nights} nights logged).",
@@ -528,7 +528,7 @@
       "spendLessOnBadDays": "Interestingly, on low-mood days you spend {pct}% less ({bad} vs {good} per day).",
       "betterMoodWithHabits": "Your mood is {delta} points higher on days you keep most of your habits ({high} vs {low}).",
       "mostProductiveDay": "Your most productive day is {weekday}: {avg} tasks done on average.",
-      "biggestSpendingDay": "You usually spend the most on {weekday} — {pct}% above average ({avg}).",
+      "biggestSpendingDay": "You usually spend the most on {weekday} - {pct}% above average ({avg}).",
       "weekendMood": "Your weekend mood is {delta} points {direction, select, higher {higher} other {lower}} than on weekdays.",
       "journalConsistency": "You filled in the recap on {logged} of the last {days} days.",
       "betterMoodAfterSleep": "After 7+ hours of sleep your mood is {delta} points higher on average ({good} vs {short} after < 6 hours).",
@@ -614,9 +614,9 @@
     "aiOn": "AI features turned on",
     "aiOff": "AI features turned off",
     "aiNotConfigured": "The server isn't configured (GOOGLE_GENERATIVE_AI_API_KEY missing), so AI features can't be used yet.",
-    "aiFeatureLog": "Free-text logging — you always review the result first.",
-    "aiFeatureChat": "AI Assistant — answers questions from your data, read-only.",
-    "aiFeatureCoach": "Weekly coach — review and suggested priorities.",
+    "aiFeatureLog": "Free-text logging - you always review the result first.",
+    "aiFeatureChat": "AI Assistant - answers questions from your data, read-only.",
+    "aiFeatureCoach": "Weekly coach - review and suggested priorities.",
     "aiPrivacy": "When you use an AI feature, the relevant data (including journal notes) is sent to the model provider via the Vercel AI Gateway. Nothing is sent while you don't use them."
   },
   "Sleep": {
@@ -696,7 +696,7 @@
     "note": "Why do you want it? (optional)",
     "notePlaceholder": "What for? Do you already own something similar?",
     "openLink": "Open link",
-    "readyToDecide": "Waiting period is over — time to decide",
+    "readyToDecide": "Waiting period is over - time to decide",
     "daysLeft": "{count, plural, one {# day} other {# days}} left (until {date})",
     "waitProgress": "Waiting period for {name}",
     "buy": "Buy",
@@ -728,7 +728,7 @@
     "failed": "AI couldn't read this text. Try again in a moment.",
     "rateLimited": "Too many requests. Try again later.",
     "tellTitle": "Tell me about your day",
-    "tellHint": "Write freely — AI sorts it into spending, sleep, tasks, habits and mood. You review before anything is saved.",
+    "tellHint": "Write freely - AI sorts it into spending, sleep, tasks, habits and mood. You review before anything is saved.",
     "tellPlaceholder": "e.g. Lunch with the team 45k, fuel 30k. Slept at 1, woke at 7. Did my workout. Tired but happy the demo went well. Need to send the invoice tomorrow.",
     "process": "Process with AI",
     "privacy": "The text is sent to an AI provider via the Vercel AI Gateway.",
@@ -754,7 +754,7 @@
   },
   "Assistant": {
     "pageTitle": "AI Assistant",
-    "intro": "Ask anything about your data — money, sleep, habits, tasks, journal. I read your data directly, so answers come from your own logs, and I can't change anything.",
+    "intro": "Ask anything about your data - money, sleep, habits, tasks, journal. I read your data directly, so answers come from your own logs, and I can't change anything.",
     "suggestions": {
       "spendingThisMonth": "How much did I spend this month compared to last month?",
       "bestSleepWeek": "Which week did I sleep best in the last 2 months?",
@@ -853,7 +853,7 @@
     "idealRange": "{min}–{max} kg",
     "toHealthyLose": "{kg} kg above a healthy range",
     "toHealthyGain": "{kg} kg below a healthy range",
-    "inHealthyRange": "In a healthy range — nice!",
+    "inHealthyRange": "In a healthy range - nice!",
     "cat": {
       "underweight": "Underweight",
       "normal": "Normal",
@@ -907,7 +907,7 @@
           "Drink water before meals and mind portions."
         ],
         "lifestyle": [
-          "Sleep 7–9 h — poor sleep increases hunger.",
+          "Sleep 7–9 h - poor sleep increases hunger.",
           "Weigh in weekly at the same time.",
           "Plan meals ahead to avoid impulse eating.",
           "Manage stress; it fuels cravings."
@@ -917,7 +917,7 @@
         "exercise": [
           "Keep 150 min/week cardio plus 2 strength sessions.",
           "Mix cardio, strength and mobility for balance.",
-          "Stay active daily — stairs, walks, standing breaks."
+          "Stay active daily - stairs, walks, standing breaks."
         ],
         "diet": [
           "Eat around your maintenance calories.",
@@ -945,7 +945,7 @@
         ],
         "lifestyle": [
           "Sleep 7–9 h for recovery.",
-          "Be patient — gaining well takes time.",
+          "Be patient - gaining well takes time.",
           "Track weekly; target ~0.25–0.5 kg/week."
         ]
       }
@@ -989,7 +989,7 @@
     "focusOnPlaceholder": "optional",
     "weekSuffix": "this week",
     "completeTitle": "Focus session done",
-    "completeBody": "Nice — {min} min logged.",
+    "completeBody": "Nice - {min} min logged.",
     "cat": {
       "work": "Work",
       "study": "Study",
@@ -1110,14 +1110,14 @@
   },
   "Landing": {
     "tagline": "Your whole life, recapped daily.",
-    "subtitle": "Money, habits, health, mood, learning and goals — one private app that turns scattered logging into real insight.",
+    "subtitle": "Money, habits, health, mood, learning and goals - one private app that turns scattered logging into real insight.",
     "tryDemo": "Try the demo",
-    "demoHint": "No sign-up — explore a fully loaded account.",
+    "demoHint": "No sign-up - explore a fully loaded account.",
     "signUp": "Sign up free",
     "login": "Log in",
     "featuresTitle": "Everything in one place",
     "featuresSub": "Thirteen connected trackers, one daily recap.",
-    "footer": "Private by default — your data stays yours.",
+    "footer": "Private by default - your data stays yours.",
     "features": {
       "finance": {
         "title": "Finance",

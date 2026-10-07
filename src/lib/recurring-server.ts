@@ -6,7 +6,7 @@ import { dueOccurrences, type Frequency } from "@/lib/recurring";
  * Creates the Finance rows of every recurring rule that came due up to `today`.
  * Called lazily whenever finance data is read, so no scheduler is needed.
  * Each rule is claimed by moving `nextDate` forward only if it still has the
- * value we read — two concurrent requests can't both generate the same rows.
+ * value we read - two concurrent requests can't both generate the same rows.
  */
 export async function materializeRecurring(userId: string, today: DateKey) {
   const due = await prisma.recurringTransaction.findMany({

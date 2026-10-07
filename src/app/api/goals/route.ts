@@ -4,7 +4,7 @@ import { getCurrentUser } from "@/lib/session";
 import { readJson, serverError, unauthorized, validationError } from "@/lib/api";
 import { goalSchema, serializeGoal } from "@/lib/goals";
 
-/** GET /api/goals?completed=1 — list goals with milestones. */
+/** GET /api/goals?completed=1 - list goals with milestones. */
 export async function GET(req: Request) {
   try {
     const user = await getCurrentUser();
@@ -30,7 +30,7 @@ export async function GET(req: Request) {
   }
 }
 
-/** POST /api/goals — create a new goal. */
+/** POST /api/goals - create a new goal. */
 export async function POST(req: Request) {
   try {
     const user = await getCurrentUser();

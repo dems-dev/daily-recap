@@ -5,7 +5,7 @@ import { notFound, readJson, serverError, unauthorized, validationError } from "
 import { dateKeyToDate } from "@/lib/date";
 import { meditationPatchSchema } from "@/lib/meditation";
 
-/** PATCH /api/meditation/[id] — correct a logged meditation session. */
+/** PATCH /api/meditation/[id] - correct a logged meditation session. */
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const user = await getCurrentUser();
@@ -31,7 +31,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   }
 }
 
-/** DELETE /api/meditation/[id] — remove a logged meditation session. */
+/** DELETE /api/meditation/[id] - remove a logged meditation session. */
 export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const user = await getCurrentUser();

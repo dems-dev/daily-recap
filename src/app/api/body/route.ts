@@ -5,7 +5,7 @@ import { readJson, serverError, unauthorized, validationError } from "@/lib/api"
 import { addDays, dateKeyToDate, todayKey } from "@/lib/date";
 import { bodyMetricSchema, serializeBodyMetric } from "@/lib/body-metrics";
 
-/** GET /api/body?days=30 — list body metrics for the last N days. */
+/** GET /api/body?days=30 - list body metrics for the last N days. */
 export async function GET(req: Request) {
   try {
     const user = await getCurrentUser();
@@ -34,7 +34,7 @@ export async function GET(req: Request) {
   }
 }
 
-/** POST /api/body — log body metrics for a date. */
+/** POST /api/body - log body metrics for a date. */
 export async function POST(req: Request) {
   try {
     const user = await getCurrentUser();

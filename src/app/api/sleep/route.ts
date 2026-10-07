@@ -7,7 +7,7 @@ import { averageBedtime, bedtimeSpread, instantToLocalTime } from "@/lib/sleep";
 
 const RANGES = [14, 30, 90] as const;
 
-/** GET /api/sleep?days=14|30|90 — nights in the range plus averages. */
+/** GET /api/sleep?days=14|30|90 - nights in the range plus averages. */
 export async function GET(req: Request) {
   try {
     const user = await getCurrentUser();

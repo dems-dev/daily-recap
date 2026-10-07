@@ -52,7 +52,7 @@ export function BottomNav() {
           <NavLink key={item.href} item={item} active={isActive(item.href)} />
         ))}
 
-        {/* Center FAB — quick add */}
+        {/* Center FAB - quick add */}
         <button
           type="button"
           onClick={() => openPalette()}
@@ -66,7 +66,7 @@ export function BottomNav() {
           <NavLink key={item.href} item={item} active={isActive(item.href)} />
         ))}
 
-        {/* More — full menu */}
+        {/* More - full menu */}
         <Sheet open={moreOpen} onOpenChange={setMoreOpen}>
           <SheetTrigger
             render={

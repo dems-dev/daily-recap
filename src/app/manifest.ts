@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     id: "/",
     name: "Daily Recap",
     short_name: "Recap",
-    description: "Catat keuangan, tugas, kebiasaan, dan jurnal — lalu lihat recap harimu.",
+    description: "Catat keuangan, tugas, kebiasaan, dan jurnal - lalu lihat recap harimu.",
     start_url: "/",
     scope: "/",
     display: "standalone",

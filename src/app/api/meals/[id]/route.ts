@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
 import { notFound, serverError, unauthorized } from "@/lib/api";
 
-/** DELETE /api/meals/[id] — remove a logged meal. */
+/** DELETE /api/meals/[id] - remove a logged meal. */
 export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const user = await getCurrentUser();

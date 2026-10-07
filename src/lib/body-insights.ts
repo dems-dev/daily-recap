@@ -1,13 +1,13 @@
 /**
  * Body-composition math for the Body Metrics page. Pure functions, no I/O.
  * These are general wellness estimates (BMI, Mifflin–St Jeor BMR/TDEE), not
- * medical advice — the UI shows a disclaimer.
+ * medical advice - the UI shows a disclaimer.
  */
 
 export type Sex = "male" | "female";
 export type ActivityLevel = "sedentary" | "light" | "moderate" | "active" | "veryActive";
 export type BmiCategory = "underweight" | "normal" | "overweight" | "obese";
-/** The recommendation set to show — derived from BMI category. */
+/** The recommendation set to show - derived from BMI category. */
 export type Goal = "gain" | "maintain" | "lose";
 
 export const ACTIVITY_FACTORS: Record<ActivityLevel, number> = {

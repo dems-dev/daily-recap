@@ -101,7 +101,7 @@ export function SleepForm({ date, existing, compact = false }: { date: string; e
       </div>
       <p className="flex items-center gap-1.5 text-sm text-muted-foreground tabular-nums">
         <Moon className="size-4" aria-hidden />
-        {duration !== null ? t("durationPreview", { duration: formatDuration(duration, locale) }) : "—"}
+        {duration !== null ? t("durationPreview", { duration: formatDuration(duration, locale) }) : "-"}
       </p>
       <div className="space-y-2">
         <p className="text-sm font-medium">{t("quality")}</p>

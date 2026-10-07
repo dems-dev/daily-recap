@@ -34,12 +34,12 @@
       "todo": "Tugas selesai",
       "habit": "Kebiasaan"
     },
-    "metaDescription": "Catat keuangan, tugas, kebiasaan, dan jurnal — lalu lihat recap harimu.",
+    "metaDescription": "Catat keuangan, tugas, kebiasaan, dan jurnal - lalu lihat recap harimu.",
     "quickAdd": "Tambah cepat",
     "addTransaction": "Transaksi",
     "addTask": "Tugas",
     "openRecap": "Recap hari ini",
-    "recapPending": "Recap hari ini belum diisi — dua menit saja sebelum tidur.",
+    "recapPending": "Recap hari ini belum diisi - dua menit saja sebelum tidur.",
     "recapDone": "Recap hari ini sudah terisi. Mantap!",
     "habits": "Kebiasaan",
     "habitsToday": "dijalankan hari ini",
@@ -54,7 +54,7 @@
     "sleepQuality": "Kualitas {value}/5",
     "sleepHint": "Catat: tidur 23:00 06:30",
     "todayProgress": "hari ini selesai",
-    "allCaughtUp": "Semua beres — tidak ada lagi untuk hari ini.",
+    "allCaughtUp": "Semua beres - tidak ada lagi untuk hari ini.",
     "activityHint": "Catat sesuatu, nanti muncul di sini.",
     "weeklyActivity": "Aktivitas minggu ini",
     "activePercent": "{value}% aktif",
@@ -64,9 +64,9 @@
     "focusToday": "Waktu fokus hari ini",
     "noFocus": "Belum ada sesi fokus",
     "nudgeTasks": "Selesaikan {count} tugas lagi untuk capai {percent}%",
-    "allDoneToday": "Semua selesai hari ini — kerja bagus!",
+    "allDoneToday": "Semua selesai hari ini - kerja bagus!",
     "welcomeTitle": "Selamat datang di Daily Recap",
-    "welcomeSubtitle": "Ayo siapkan harimu — cukup semenit saja.",
+    "welcomeSubtitle": "Ayo siapkan harimu - cukup semenit saja.",
     "stepTransaction": "Catat transaksi pertamamu",
     "stepTask": "Tambah tugas untuk hari ini",
     "stepHabit": "Buat kebiasaan untuk dilacak",
@@ -231,7 +231,7 @@
     },
     "recurring": "Berulang",
     "recurringTitle": "Transaksi berulang",
-    "recurringDescription": "Dibuat otomatis sesuai jadwal — cocok untuk gaji, sewa, dan langganan.",
+    "recurringDescription": "Dibuat otomatis sesuai jadwal - cocok untuk gaji, sewa, dan langganan.",
     "addRecurring": "Tambah transaksi berulang",
     "noRecurring": "Belum ada transaksi berulang.",
     "repeat": "Ulangi",
@@ -253,7 +253,7 @@
     "deleteRecurringDescription": "Transaksi yang sudah terbuat tetap tersimpan; hanya jadwalnya yang dihapus.",
     "wishlist": "Wishlist",
     "editRecurring": "Ubah transaksi berulang",
-    "editRecurringHint": "Perubahan berlaku untuk transaksi berikutnya. Transaksi yang sudah terbuat tidak berubah — ubah satu per satu di tab Transaksi bila perlu.",
+    "editRecurringHint": "Perubahan berlaku untuk transaksi berikutnya. Transaksi yang sudah terbuat tidak berubah - ubah satu per satu di tab Transaksi bila perlu.",
     "nearLimit": "Hampir mencapai batas ({percent}%)"
   },
   "Common": {
@@ -496,7 +496,7 @@
       "habitsRate": "Kamu menjalankan {pct}% dari kebiasaanmu.",
       "todosDone": "{count, plural, =1 {1 tugas} other {# tugas}} selesai (periode lalu: {prev}).",
       "moodAvg": "Rata-rata mood {avg} dari {days} hari tercatat (dari {total} hari).",
-      "noMood": "Belum ada mood yang dicatat — isi recap harian supaya polanya terlihat.",
+      "noMood": "Belum ada mood yang dicatat - isi recap harian supaya polanya terlihat.",
       "prioritiesDone": "{done} dari {total} prioritas minggu ini tercapai.",
       "prioritiesAllDone": "Semua {total} prioritas minggu ini tercapai!",
       "sleepAvg": "Rata-rata tidur {duration} per malam ({nights} malam tercatat).",
@@ -528,7 +528,7 @@
       "spendLessOnBadDays": "Menariknya, di hari dengan mood kurang baik kamu justru belanja {pct}% lebih sedikit ({bad} vs {good} per hari).",
       "betterMoodWithHabits": "Mood-mu rata-rata {delta} poin lebih tinggi di hari kamu menjalankan sebagian besar kebiasaan ({high} vs {low}).",
       "mostProductiveDay": "Hari paling produktifmu adalah {weekday}: rata-rata {avg} tugas selesai.",
-      "biggestSpendingDay": "Pengeluaran paling besar biasanya di hari {weekday} — {pct}% di atas rata-rata ({avg}).",
+      "biggestSpendingDay": "Pengeluaran paling besar biasanya di hari {weekday} - {pct}% di atas rata-rata ({avg}).",
       "weekendMood": "Mood-mu di akhir pekan {direction, select, higher {lebih baik} other {lebih rendah}} {delta} poin dibanding hari kerja.",
       "journalConsistency": "Kamu mengisi recap {logged} dari {days} hari terakhir.",
       "betterMoodAfterSleep": "Setelah tidur 7 jam atau lebih, mood-mu rata-rata {delta} poin lebih baik ({good} vs {short} setelah tidur < 6 jam).",
@@ -614,9 +614,9 @@
     "aiOn": "Fitur AI diaktifkan",
     "aiOff": "Fitur AI dimatikan",
     "aiNotConfigured": "Server belum dikonfigurasi (GOOGLE_GENERATIVE_AI_API_KEY belum diisi), jadi fitur AI belum bisa dipakai.",
-    "aiFeatureLog": "Catat dengan bahasa bebas — hasilnya selalu kamu periksa dulu.",
-    "aiFeatureChat": "Asisten AI — menjawab pertanyaan dari datamu, hanya bisa membaca.",
-    "aiFeatureCoach": "Coach mingguan — ulasan dan usulan prioritas.",
+    "aiFeatureLog": "Catat dengan bahasa bebas - hasilnya selalu kamu periksa dulu.",
+    "aiFeatureChat": "Asisten AI - menjawab pertanyaan dari datamu, hanya bisa membaca.",
+    "aiFeatureCoach": "Coach mingguan - ulasan dan usulan prioritas.",
     "aiPrivacy": "Saat kamu memakai fitur AI, data yang relevan (termasuk catatan jurnal) dikirim ke penyedia model lewat Vercel AI Gateway. Tidak ada yang dikirim selama fitur ini tidak kamu pakai."
   },
   "Sleep": {
@@ -696,7 +696,7 @@
     "note": "Alasan ingin membeli (opsional)",
     "notePlaceholder": "Untuk apa? Apakah sudah punya yang mirip?",
     "openLink": "Buka tautan",
-    "readyToDecide": "Waktu tunda selesai — silakan putuskan",
+    "readyToDecide": "Waktu tunda selesai - silakan putuskan",
     "daysLeft": "{count} hari lagi (sampai {date})",
     "waitProgress": "Waktu tunda {name}",
     "buy": "Beli",
@@ -728,7 +728,7 @@
     "failed": "AI gagal membaca teks ini. Coba lagi sebentar lagi.",
     "rateLimited": "Terlalu sering. Coba lagi nanti.",
     "tellTitle": "Ceritakan harimu",
-    "tellHint": "Tulis bebas — AI akan memilah jadi pengeluaran, tidur, tugas, kebiasaan, dan mood. Kamu periksa dulu sebelum disimpan.",
+    "tellHint": "Tulis bebas - AI akan memilah jadi pengeluaran, tidur, tugas, kebiasaan, dan mood. Kamu periksa dulu sebelum disimpan.",
     "tellPlaceholder": "mis. Makan siang 45rb sama tim, isi bensin 30rb. Tidur jam 1 bangun jam 7. Sudah olahraga. Capek tapi senang presentasinya lancar. Besok harus kirim invoice.",
     "process": "Proses dengan AI",
     "privacy": "Teks dikirim ke penyedia AI lewat Vercel AI Gateway.",
@@ -754,7 +754,7 @@
   },
   "Assistant": {
     "pageTitle": "Asisten AI",
-    "intro": "Tanyakan apa saja tentang datamu — keuangan, tidur, kebiasaan, tugas, jurnal. Aku membaca datamu langsung, jadi jawabannya berdasarkan catatanmu sendiri, dan aku tidak bisa mengubah apa pun.",
+    "intro": "Tanyakan apa saja tentang datamu - keuangan, tidur, kebiasaan, tugas, jurnal. Aku membaca datamu langsung, jadi jawabannya berdasarkan catatanmu sendiri, dan aku tidak bisa mengubah apa pun.",
     "suggestions": {
       "spendingThisMonth": "Berapa pengeluaranku bulan ini dibanding bulan lalu?",
       "bestSleepWeek": "Minggu mana tidurku paling baik dalam 2 bulan terakhir?",
@@ -872,7 +872,7 @@
     "focusOnPlaceholder": "opsional",
     "weekSuffix": "minggu ini",
     "completeTitle": "Sesi fokus selesai",
-    "completeBody": "Mantap — {min} mnt tercatat.",
+    "completeBody": "Mantap - {min} mnt tercatat.",
     "cat": {
       "work": "Kerja",
       "study": "Belajar",
@@ -954,7 +954,7 @@
     "idealRange": "{min}–{max} kg",
     "toHealthyLose": "{kg} kg di atas rentang sehat",
     "toHealthyGain": "{kg} kg di bawah rentang sehat",
-    "inHealthyRange": "Dalam rentang sehat — mantap!",
+    "inHealthyRange": "Dalam rentang sehat - mantap!",
     "cat": {
       "underweight": "Berat kurang",
       "normal": "Ideal",
@@ -1008,7 +1008,7 @@
           "Minum air sebelum makan dan jaga porsi."
         ],
         "lifestyle": [
-          "Tidur 7–9 jam — kurang tidur bikin lapar.",
+          "Tidur 7–9 jam - kurang tidur bikin lapar.",
           "Timbang berat mingguan di jam yang sama.",
           "Rencanakan menu agar tidak makan impulsif.",
           "Kelola stres; stres memicu ngidam."
@@ -1018,7 +1018,7 @@
         "exercise": [
           "Pertahankan kardio 150 menit/minggu + 2 sesi beban.",
           "Kombinasikan kardio, beban, dan mobilitas.",
-          "Tetap aktif harian — naik tangga, jalan kaki."
+          "Tetap aktif harian - naik tangga, jalan kaki."
         ],
         "diet": [
           "Makan sekitar kalori pemeliharaan.",
@@ -1046,7 +1046,7 @@
         ],
         "lifestyle": [
           "Tidur 7–9 jam untuk pemulihan.",
-          "Sabar — menaikkan berat butuh waktu.",
+          "Sabar - menaikkan berat butuh waktu.",
           "Pantau mingguan; target ~0,25–0,5 kg/minggu."
         ]
       }
@@ -1110,14 +1110,14 @@
   },
   "Landing": {
     "tagline": "Seluruh hidupmu, terangkum tiap hari.",
-    "subtitle": "Keuangan, kebiasaan, kesehatan, mood, belajar, dan tujuan — satu aplikasi privat yang mengubah catatan tersebar jadi insight nyata.",
+    "subtitle": "Keuangan, kebiasaan, kesehatan, mood, belajar, dan tujuan - satu aplikasi privat yang mengubah catatan tersebar jadi insight nyata.",
     "tryDemo": "Coba demo",
-    "demoHint": "Tanpa daftar — jelajahi akun yang sudah penuh data.",
+    "demoHint": "Tanpa daftar - jelajahi akun yang sudah penuh data.",
     "signUp": "Daftar gratis",
     "login": "Masuk",
     "featuresTitle": "Semua dalam satu tempat",
     "featuresSub": "Tiga belas pelacak yang terhubung, satu rangkuman harian.",
-    "footer": "Privat secara default — datamu tetap milikmu.",
+    "footer": "Privat secara default - datamu tetap milikmu.",
     "features": {
       "finance": {
         "title": "Keuangan",

@@ -94,7 +94,7 @@ export function AiLogDialog({
         await execute(item);
         ok += 1;
       } catch (err) {
-        failures.push(`${describe(item)} — ${err instanceof Error ? err.message : String(err)}`);
+        failures.push(`${describe(item)} - ${err instanceof Error ? err.message : String(err)}`);
       }
     }
     setSaving(false);

@@ -10,7 +10,7 @@ export function localHour(now: Date, timeZone: string) {
 /**
  * Send the evening reminder when the user's local time has reached their reminder hour,
  * they haven't been reminded today, and today's recap (journal mood) is still empty.
- * ">=" rather than "==" so a once-a-day cron still works — see vercel.ts.
+ * ">=" rather than "==" so a once-a-day cron still works - see vercel.ts.
  */
 export function shouldRemind(opts: {
   now: Date;

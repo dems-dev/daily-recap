@@ -5,7 +5,7 @@ import { readJson, serverError, unauthorized, validationError } from "@/lib/api"
 import { dateKeyToDate, todayKey } from "@/lib/date";
 import { waterLogSchema } from "@/lib/water";
 
-/** GET /api/water?date=YYYY-MM-DD — today's water log. */
+/** GET /api/water?date=YYYY-MM-DD - today's water log. */
 export async function GET(req: Request) {
   try {
     const user = await getCurrentUser();
@@ -29,7 +29,7 @@ export async function GET(req: Request) {
   }
 }
 
-/** PUT /api/water — upsert water log for a date. */
+/** PUT /api/water - upsert water log for a date. */
 export async function PUT(req: Request) {
   try {
     const user = await getCurrentUser();

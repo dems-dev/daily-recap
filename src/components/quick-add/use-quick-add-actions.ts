@@ -37,7 +37,7 @@ export function useQuickAddActions({
           return t(q.kind === "expense" ? "previewExpense" : "previewIncome", {
             amount: money(q.amount),
             category: categoryLabel(q.category),
-            description: q.description || "—",
+            description: q.description || "-",
             when: q.date === today ? t("today") : q.date,
           });
         case "todo":
@@ -53,7 +53,7 @@ export function useQuickAddActions({
           return t("previewSleep", {
             bedtime: q.bedtime,
             wakeTime: q.wakeTime,
-            duration: minutes === null ? "—" : formatDuration(minutes, locale),
+            duration: minutes === null ? "-" : formatDuration(minutes, locale),
           });
         }
         case "wish":

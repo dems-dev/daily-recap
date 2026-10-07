@@ -20,7 +20,7 @@ function TooltipBox({ title, value }: { title: string; value: string }) {
   );
 }
 
-/** Daily activity score across the last 7 days — one hue, today emphasized. */
+/** Daily activity score across the last 7 days - one hue, today emphasized. */
 export function WeeklyActivityChart({ data }: { data: WeekDay[] }) {
   const t = useTranslations("Dashboard");
   const dateLocale = useDateLocale();

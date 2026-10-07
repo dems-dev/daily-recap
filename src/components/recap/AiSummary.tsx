@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useMe } from "@/hooks/use-me";
 import { sendJson } from "@/hooks/use-json";
 
-/** "Summarize with AI" — only shown when the server has the AI Gateway configured. */
+/** "Summarize with AI" - only shown when the server has the AI Gateway configured. */
 export function AiSummary({ period, date }: { period: "day" | "week" | "month"; date: string }) {
   const t = useTranslations("Recap.ai");
   const { data: me } = useMe();

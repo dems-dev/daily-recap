@@ -5,7 +5,7 @@ import { notFound, readJson, serverError, unauthorized, validationError } from "
 import { dateKeyToDate } from "@/lib/date";
 import { pomodoroPatchSchema } from "@/lib/pomodoro";
 
-/** PATCH /api/pomodoro/[id] — correct a logged focus session. */
+/** PATCH /api/pomodoro/[id] - correct a logged focus session. */
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const user = await getCurrentUser();
@@ -31,7 +31,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   }
 }
 
-/** DELETE /api/pomodoro/[id] — remove a logged focus session. */
+/** DELETE /api/pomodoro/[id] - remove a logged focus session. */
 export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const user = await getCurrentUser();

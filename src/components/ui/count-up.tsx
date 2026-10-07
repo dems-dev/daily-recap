@@ -24,7 +24,7 @@ export function CountUp({
   const fromRef = React.useRef(0);
 
   React.useEffect(() => {
-    if (reduce) return; // render `value` directly below — no state churn
+    if (reduce) return; // render `value` directly below - no state churn
     const controls = animate(fromRef.current, value, {
       duration,
       ease: "easeOut",

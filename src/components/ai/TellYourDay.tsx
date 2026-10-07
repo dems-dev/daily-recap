@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useQuickAdd } from "@/components/quick-add/QuickAddProvider";
 import { useMe } from "@/hooks/use-me";
 
-/** "Tell me about your day" — free text that AI turns into entries for review. Only for today. */
+/** "Tell me about your day" - free text that AI turns into entries for review. Only for today. */
 export function TellYourDay() {
   const t = useTranslations("AiLog");
   const { data: me } = useMe();

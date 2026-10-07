@@ -7,7 +7,7 @@ import { bestStreak, completionRate, currentStreak, habitSchema } from "@/lib/ha
 
 const GRID_DAYS = 7;
 
-/** GET /api/habits?archived=1 — habits with the last 7 days, streaks and 30-day rate. */
+/** GET /api/habits?archived=1 - habits with the last 7 days, streaks and 30-day rate. */
 export async function GET(req: Request) {
   try {
     const user = await getCurrentUser();

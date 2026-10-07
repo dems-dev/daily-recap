@@ -17,7 +17,7 @@ export const habitLogSchema = z.object({
 
 /**
  * Consecutive completed days ending today. A habit not yet done today
- * doesn't break the streak — it counts back from yesterday instead.
+ * doesn't break the streak - it counts back from yesterday instead.
  */
 export function currentStreak(done: ReadonlySet<DateKey>, today: DateKey) {
   let day = done.has(today) ? today : addDays(today, -1);

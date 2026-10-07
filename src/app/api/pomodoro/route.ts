@@ -5,7 +5,7 @@ import { readJson, serverError, unauthorized, validationError } from "@/lib/api"
 import { addDays, dateKeyToDate, todayKey } from "@/lib/date";
 import { pomodoroSchema, serializePomodoro } from "@/lib/pomodoro";
 
-/** GET /api/pomodoro — today's sessions plus weekly stats. */
+/** GET /api/pomodoro - today's sessions plus weekly stats. */
 export async function GET() {
   try {
     const user = await getCurrentUser();
@@ -53,7 +53,7 @@ export async function GET() {
   }
 }
 
-/** POST /api/pomodoro — save a completed session. */
+/** POST /api/pomodoro - save a completed session. */
 export async function POST(req: Request) {
   try {
     const user = await getCurrentUser();

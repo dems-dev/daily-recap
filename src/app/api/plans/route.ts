@@ -11,7 +11,7 @@ async function weekStartOf(userId: string, date: string) {
   return periodRange("week", date, settings?.weekStartDay ?? "monday");
 }
 
-/** GET /api/plans?date=YYYY-MM-DD — priorities of the week containing `date` (default: this week). */
+/** GET /api/plans?date=YYYY-MM-DD - priorities of the week containing `date` (default: this week). */
 export async function GET(req: Request) {
   try {
     const user = await getCurrentUser();

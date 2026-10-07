@@ -79,7 +79,7 @@ export function DayRecap({ data }: { data: DayRecapData | null }) {
           label={t("tasksDone")}
           value={`${data.todos.completed.length}${data.todos.open.length ? ` / ${data.todos.completed.length + data.todos.open.length}` : ""}`}
         />
-        <Stat label={t("habitsDone")} value={data.habits.length ? `${habitsDone} / ${data.habits.length}` : "—"} />
+        <Stat label={t("habitsDone")} value={data.habits.length ? `${habitsDone} / ${data.habits.length}` : "-"} />
         <Stat
           label={t("mood")}
           value={
@@ -88,7 +88,7 @@ export function DayRecap({ data }: { data: DayRecapData | null }) {
                 <MoodFace mood={data.journal.mood} size={20} /> {tj(`moods.${data.journal.mood}`)}
               </span>
             ) : (
-              "—"
+              "-"
             )
           }
         />

@@ -16,7 +16,7 @@ function TooltipBox({ title, value }: { title: string; value: string }) {
   );
 }
 
-/** Expense per category, largest first — horizontal bars, one hue. */
+/** Expense per category, largest first - horizontal bars, one hue. */
 export function CategoryChart({
   data,
   money,
@@ -73,7 +73,7 @@ export function CategoryChart({
   );
 }
 
-/** Expense per day across the month — columns, one hue. */
+/** Expense per day across the month - columns, one hue. */
 export function DailyExpenseChart({
   data,
   money,

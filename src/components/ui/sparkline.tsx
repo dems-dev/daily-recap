@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "cn";
 
 /**
- * Tiny inline trend line for a stat card. Single series, no axes — a glanceable
+ * Tiny inline trend line for a stat card. Single series, no axes - a glanceable
  * micro-trend; the card itself links to the full, interactive view. Colour comes
  * from the parent via `currentColor` (set `text-finance` etc. on a wrapper).
  *

@@ -3,7 +3,7 @@ import { cn } from "cn";
 import type { Mood } from "@/lib/journal";
 
 /**
- * Custom hand-drawn mood emoticons — consistent across every device (unlike the
+ * Custom hand-drawn mood emoticons - consistent across every device (unlike the
  * OS emoji that render differently on Windows/Android/iOS). One rounded face per
  * mood with its own gradient and expression.
  */
@@ -96,7 +96,7 @@ export function MoodFace({
 
 /**
  * Recharts custom axis tick that renders a MoodFace instead of a text label.
- * Pass as `tick={<MoodAxisTick orientation="y" />}` — recharts injects x/y/payload.
+ * Pass as `tick={<MoodAxisTick orientation="y" />}` - recharts injects x/y/payload.
  */
 export function MoodAxisTick({
   x,

@@ -168,14 +168,14 @@ export function PeriodRecap({ data }: { data: PeriodRecapData | null }) {
         />
         <Stat
           label={t("habitRate")}
-          value={current.habitRate === null ? "—" : `${Math.round(current.habitRate * 100)}%`}
+          value={current.habitRate === null ? "-" : `${Math.round(current.habitRate * 100)}%`}
           delta={<Delta value={habitPoints} suffix=" pp" />}
         />
         <Stat
           label={t("moodAvg")}
           value={
             current.moodAvg === null ? (
-              "—"
+              "-"
             ) : (
               <span className="inline-flex items-center gap-1.5">
                 <MoodFace score={current.moodAvg} size={18} /> {current.moodAvg.toFixed(1)}
@@ -208,8 +208,8 @@ export function PeriodRecap({ data }: { data: PeriodRecapData | null }) {
                     {data.daily.map((d) => (
                       <tr key={d.date}>
                         <td className="py-2">{formatDate(d.date, "EEE, d MMM")}</td>
-                        <td className="py-2">{d.mood !== null ? <MoodFace score={d.mood} size={20} /> : "—"}</td>
-                        <td className="py-2 text-right">{d.habitsTotal ? `${d.habitsDone}/${d.habitsTotal}` : "—"}</td>
+                        <td className="py-2">{d.mood !== null ? <MoodFace score={d.mood} size={20} /> : "-"}</td>
+                        <td className="py-2 text-right">{d.habitsTotal ? `${d.habitsDone}/${d.habitsTotal}` : "-"}</td>
                         <td className="py-2 text-right">{d.todosDone}</td>
                         <td className="py-2 text-right">{money(d.expense)}</td>
                       </tr>
@@ -226,7 +226,7 @@ export function PeriodRecap({ data }: { data: PeriodRecapData | null }) {
                     {data.daily.map((d) => (
                       <span
                         key={d.date}
-                        title={`${formatDate(d.date, "d MMM")}${d.mood ? "" : ` — ${t("noEntry")}`}`}
+                        title={`${formatDate(d.date, "d MMM")}${d.mood ? "" : ` - ${t("noEntry")}`}`}
                         className="flex size-7 items-center justify-center rounded-md bg-muted/60 text-sm"
                       >
                         {d.mood !== null ? <MoodFace score={d.mood} size={18} /> : <span className="text-[10px] text-muted-foreground">{Number(d.date.slice(8))}</span>}

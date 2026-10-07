@@ -4,7 +4,7 @@ import { motion, useReducedMotion, type HTMLMotionProps, type Variants } from "f
 import * as React from "react";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-// A gentle spring with a touch of overshoot — reads as "lively" without bouncing.
+// A gentle spring with a touch of overshoot - reads as "lively" without bouncing.
 const SPRING = { type: "spring", stiffness: 260, damping: 22, mass: 0.9 } as const;
 
 // framer-motion's children type includes MotionValue; narrow it back to ReactNode
