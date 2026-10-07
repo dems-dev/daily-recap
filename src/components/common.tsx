@@ -15,9 +15,8 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "@/components/ui/toast";
 import { dateKeyToLocalDate, type DateKey } from "@/lib/date";
-import { Laugh, Smile, Meh, Frown, Annoyed, type LucideIcon } from "lucide-react";
 import { type Mood } from "@/lib/journal";
-import { cn } from "@/lib/utils";
+import { MoodFace } from "@/components/ui/mood-face";
 
 export function useDateLocale() {
   return useLocale() === "id" ? idLocale : enUS;
@@ -100,39 +99,37 @@ export function ConfirmDialog({
   );
 }
 
-export function PageHeader({ title, children }: { title: string; children?: React.ReactNode }) {
+export function PageHeader({
+  title,
+  description,
+  children,
+}: {
+  title: string;
+  description?: string;
+  children?: React.ReactNode;
+}) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-      <h1 className="text-3xl font-extrabold tracking-tight text-gradient">{title}</h1>
+    <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+      <div className="space-y-1">
+        <h1 className="font-heading text-3xl font-bold tracking-tight text-gradient">{title}</h1>
+        {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
+      </div>
       {children && <div className="flex flex-wrap items-center gap-2">{children}</div>}
     </div>
   );
 }
 
-const MOOD_CONFIG: Record<Mood, { icon: LucideIcon; color: string; score: number }> = {
-  great: { icon: Laugh, color: "text-emerald-500", score: 5 },
-  good: { icon: Smile, color: "text-green-500", score: 4 },
-  okay: { icon: Meh, color: "text-yellow-500", score: 3 },
-  bad: { icon: Frown, color: "text-orange-500", score: 2 },
-  terrible: { icon: Annoyed, color: "text-red-500", score: 1 },
-};
-
-export function MoodIcon({ mood, score, className }: { mood?: Mood; score?: number; className?: string }) {
-  let config = MOOD_CONFIG.okay;
-
-  if (mood && MOOD_CONFIG[mood]) {
-    config = MOOD_CONFIG[mood];
-  } else if (score !== undefined) {
-    const rounded = Math.max(1, Math.min(5, Math.round(score)));
-    const matchedMood = (Object.keys(MOOD_CONFIG) as Mood[]).find(
-      (key) => MOOD_CONFIG[key].score === rounded
-    );
-    if (matchedMood) config = MOOD_CONFIG[matchedMood];
-  }
-
-  const Icon = config.icon;
-
-  return (
-    <Icon className={cn(config.color, "inline-block shrink-0 h-5 w-5", className)} aria-hidden="true" />
-  );
+/** Custom mood emoticon. Kept as `MoodIcon` for existing call sites. */
+export function MoodIcon({
+  mood,
+  score,
+  size = 20,
+  className,
+}: {
+  mood?: Mood;
+  score?: number;
+  size?: number;
+  className?: string;
+}) {
+  return <MoodFace mood={mood} score={score} size={size} className={className} />;
 }

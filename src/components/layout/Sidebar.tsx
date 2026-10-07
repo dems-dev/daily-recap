@@ -24,15 +24,12 @@ import {
   LineChart,
   Settings,
   LogOut,
-  Menu,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { signOut, useSession } from "next-auth/react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useState } from "react";
 
 type NavItem = { key: string; href: string; icon: LucideIcon; ready: boolean };
 type NavGroup = { key: string; items: NavItem[] };
@@ -95,7 +92,7 @@ const VISIBLE_NAV = NAV.map((g) => ({ ...g, items: g.items.filter((i) => i.ready
   (g) => g.items.length > 0
 );
 
-function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
+export function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const t = useTranslations("Navigation");
   const pathname = usePathname();
   const { data: session } = useSession();
@@ -166,28 +163,10 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
 }
 
 export function Sidebar() {
-  const t = useTranslations("Navigation");
-  const [isOpen, setIsOpen] = useState(false);
-
+  // Desktop only. On mobile, navigation lives in <BottomNav> (with a "More" sheet).
   return (
-    <>
-      {/* Mobile Sidebar */}
-      <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetTrigger
-          render={<Button variant="outline" size="icon" className="md:hidden fixed top-3 left-3 z-40 bg-background/80 backdrop-blur-sm border-border/50 shadow-sm rounded-xl" />}
-          aria-label={t("openMenu")}
-        >
-          <Menu className="h-5 w-5" />
-        </SheetTrigger>
-        <SheetContent side="left" className="w-[280px] p-0 border-r-0 shadow-2xl glass">
-          <SidebarContent onNavigate={() => setIsOpen(false)} />
-        </SheetContent>
-      </Sheet>
-
-      {/* Desktop Sidebar */}
-      <div className="hidden md:flex h-screen w-[280px] flex-col border-r border-border/50 bg-background/40 backdrop-blur-xl">
-        <SidebarContent />
-      </div>
-    </>
+    <div className="hidden md:flex h-screen w-[280px] flex-col border-r border-border/50 bg-background/40 backdrop-blur-xl">
+      <SidebarContent />
+    </div>
   );
 }

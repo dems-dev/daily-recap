@@ -11,7 +11,8 @@ import { useToggleHabit } from "@/components/habits/use-toggle-habit";
 import { TodoItem } from "@/components/todos/TodoItem";
 import { useToggleTodo } from "@/components/todos/use-toggle-todo";
 import { useQuickAdd } from "@/components/quick-add/QuickAddProvider";
-import { MOOD_EMOJI, type JournalDTO } from "@/lib/journal";
+import { type JournalDTO } from "@/lib/journal";
+import { MoodFace } from "@/components/ui/mood-face";
 import type { TodoDTO } from "@/lib/todos";
 import { cn } from "@/lib/utils";
 import { AiSummary } from "./AiSummary";
@@ -83,8 +84,8 @@ export function DayRecap({ data }: { data: DayRecapData | null }) {
           label={t("mood")}
           value={
             data.journal ? (
-              <span>
-                <span aria-hidden>{MOOD_EMOJI[data.journal.mood]}</span> {tj(`moods.${data.journal.mood}`)}
+              <span className="inline-flex items-center gap-1.5">
+                <MoodFace mood={data.journal.mood} size={20} /> {tj(`moods.${data.journal.mood}`)}
               </span>
             ) : (
               "—"

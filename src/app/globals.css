@@ -9,7 +9,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-display);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -26,6 +26,13 @@
   --color-chart-3: var(--chart-3);
   --color-chart-2: var(--chart-2);
   --color-chart-1: var(--chart-1);
+  /* Per-module accent colors (used by dashboard stat cards & module headers) */
+  --color-finance: var(--finance);
+  --color-habit: var(--habit);
+  --color-task: var(--task);
+  --color-mind: var(--mind);
+  --color-sleep: var(--sleep);
+  --color-focus: var(--focus);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -56,7 +63,15 @@
   --viz-1: #3b82f6; /* Blue-500 */
   --viz-good: #10b981; /* Emerald-500 */
   --viz-critical: #ef4444; /* Red-500 */
-  
+
+  /* Per-module accents (light) */
+  --finance: oklch(0.6 0.13 165);  /* emerald */
+  --habit: oklch(0.65 0.15 65);    /* amber */
+  --task: oklch(0.55 0.2 285);     /* violet */
+  --mind: oklch(0.62 0.18 12);     /* rose */
+  --sleep: oklch(0.58 0.15 255);   /* indigo */
+  --focus: oklch(0.6 0.12 200);    /* cyan */
+
   --background: oklch(0.99 0.01 260);
   --foreground: oklch(0.15 0.02 260);
   --card: oklch(1 0 0);
@@ -102,7 +117,15 @@
   --viz-1: #60a5fa; /* Blue-400 */
   --viz-good: #34d399; /* Emerald-400 */
   --viz-critical: #f87171; /* Red-400 */
-  
+
+  /* Per-module accents (dark — brighter for contrast on dark cards) */
+  --finance: oklch(0.72 0.14 165);
+  --habit: oklch(0.78 0.15 70);
+  --task: oklch(0.72 0.18 285);
+  --mind: oklch(0.72 0.17 12);
+  --sleep: oklch(0.72 0.14 255);
+  --focus: oklch(0.72 0.12 200);
+
   --background: oklch(0.12 0.02 260);
   --foreground: oklch(0.98 0.01 260);
   --card: oklch(0.15 0.02 260);
@@ -166,5 +189,38 @@
 
   .text-gradient {
     @apply bg-gradient-to-br from-primary to-primary/60 bg-clip-text text-transparent;
+  }
+
+  /* Bold hero surface: indigo → violet → fuchsia. Self-contained, works in both themes.
+     Always pair with light text (text-white). */
+  .hero-surface {
+    background:
+      radial-gradient(130% 130% at 0% 0%, oklch(0.68 0.21 300) 0%, transparent 55%),
+      radial-gradient(120% 120% at 100% 10%, oklch(0.64 0.2 240) 0%, transparent 55%),
+      linear-gradient(135deg, var(--primary) 0%, oklch(0.5 0.23 320) 100%);
+  }
+
+  /* Subtle colored mesh behind the whole app shell. */
+  .app-shell {
+    background:
+      radial-gradient(55% 45% at 100% 0%, color-mix(in oklch, var(--primary) 9%, transparent) 0%, transparent 70%),
+      radial-gradient(45% 40% at 0% 100%, color-mix(in oklch, var(--sleep) 9%, transparent) 0%, transparent 70%),
+      var(--background);
+  }
+
+  /* Soft decorative blob for hero corners. */
+  .hero-blob {
+    filter: blur(40px);
+  }
+}
+
+/* Honor users who prefer less motion: neutralize transforms/animations globally. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
 }

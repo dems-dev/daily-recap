@@ -11,7 +11,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "@/components/ui/toast";
 import { ConfirmDialog, useFailureToast } from "@/components/common";
 import { sendJson, useInvalidate, useJson } from "@/hooks/use-json";
-import { MOOD_EMOJI, MOODS, type JournalDTO, type Mood } from "@/lib/journal";
+import { MOODS, type JournalDTO, type Mood } from "@/lib/journal";
+import { MoodFace } from "@/components/ui/mood-face";
 import { cn } from "@/lib/utils";
 
 type Draft = { mood: Mood | null; title: string; content: string; gratitude: string[]; tags: string };
@@ -46,9 +47,7 @@ export function MoodPicker({ value, onChange }: { value: Mood | null; onChange: 
             value === mood ? "border-primary bg-primary/10 font-medium" : "border-border hover:bg-muted"
           )}
         >
-          <span className="text-xl" aria-hidden>
-            {MOOD_EMOJI[mood]}
-          </span>
+          <MoodFace mood={mood} size={28} className={cn("transition-transform", value === mood && "scale-110")} />
           {t(`moods.${mood}`)}
         </button>
       ))}

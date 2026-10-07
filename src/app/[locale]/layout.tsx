@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import "../globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
@@ -11,6 +11,13 @@ import { Toaster } from "@/components/ui/toast";
 import { ServiceWorkerRegister } from "@/components/pwa/ServiceWorkerRegister";
 
 const inter = Inter({ subsets: ["latin"] });
+// Display font for headings — gives the UI a distinct personality while body text stays Inter.
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-display",
+  display: "swap",
+});
 
 export async function generateMetadata({
   params
@@ -59,7 +66,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={`${inter.className} ${spaceGrotesk.variable} antialiased`}>
         <SessionProvider>
           <NextIntlClientProvider messages={messages}>
             <ThemeProvider

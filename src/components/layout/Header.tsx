@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Moon, Sun, Globe, Zap } from "lucide-react";
 import { useTheme } from "next-themes";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Flag } from "@/components/ui/flag";
 import { format } from "date-fns";
 import { useDateLocale } from "@/components/common";
 import { useQuickAdd } from "@/components/quick-add/QuickAddProvider";
@@ -26,7 +27,7 @@ export function Header() {
   };
 
   return (
-    <header className="flex h-14 items-center justify-between gap-2 border-b bg-card pl-14 pr-4 md:pl-4 lg:px-6">
+    <header className="flex h-14 items-center justify-between gap-2 border-b bg-card/80 px-4 backdrop-blur-xl lg:px-6">
       <span className="hidden text-sm font-medium text-muted-foreground sm:inline-block" suppressHydrationWarning>
         {formattedDate}
       </span>
@@ -44,10 +45,10 @@ export function Header() {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem onClick={() => switchLocale("id")} className={locale === "id" ? "bg-muted" : ""}>
-              Indonesia 🇮🇩
+              <Flag country="id" className="mr-2" /> Indonesia
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => switchLocale("en")} className={locale === "en" ? "bg-muted" : ""}>
-              English 🇬🇧
+              <Flag country="gb" className="mr-2" /> English
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

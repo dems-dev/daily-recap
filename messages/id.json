@@ -52,7 +52,26 @@
     "noTasks": "Tidak ada tugas untuk hari ini.",
     "sleep": "Tidur",
     "sleepQuality": "Kualitas {value}/5",
-    "sleepHint": "Catat: tidur 23:00 06:30"
+    "sleepHint": "Catat: tidur 23:00 06:30",
+    "todayProgress": "hari ini selesai",
+    "allCaughtUp": "Semua beres — tidak ada lagi untuk hari ini.",
+    "activityHint": "Catat sesuatu, nanti muncul di sini.",
+    "weeklyActivity": "Aktivitas minggu ini",
+    "activePercent": "{value}% aktif",
+    "streakLabel": "Rentetan {days} hari",
+    "streakStart": "Mulai rentetanmu hari ini",
+    "focus": "Fokus",
+    "focusToday": "Waktu fokus hari ini",
+    "noFocus": "Belum ada sesi fokus",
+    "nudgeTasks": "Selesaikan {count} tugas lagi untuk capai {percent}%",
+    "allDoneToday": "Semua selesai hari ini — kerja bagus!",
+    "welcomeTitle": "Selamat datang di Daily Recap",
+    "welcomeSubtitle": "Ayo siapkan harimu — cukup semenit saja.",
+    "stepTransaction": "Catat transaksi pertamamu",
+    "stepTask": "Tambah tugas untuk hari ini",
+    "stepHabit": "Buat kebiasaan untuk dilacak",
+    "stepJournal": "Tulis jurnal hari ini",
+    "onboardingDismiss": "Nanti saja"
   },
   "Navigation": {
     "overview": "RINGKASAN",
@@ -83,7 +102,8 @@
     "logout": "Keluar",
     "recap": "Recap",
     "openMenu": "Buka menu",
-    "assistant": "Asisten AI"
+    "assistant": "Asisten AI",
+    "more": "Lainnya"
   },
   "Auth": {
     "login": "Masuk",
@@ -470,7 +490,7 @@
       "habitsDown": "Kebiasaan yang dijalankan turun {points} poin persentase.",
       "habitsRate": "Kamu menjalankan {pct}% dari kebiasaanmu.",
       "todosDone": "{count, plural, =1 {1 tugas} other {# tugas}} selesai (periode lalu: {prev}).",
-      "moodAvg": "Rata-rata mood {avg} {emoji} dari {days} hari tercatat (dari {total} hari).",
+      "moodAvg": "Rata-rata mood {avg} dari {days} hari tercatat (dari {total} hari).",
       "noMood": "Belum ada mood yang dicatat — isi recap harian supaya polanya terlihat.",
       "prioritiesDone": "{done} dari {total} prioritas minggu ini tercapai.",
       "prioritiesAllDone": "Semua {total} prioritas minggu ini tercapai! 🎯",
@@ -588,7 +608,7 @@
     "aiToggle": "Aktifkan fitur AI",
     "aiOn": "Fitur AI diaktifkan",
     "aiOff": "Fitur AI dimatikan",
-    "aiNotConfigured": "Server belum dikonfigurasi (AI_GATEWAY_API_KEY belum diisi), jadi fitur AI belum bisa dipakai.",
+    "aiNotConfigured": "Server belum dikonfigurasi (GOOGLE_GENERATIVE_AI_API_KEY belum diisi), jadi fitur AI belum bisa dipakai.",
     "aiFeatureLog": "Catat dengan bahasa bebas — hasilnya selalu kamu periksa dulu.",
     "aiFeatureChat": "Asisten AI — menjawab pertanyaan dari datamu, hanya bisa membaca.",
     "aiFeatureCoach": "Coach mingguan — ulasan dan usulan prioritas.",
@@ -757,7 +777,7 @@
       "getPlans": "prioritas & wishlist"
     },
     "disclaimer": "Jawaban AI bisa keliru. Percakapan tidak disimpan di server.",
-    "notConfigured": "Fitur AI belum aktif di server. Isi AI_GATEWAY_API_KEY di file .env lalu jalankan ulang aplikasi.",
+    "notConfigured": "Fitur AI belum aktif di server. Isi GOOGLE_GENERATIVE_AI_API_KEY di file .env lalu jalankan ulang aplikasi.",
     "disabledByUser": "Fitur AI sedang kamu matikan di Pengaturan.",
     "openSettings": "Buka Pengaturan"
   },

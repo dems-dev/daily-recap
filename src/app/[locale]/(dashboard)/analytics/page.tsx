@@ -19,7 +19,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PageHeader, useDateFormat } from "@/components/common";
 import { useMoney } from "@/components/finance/shared";
-import { moodEmoji } from "@/components/recap/PeriodRecap";
+import { MoodAxisTick } from "@/components/ui/mood-face";
 import { useJson } from "@/hooks/use-json";
 import { formatCompact } from "@/lib/format";
 import type { Insight } from "@/lib/insights";
@@ -154,10 +154,9 @@ export default function AnalyticsPage() {
                         domain={[1, 5]}
                         ticks={[1, 2, 3, 4, 5]}
                         width={28}
-                        tick={AXIS_TICK}
+                        tick={<MoodAxisTick orientation="y" />}
                         tickLine={false}
                         axisLine={false}
-                        tickFormatter={(v: number) => moodEmoji(v)}
                       />
                       <Tooltip
                         cursor={{ stroke: "var(--muted-foreground)", strokeDasharray: "3 3" }}
@@ -185,7 +184,7 @@ export default function AnalyticsPage() {
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data.expenseByMood} margin={{ top: 8, right: 0, bottom: 0, left: 0 }}>
                       <CartesianGrid vertical={false} stroke="var(--border)" />
-                      <XAxis dataKey="mood" tick={AXIS_TICK} tickLine={false} axisLine={{ stroke: "var(--border)" }} tickFormatter={(v: number) => moodEmoji(v)} />
+                      <XAxis dataKey="mood" tick={<MoodAxisTick orientation="x" />} tickLine={false} axisLine={{ stroke: "var(--border)" }} />
                       <YAxis width={48} tick={AXIS_TICK} tickLine={false} axisLine={false} tickFormatter={(v: number) => formatCompact(v, locale)} />
                       <Tooltip
                         cursor={{ fill: "var(--muted)", opacity: 0.6 }}
@@ -214,7 +213,7 @@ export default function AnalyticsPage() {
                     <BarChart data={data.moodBySleep} margin={{ top: 8, right: 0, bottom: 0, left: 0 }}>
                       <CartesianGrid vertical={false} stroke="var(--border)" />
                       <XAxis dataKey="bucket" tick={AXIS_TICK} tickLine={false} axisLine={{ stroke: "var(--border)" }} tickFormatter={(b: string) => t(`sleepBuckets.${b}`)} />
-                      <YAxis domain={[1, 5]} ticks={[1, 2, 3, 4, 5]} width={28} tick={AXIS_TICK} tickLine={false} axisLine={false} tickFormatter={(v: number) => moodEmoji(v)} />
+                      <YAxis domain={[1, 5]} ticks={[1, 2, 3, 4, 5]} width={28} tick={<MoodAxisTick orientation="y" />} tickLine={false} axisLine={false} />
                       <Tooltip
                         cursor={{ fill: "var(--muted)", opacity: 0.6 }}
                         content={({ active, payload }) =>

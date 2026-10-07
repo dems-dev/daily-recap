@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useInvalidate, useJson } from "@/hooks/use-json";
 import { MonthSwitcher, useMoney } from "@/components/finance/shared";
+import { PageHeader } from "@/components/common";
 import { TransactionDialog, type Transaction } from "@/components/finance/TransactionDialog";
 import { TransactionsTab, type FinanceMonth } from "@/components/finance/TransactionsTab";
 import { BudgetTab } from "@/components/finance/BudgetTab";
@@ -41,15 +42,12 @@ export default function FinancePage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-3xl font-bold tracking-tight">{t("title")}</h1>
-        <div className="flex flex-wrap items-center gap-2">
-          {month && (tab === "transactions" || tab === "budget") && <MonthSwitcher month={month} onChange={setMonth} />}
-          <Button className="gap-2" onClick={() => setDialog({ tx: null })} disabled={!data}>
-            <Plus className="h-4 w-4" /> {t("addTransaction")}
-          </Button>
-        </div>
-      </div>
+      <PageHeader title={t("title")}>
+        {month && (tab === "transactions" || tab === "budget") && <MonthSwitcher month={month} onChange={setMonth} />}
+        <Button className="gap-2" onClick={() => setDialog({ tx: null })} disabled={!data}>
+          <Plus className="h-4 w-4" /> {t("addTransaction")}
+        </Button>
+      </PageHeader>
 
       {error && <p className="text-sm text-destructive">{t("loadFailed")}</p>}
 

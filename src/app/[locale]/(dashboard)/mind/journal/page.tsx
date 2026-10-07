@@ -9,7 +9,8 @@ import { MonthSwitcher } from "@/components/finance/shared";
 import { JournalEditor } from "@/components/journal/JournalEditor";
 import { useJson } from "@/hooks/use-json";
 import { dateKeyToDate, monthDateKeys } from "@/lib/date";
-import { MOOD_EMOJI, type Mood } from "@/lib/journal";
+import { type Mood } from "@/lib/journal";
+import { MoodFace } from "@/components/ui/mood-face";
 import { cn } from "@/lib/utils";
 
 type Entry = { date: string; mood: Mood; title: string | null; excerpt: string; tags: string[] };
@@ -71,8 +72,8 @@ export default function JournalPage() {
                         )}
                       >
                         <span className="tabular-nums text-muted-foreground">{Number(day.slice(8))}</span>
-                        <span className="h-5 text-base leading-5" aria-hidden>
-                          {entry ? MOOD_EMOJI[entry.mood] : ""}
+                        <span className="flex h-5 items-center justify-center" aria-hidden>
+                          {entry ? <MoodFace mood={entry.mood} size={18} /> : null}
                         </span>
                       </button>
                     );
@@ -116,9 +117,7 @@ export default function JournalPage() {
                   onClick={() => setSelected(entry.date)}
                   className="flex w-full items-start gap-3 p-3 text-left hover:bg-muted/50"
                 >
-                  <span className="text-xl" aria-hidden>
-                    {MOOD_EMOJI[entry.mood]}
-                  </span>
+                  <MoodFace mood={entry.mood} size={24} className="mt-0.5" />
                   <span className="min-w-0 flex-1">
                     <span className="block text-xs text-muted-foreground">{formatDate(entry.date, "EEEE, d MMM")}</span>
                     <span className="block truncate text-sm font-medium">{entry.title || entry.excerpt || t(`moods.${entry.mood}`)}</span>

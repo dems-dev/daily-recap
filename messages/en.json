@@ -52,7 +52,26 @@
     "noTasks": "Nothing due today.",
     "sleep": "Sleep",
     "sleepQuality": "Quality {value}/5",
-    "sleepHint": "Log: sleep 23:00 06:30"
+    "sleepHint": "Log: sleep 23:00 06:30",
+    "todayProgress": "of today done",
+    "allCaughtUp": "All caught up — nothing left for today.",
+    "activityHint": "Log something and it will show up here.",
+    "weeklyActivity": "This week's activity",
+    "activePercent": "{value}% active",
+    "streakLabel": "{days}-day streak",
+    "streakStart": "Start your streak today",
+    "focus": "Focus",
+    "focusToday": "Focus time today",
+    "noFocus": "No focus session yet",
+    "nudgeTasks": "Finish {count} more {count, plural, one {task} other {tasks}} to reach {percent}%",
+    "allDoneToday": "Everything done for today — nice work!",
+    "welcomeTitle": "Welcome to Daily Recap",
+    "welcomeSubtitle": "Let's set up your day — a minute is all it takes.",
+    "stepTransaction": "Log your first transaction",
+    "stepTask": "Add a task for today",
+    "stepHabit": "Create a habit to track",
+    "stepJournal": "Write today's journal",
+    "onboardingDismiss": "Maybe later"
   },
   "Navigation": {
     "overview": "OVERVIEW",
@@ -83,7 +102,8 @@
     "logout": "Logout",
     "recap": "Recap",
     "openMenu": "Open menu",
-    "assistant": "AI Assistant"
+    "assistant": "AI Assistant",
+    "more": "More"
   },
   "Auth": {
     "login": "Login",
@@ -470,7 +490,7 @@
       "habitsDown": "Habits kept went down {points} percentage points.",
       "habitsRate": "You kept {pct}% of your habits.",
       "todosDone": "{count, plural, one {# task} other {# tasks}} done (previous period: {prev}).",
-      "moodAvg": "Average mood {avg} {emoji} across {days} logged days (of {total}).",
+      "moodAvg": "Average mood {avg} across {days} logged days (of {total}).",
       "noMood": "No mood logged yet — fill in the daily recap so patterns can show.",
       "prioritiesDone": "{done} of {total} priorities done this week.",
       "prioritiesAllDone": "All {total} priorities done this week! 🎯",
@@ -588,7 +608,7 @@
     "aiToggle": "Enable AI features",
     "aiOn": "AI features turned on",
     "aiOff": "AI features turned off",
-    "aiNotConfigured": "The server isn't configured (AI_GATEWAY_API_KEY missing), so AI features can't be used yet.",
+    "aiNotConfigured": "The server isn't configured (GOOGLE_GENERATIVE_AI_API_KEY missing), so AI features can't be used yet.",
     "aiFeatureLog": "Free-text logging — you always review the result first.",
     "aiFeatureChat": "AI Assistant — answers questions from your data, read-only.",
     "aiFeatureCoach": "Weekly coach — review and suggested priorities.",
@@ -757,7 +777,7 @@
       "getPlans": "priorities & wishlist"
     },
     "disclaimer": "AI answers can be wrong. The conversation isn't stored on the server.",
-    "notConfigured": "AI isn't enabled on the server yet. Set AI_GATEWAY_API_KEY in .env and restart the app.",
+    "notConfigured": "AI isn't enabled on the server yet. Set GOOGLE_GENERATIVE_AI_API_KEY in .env and restart the app.",
     "disabledByUser": "You turned AI features off in Settings.",
     "openSettings": "Open Settings"
   },

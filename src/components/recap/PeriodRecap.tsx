@@ -10,7 +10,7 @@ import { DailyExpenseChart } from "@/components/finance/FinanceCharts";
 import type { DayRow } from "@/lib/insights";
 import { percentChange } from "@/lib/insights";
 import type { Highlight, PeriodStats } from "@/lib/recap";
-import { MOOD_EMOJI, MOODS } from "@/lib/journal";
+import { MoodFace } from "@/components/ui/mood-face";
 import { cn } from "@/lib/utils";
 import { formatDuration } from "@/lib/sleep";
 import { AiSummary } from "./AiSummary";
@@ -31,12 +31,6 @@ export type PeriodRecapData = {
   daily: DayRow[];
   highlights: Highlight[];
 };
-
-/** Emoji for a 1–5 mood score (rounded). */
-export function moodEmoji(score: number) {
-  const mood = MOODS[5 - Math.min(5, Math.max(1, Math.round(score)))];
-  return MOOD_EMOJI[mood];
-}
 
 function Delta({ value, suffix, invert = false }: { value: number | null; suffix: string; invert?: boolean }) {
   const t = useTranslations("Recap");
@@ -128,7 +122,7 @@ export function PeriodRecap({ data }: { data: PeriodRecapData | null }) {
           pct: p.pct,
         });
       case "moodAvg":
-        return t("highlights.moodAvg", { ...p, emoji: moodEmoji(Number(p.avg)) });
+        return t("highlights.moodAvg", p);
       case "sleepAvg":
       case "sleepUp":
       case "sleepDown":
@@ -183,8 +177,8 @@ export function PeriodRecap({ data }: { data: PeriodRecapData | null }) {
             current.moodAvg === null ? (
               "—"
             ) : (
-              <span>
-                <span aria-hidden>{moodEmoji(current.moodAvg)}</span> {current.moodAvg.toFixed(1)}
+              <span className="inline-flex items-center gap-1.5">
+                <MoodFace score={current.moodAvg} size={18} /> {current.moodAvg.toFixed(1)}
               </span>
             )
           }
@@ -214,7 +208,7 @@ export function PeriodRecap({ data }: { data: PeriodRecapData | null }) {
                     {data.daily.map((d) => (
                       <tr key={d.date}>
                         <td className="py-2">{formatDate(d.date, "EEE, d MMM")}</td>
-                        <td className="py-2">{d.mood !== null ? moodEmoji(d.mood) : "—"}</td>
+                        <td className="py-2">{d.mood !== null ? <MoodFace score={d.mood} size={20} /> : "—"}</td>
                         <td className="py-2 text-right">{d.habitsTotal ? `${d.habitsDone}/${d.habitsTotal}` : "—"}</td>
                         <td className="py-2 text-right">{d.todosDone}</td>
                         <td className="py-2 text-right">{money(d.expense)}</td>
@@ -235,7 +229,7 @@ export function PeriodRecap({ data }: { data: PeriodRecapData | null }) {
                         title={`${formatDate(d.date, "d MMM")}${d.mood ? "" : ` — ${t("noEntry")}`}`}
                         className="flex size-7 items-center justify-center rounded-md bg-muted/60 text-sm"
                       >
-                        {d.mood !== null ? moodEmoji(d.mood) : <span className="text-[10px] text-muted-foreground">{Number(d.date.slice(8))}</span>}
+                        {d.mood !== null ? <MoodFace score={d.mood} size={18} /> : <span className="text-[10px] text-muted-foreground">{Number(d.date.slice(8))}</span>}
                       </span>
                     ))}
                   </div>
