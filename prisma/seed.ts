@@ -41,6 +41,47 @@ const roundTo = (x: number, step: number) => Math.round(x / step) * step
 
 const MOODS = ['terrible', 'bad', 'okay', 'good', 'great'] as const
 
+// ---- Extended demo pools (so every page has rich examples) ----
+// [name, calories, protein(g), carbs(g), fat(g)]
+const BREAKFASTS: [string, number, number, number, number][] = [
+  ['Nasi uduk + telur', 450, 14, 60, 16], ['Bubur ayam', 380, 16, 55, 9],
+  ['Roti bakar + kopi', 320, 9, 42, 12], ['Oatmeal + pisang', 300, 10, 52, 6],
+  ['Lontong sayur', 420, 11, 58, 15],
+]
+const LUNCHES: [string, number, number, number, number][] = [
+  ['Ayam bakar + nasi', 620, 45, 70, 18], ['Nasi padang', 780, 32, 85, 34],
+  ['Gado-gado', 480, 18, 48, 24], ['Soto ayam + nasi', 520, 28, 62, 16],
+  ['Mie ayam bakso', 560, 24, 72, 18],
+]
+const DINNERS: [string, number, number, number, number][] = [
+  ['Pecel lele + nasi', 650, 38, 66, 26], ['Capcay + nasi', 430, 20, 55, 14],
+  ['Sate ayam + lontong', 590, 36, 58, 22], ['Ikan goreng + sayur', 480, 34, 40, 18],
+  ['Tumis brokoli + ayam', 410, 40, 28, 15],
+]
+const SNACKS: [string, number, number, number, number][] = [
+  ['Kopi susu', 180, 4, 22, 8], ['Pisang goreng', 220, 3, 34, 9],
+  ['Yogurt + granola', 190, 8, 26, 6], ['Buah potong', 110, 2, 26, 1],
+]
+const FOCUS_LABELS = ['Kerjakan laporan', 'Belajar Next.js', 'Review kode', 'Desain UI', 'Tulis artikel', 'Riset fitur', 'Balas email', 'Perbaiki bug']
+const POMO_CATS = ['work', 'work', 'study', 'side-project', 'creative'] as const
+const WORKOUT_NAMES = ['Morning Run', 'Push Day', 'Leg Day', 'Pull Day', 'Bersepeda', 'Renang', 'HIIT', 'Yoga flow', 'Jalan santai']
+const WORKOUT_TYPES = ['cardio', 'strength', 'strength', 'cardio', 'sports', 'flexibility'] as const
+const MED_TYPES = ['guided', 'breathing', 'silent', 'body-scan', 'yoga'] as const
+const TIL_NOTES: { content: string; tags: string[]; source?: string }[] = [
+  { content: 'useMemo hanya menghitung ulang saat dependensinya berubah — pakai untuk kalkulasi mahal, bukan semuanya.', tags: ['react', 'performa'] },
+  { content: 'Di PostgreSQL, index parsial bisa mempercepat query untuk subset baris yang sering diakses.', tags: ['database', 'sql'] },
+  { content: 'CSS gap bekerja di flexbox, bukan cuma grid. Tidak perlu margin lagi untuk jarak antar item.', tags: ['css'] },
+  { content: 'Teknik Pomodoro: 25 menit fokus, 5 menit istirahat. Setelah 4 siklus, istirahat panjang 15-30 menit.', tags: ['produktivitas'] },
+  { content: 'Protein ~1.6–2.0 g/kg berat badan membantu menjaga massa otot saat defisit kalori.', tags: ['kesehatan', 'nutrisi'] },
+  { content: 'Git: `git restore --staged <file>` untuk unstage tanpa kehilangan perubahan.', tags: ['git'] },
+  { content: 'Tidur 7–9 jam meningkatkan konsolidasi memori dan mood keesokan harinya.', tags: ['kesehatan', 'tidur'] },
+  { content: 'Next.js App Router: Server Components default; tambahkan "use client" hanya saat butuh interaktivitas.', tags: ['nextjs', 'react'], source: 'https://nextjs.org/docs' },
+  { content: 'Aturan 50/30/20 untuk budget: 50% kebutuhan, 30% keinginan, 20% tabungan.', tags: ['keuangan'] },
+  { content: 'Latihan beban progresif: naikkan beban/repetisi sedikit tiap minggu untuk terus berkembang.', tags: ['kesehatan', 'olahraga'] },
+  { content: 'Bahasa Inggris: "a lot" selalu dua kata. "alot" bukan kata yang benar.', tags: ['bahasa', 'inggris'] },
+  { content: 'Debounce input pencarian ~300ms untuk mengurangi request yang tidak perlu.', tags: ['react', 'performa'] },
+]
+
 const HABITS = [
   { name: 'Minum 8 gelas air', icon: '💧', p: 0.85 },
   { name: 'Olahraga 30 menit', icon: '🏃', p: 0.5 },
@@ -118,6 +159,15 @@ async function main() {
   await prisma.sleepLog.deleteMany(where)
   await prisma.weeklyPriority.deleteMany(where)
   await prisma.wishlistItem.deleteMany(where)
+  await prisma.waterLog.deleteMany(where)
+  await prisma.meal.deleteMany(where)
+  await prisma.bodyMetric.deleteMany(where)
+  await prisma.meditationLog.deleteMany(where)
+  await prisma.pomodoroSession.deleteMany(where)
+  await prisma.skill.deleteMany(where)
+  await prisma.book.deleteMany(where)
+  await prisma.tilNote.deleteMany(where)
+  await prisma.goal.deleteMany(where)
 
   const tz = user.timezone
   const today = todayKey(tz)
@@ -151,6 +201,13 @@ async function main() {
   const todos: Prisma.TodoCreateManyInput[] = []
   const journals: Prisma.JournalCreateManyInput[] = []
   const sleeps: Prisma.SleepLogCreateManyInput[] = []
+  const waters: Prisma.WaterLogCreateManyInput[] = []
+  const meals: Prisma.MealCreateManyInput[] = []
+  const pomodoros: Prisma.PomodoroSessionCreateManyInput[] = []
+  const workouts: Prisma.WorkoutCreateManyInput[] = []
+  const meditations: Prisma.MeditationLogCreateManyInput[] = []
+  const bodyMetrics: Prisma.BodyMetricCreateManyInput[] = []
+  let dayIdx = 0
   const hhmm = (minutes: number) => {
     const m = ((Math.round(minutes) % 1440) + 1440) % 1440
     return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`
@@ -229,6 +286,50 @@ async function main() {
         createdAt: at(day, 21), updatedAt: at(day, 21),
       })
     }
+
+    // Water
+    waters.push({ userId: user.id, date, glasses: isToday ? Math.round(between(1, 4)) : Math.round(between(4, 8)), target: 8, createdAt: at(day, 21), updatedAt: at(day, 21) })
+
+    // Meals
+    const addMeal = (type: string, m: [string, number, number, number, number], hour: number) =>
+      meals.push({ userId: user.id, date, type, name: m[0], calories: m[1], protein: m[2], carbs: m[3], fat: m[4], createdAt: at(day, hour), updatedAt: at(day, hour) })
+    if (chance(0.9)) addMeal('breakfast', pick(BREAKFASTS), 7)
+    if (!isToday || chance(0.5)) addMeal('lunch', pick(LUNCHES), 12)
+    if (!isToday) addMeal('dinner', pick(DINNERS), 19)
+    if (chance(0.4)) addMeal('snack', pick(SNACKS), 16)
+
+    // Pomodoro focus sessions on weekdays
+    if (!isWeekend) {
+      const n = Math.max(0, Math.round((sleepMinutes < 360 ? between(1, 3) : between(2, 5)) * (weekday === 2 ? 1.3 : 1)))
+      for (let i = 0; i < n; i++) {
+        const hour = 9 + i * 2
+        if (isToday && hour > 13) break
+        pomodoros.push({ userId: user.id, date, category: pick(POMO_CATS), label: pick(FOCUS_LABELS), duration: 25, isCompleted: true, createdAt: at(day, hour), updatedAt: at(day, hour) })
+      }
+    }
+
+    // Workout ~3x/week
+    if (!isToday && chance(isWeekend ? 0.55 : 0.3)) {
+      workouts.push({ userId: user.id, date, name: pick(WORKOUT_NAMES), type: pick(WORKOUT_TYPES), duration: Math.round(between(30, 75)), notes: null, createdAt: at(day, isWeekend ? 8 : 18), updatedAt: at(day, 18) })
+    }
+
+    // Meditation ~40%
+    if (!isToday && chance(0.4)) {
+      meditations.push({ userId: user.id, date, type: pick(MED_TYPES), duration: pick([5, 10, 15, 20]), notes: null, createdAt: at(day, 6), updatedAt: at(day, 6) })
+    }
+
+    // Body metrics weekly (weight trending down over the period), plus today.
+    if (dayIdx % 7 === 0 || isToday) {
+      const prog = dayIdx / DAYS
+      bodyMetrics.push({
+        userId: user.id, date,
+        weight: roundTo(82 - prog * 5 + between(-0.4, 0.4), 0.1),
+        bodyFat: roundTo(21 - prog * 3 + between(-0.4, 0.4), 0.1),
+        height: 178, notes: null,
+        createdAt: at(day, 7), updatedAt: at(day, 7),
+      })
+    }
+    dayIdx++
   }
 
   // Open tasks: overdue, today, upcoming.
@@ -300,6 +401,68 @@ async function main() {
     ],
   })
 
+  // Extended modules
+  await prisma.waterLog.createMany({ data: waters })
+  await prisma.meal.createMany({ data: meals })
+  await prisma.pomodoroSession.createMany({ data: pomodoros })
+  await prisma.workout.createMany({ data: workouts })
+  await prisma.meditationLog.createMany({ data: meditations })
+  await prisma.bodyMetric.createMany({ data: bodyMetrics })
+
+  // Skills + practice sessions
+  const skillDefs = [
+    { name: 'Bahasa Inggris', category: 'Bahasa', level: 'intermediate', sessions: 16 },
+    { name: 'React & Next.js', category: 'Programming', level: 'intermediate', sessions: 22 },
+    { name: 'Gitar', category: 'Musik', level: 'beginner', sessions: 9 },
+  ]
+  for (const s of skillDefs) {
+    const skill = await prisma.skill.create({ data: { userId: user.id, name: s.name, category: s.category, level: s.level, createdAt: at(start, 9) } })
+    const sess: Prisma.SkillSessionCreateManyInput[] = []
+    for (let i = 0; i < s.sessions; i++) {
+      const d = addDays(today, -Math.floor(rand() * DAYS))
+      sess.push({ skillId: skill.id, duration: pick([20, 30, 45, 60]), notes: null, date: dateKeyToDate(d), createdAt: at(d, 20), updatedAt: at(d, 20) })
+    }
+    await prisma.skillSession.createMany({ data: sess })
+  }
+
+  // Books
+  const bookDate = (daysAgo: number) => dateKeyToDate(addDays(today, -daysAgo))
+  await prisma.book.createMany({
+    data: [
+      { userId: user.id, title: 'Atomic Habits', author: 'James Clear', status: 'finished', totalPages: 320, currentPage: 320, rating: 5, review: 'Kebiasaan kecil 1% tiap hari berdampak besar. Praktis dan mudah diterapkan.', startDate: bookDate(80), finishDate: bookDate(55) },
+      { userId: user.id, title: 'Deep Work', author: 'Cal Newport', status: 'finished', totalPages: 280, currentPage: 280, rating: 4, review: 'Fokus tanpa gangguan adalah keunggulan di era distraksi.', startDate: bookDate(50), finishDate: bookDate(28) },
+      { userId: user.id, title: 'The Pragmatic Programmer', author: 'Hunt & Thomas', status: 'reading', totalPages: 352, currentPage: 150, startDate: bookDate(20) },
+      { userId: user.id, title: 'Sapiens', author: 'Yuval Noah Harari', status: 'reading', totalPages: 498, currentPage: 210, startDate: bookDate(14) },
+      { userId: user.id, title: 'Clean Code', author: 'Robert C. Martin', status: 'want-to-read', totalPages: 464, currentPage: 0 },
+    ],
+  })
+
+  // TIL notes
+  await prisma.tilNote.createMany({
+    data: TIL_NOTES.map((n, i) => {
+      const d = addDays(today, -(i * 6 + 2))
+      return { userId: user.id, content: n.content, tags: JSON.stringify(n.tags), source: n.source ?? null, date: dateKeyToDate(d), createdAt: at(d, 21), updatedAt: at(d, 21) }
+    }),
+  })
+
+  // Goals + milestones
+  const goalDefs: { title: string; description: string; category: string; type: string; target: number; milestones: [string, boolean][] }[] = [
+    { title: 'Lari 10K tanpa berhenti', description: 'Latihan lari rutin 3x seminggu menuju 10K.', category: 'health', type: 'short-term', target: 45, milestones: [['Lari 3K', true], ['Lari 5K', true], ['Lari 8K', false], ['Lari 10K', false]] },
+    { title: 'Kuasai Next.js 16', description: 'Bangun satu proyek nyata dengan App Router.', category: 'learning', type: 'short-term', target: 25, milestones: [['Selesai dokumentasi dasar', true], ['Bangun fitur auth', true], ['Deploy ke produksi', false]] },
+    { title: 'Dana darurat 6 bulan', description: 'Kumpulkan dana darurat setara 6x pengeluaran.', category: 'finance', type: 'long-term', target: 200, milestones: [['Capai 1 bulan', true], ['Capai 3 bulan', false], ['Capai 6 bulan', false]] },
+  ]
+  for (const g of goalDefs) {
+    const goal = await prisma.goal.create({
+      data: { userId: user.id, title: g.title, description: g.description, category: g.category, type: g.type, targetDate: dateKeyToDate(addDays(today, g.target)), createdAt: at(addDays(today, -30), 9) },
+    })
+    await prisma.milestone.createMany({
+      data: g.milestones.map(([title, done], i) => ({ goalId: goal.id, title, isCompleted: done, completedAt: done ? at(addDays(today, -20 + i * 3), 18) : null, order: i })),
+    })
+  }
+
+  console.log(
+    `Extended: ${meals.length} meals, ${workouts.length} workouts, ${pomodoros.length} focus sessions, ${meditations.length} meditations, ${bodyMetrics.length} body metrics, ${skillDefs.length} skills, 5 books, ${TIL_NOTES.length} TIL notes, ${goalDefs.length} goals.`
+  )
   console.log(
     `Seeded ${DAYS} days: ${finances.length} transactions, ${habitLogs.length} habit check-ins, ${todos.length} tasks, ${journals.length} journal entries, ${sleeps.length} nights, ${priorities.length} priorities.`
   )
