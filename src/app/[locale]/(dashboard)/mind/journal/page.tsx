@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
+import { Search } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PageHeader, useDateFormat } from "@/components/common";
 import { MonthSwitcher } from "@/components/finance/shared";
@@ -21,12 +23,24 @@ export default function JournalPage() {
   const formatDate = useDateFormat();
   const [month, setMonth] = useState<string | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
   const { data } = useJson<MonthResponse>(month ? `/api/journal?month=${month}` : "/api/journal");
 
   if (data && month === null) setMonth(data.month);
   if (data && selected === null) setSelected(data.today);
 
   const byDate = new Map(data?.entries.map((e) => [e.date, e]));
+  const filteredEntries = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    const list = data?.entries ?? [];
+    if (!q) return list;
+    return list.filter(
+      (e) =>
+        (e.title ?? "").toLowerCase().includes(q) ||
+        e.excerpt.toLowerCase().includes(q) ||
+        e.tags.some((tag) => tag.toLowerCase().includes(q))
+    );
+  }, [data, query]);
   const days = data ? monthDateKeys(data.month) : [];
   // Monday-first grid: blank cells before the 1st.
   const leading = days.length ? (dateKeyToDate(days[0]).getUTCDay() + 6) % 7 : 0;
@@ -108,9 +122,18 @@ export default function JournalPage() {
 
       {data && data.entries.length > 0 && (
         <section className="space-y-2">
-          <h2 className="text-lg font-semibold">{t("entriesThisMonth")}</h2>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h2 className="text-lg font-semibold">{t("entriesThisMonth")}</h2>
+            <div className="relative w-full max-w-xs">
+              <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+              <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t("searchPlaceholder")} className="pl-9" />
+            </div>
+          </div>
+          {filteredEntries.length === 0 ? (
+            <p className="rounded-xl border p-6 text-center text-sm text-muted-foreground">{t("noResults")}</p>
+          ) : (
           <ul className="divide-y rounded-xl border">
-            {data.entries.map((entry) => (
+            {filteredEntries.map((entry) => (
               <li key={entry.date}>
                 <button
                   type="button"
@@ -126,6 +149,7 @@ export default function JournalPage() {
               </li>
             ))}
           </ul>
+          )}
         </section>
       )}
     </div>

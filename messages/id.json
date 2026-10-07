@@ -384,7 +384,9 @@
     "tagsPlaceholder": "pisahkan dengan koma, mis. kerja, keluarga",
     "saved": "Jurnal tersimpan",
     "deleteTitle": "Hapus catatan hari ini?",
-    "futureDay": "Hari ini belum tiba."
+    "futureDay": "Hari ini belum tiba.",
+    "searchPlaceholder": "Cari entri…",
+    "noResults": "Tidak ada entri yang cocok."
   },
   "Header": {
     "quickAdd": "Tambah cepat",
@@ -901,7 +903,11 @@
       "intermediate": "Menengah",
       "advanced": "Mahir"
     },
-    "unknownAuthor": "Penulis tak diketahui"
+    "unknownAuthor": "Penulis tak diketahui",
+    "tilSearch": "Cari catatan…",
+    "tilSource": "Sumber",
+    "tilNoResults": "Tidak ada catatan yang cocok.",
+    "tilAllTags": "Semua"
   },
   "Health": {
     "bodyTitle": "Metrik Tubuh",

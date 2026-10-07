@@ -384,7 +384,9 @@
     "tagsPlaceholder": "comma separated, e.g. work, family",
     "saved": "Journal saved",
     "deleteTitle": "Delete this entry?",
-    "futureDay": "This day hasn't happened yet."
+    "futureDay": "This day hasn't happened yet.",
+    "searchPlaceholder": "Search entries…",
+    "noResults": "No entries match."
   },
   "Header": {
     "quickAdd": "Quick add",
@@ -1018,7 +1020,11 @@
       "intermediate": "Intermediate",
       "advanced": "Advanced"
     },
-    "unknownAuthor": "Unknown author"
+    "unknownAuthor": "Unknown author",
+    "tilSearch": "Search notes…",
+    "tilSource": "Source",
+    "tilNoResults": "No notes match.",
+    "tilAllTags": "All"
   },
   "Workout": {
     "title": "Workout",
