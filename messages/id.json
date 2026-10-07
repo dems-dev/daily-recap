@@ -253,7 +253,8 @@
     "deleteRecurringDescription": "Transaksi yang sudah terbuat tetap tersimpan; hanya jadwalnya yang dihapus.",
     "wishlist": "Wishlist",
     "editRecurring": "Ubah transaksi berulang",
-    "editRecurringHint": "Perubahan berlaku untuk transaksi berikutnya. Transaksi yang sudah terbuat tidak berubah — ubah satu per satu di tab Transaksi bila perlu."
+    "editRecurringHint": "Perubahan berlaku untuk transaksi berikutnya. Transaksi yang sudah terbuat tidak berubah — ubah satu per satu di tab Transaksi bila perlu.",
+    "nearLimit": "Hampir mencapai batas ({percent}%)"
   },
   "Common": {
     "cancel": "Batal",

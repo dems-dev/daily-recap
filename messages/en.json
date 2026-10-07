@@ -253,7 +253,8 @@
     "deleteRecurringDescription": "Transactions it already created are kept; only the schedule is removed.",
     "wishlist": "Wishlist",
     "editRecurring": "Edit recurring transaction",
-    "editRecurringHint": "Changes apply to upcoming transactions. Ones already created stay as they are — edit them in the Transactions tab if needed."
+    "editRecurringHint": "Changes apply to upcoming transactions. Ones already created stay as they are — edit them in the Transactions tab if needed.",
+    "nearLimit": "Almost at your limit ({percent}%)"
   },
   "Common": {
     "cancel": "Cancel",

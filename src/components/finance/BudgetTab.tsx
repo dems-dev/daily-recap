@@ -70,6 +70,7 @@ export function BudgetTab({
             {budgets.map((b) => {
               const ratio = b.amount > 0 ? b.spent / b.amount : 0;
               const over = b.spent > b.amount;
+              const near = !over && ratio >= 0.85;
               return (
                 <li key={b.id} className="group space-y-1.5">
                   <div className="flex items-center gap-2">
@@ -95,7 +96,7 @@ export function BudgetTab({
                     className="h-2 overflow-hidden rounded-full bg-muted"
                   >
                     <div
-                      className={cn("h-full rounded-full", over ? "bg-viz-critical" : "bg-viz-1")}
+                      className={cn("h-full rounded-full", over ? "bg-viz-critical" : near ? "bg-amber-500" : "bg-viz-1")}
                       style={{ width: `${Math.min(ratio, 1) * 100}%` }}
                     />
                   </div>
@@ -105,6 +106,13 @@ export function BudgetTab({
                         <AlertTriangle className="size-3.5 text-viz-critical" aria-hidden />
                         <span className="font-medium text-foreground">
                           {t("overBudget", { amount: money(b.spent - b.amount) })}
+                        </span>
+                      </>
+                    ) : near ? (
+                      <>
+                        <AlertTriangle className="size-3.5 text-amber-500" aria-hidden />
+                        <span className="font-medium text-foreground">
+                          {t("nearLimit", { percent: Math.round(ratio * 100) })}
                         </span>
                       </>
                     ) : (
