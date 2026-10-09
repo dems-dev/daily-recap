@@ -2,7 +2,11 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { workoutSchema, serializeWorkout } from "@/lib/workout";
+import { replaceExercises } from "@/lib/workout-records";
 import { dateKeyToDate } from "@/lib/date";
+
+/** Exercises of a session, in the order they were logged. */
+const WITH_EXERCISES = { exercises: { orderBy: { order: "asc" } } } as const;
 
 export async function GET(req: Request) {
   const session = await auth();
@@ -15,6 +19,7 @@ export async function GET(req: Request) {
     where: { userId: session.user.id },
     orderBy: { date: "desc" },
     take: limit,
+    include: WITH_EXERCISES,
   });
 
   return NextResponse.json({ logs: logs.map(serializeWorkout) });
@@ -23,14 +28,15 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   const session = await auth();
   if (!session?.user?.id) return new NextResponse("Unauthorized", { status: 401 });
+  const userId = session.user.id;
 
   try {
     const json = await req.json();
     const data = workoutSchema.parse(json);
 
-    const log = await prisma.workout.create({
+    const created = await prisma.workout.create({
       data: {
-        userId: session.user.id,
+        userId,
         name: data.name,
         type: data.type,
         duration: data.duration,
@@ -39,7 +45,16 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json(serializeWorkout(log));
+    const newRecords = data.exercises?.length
+      ? await replaceExercises(userId, created.id, data.exercises)
+      : [];
+
+    const log = await prisma.workout.findUniqueOrThrow({
+      where: { id: created.id },
+      include: WITH_EXERCISES,
+    });
+
+    return NextResponse.json({ ...serializeWorkout(log), newRecords });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Invalid request";
     return NextResponse.json({ error: message }, { status: 400 });
