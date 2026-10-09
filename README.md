@@ -121,6 +121,15 @@ SQLite can't be used on Vercel's serverless filesystem, so production needs Post
 3. Optionally seed the demo account: `DATABASE_URL=… npx prisma db seed`.
 4. Import the repo in Vercel and set the environment variables above
    (`AUTH_TRUST_HOST` is not needed there). `vercel.json` runs `prisma generate` before the build.
+   **Schema changes are not deployed by this.** `prisma generate` only rebuilds the client from
+   `prisma/schema.prisma`; it never touches the database. So anything you change in the schema -
+   a new `@@index`, a column, a model - has to be applied yourself, once, against production:
+   ```bash
+   DATABASE_URL="$DATABASE_URL_UNPOOLED" npx prisma db push
+   ```
+   Use the **unpooled** URL: Neon's pooler is not meant for DDL. Check what a push would do first
+   with `npx prisma migrate diff --from-schema-datasource prisma/schema.prisma
+   --to-schema-datamodel prisma/schema.prisma --script`, which prints the SQL without running it.
 5. **Cron:** `vercel.json` schedules `/api/cron/reminders` daily at 13:00 UTC (20:00 WIB) because the
    Hobby plan only allows daily crons. On Pro, change it to `0 * * * *` so each user's own reminder
    hour is honoured.
