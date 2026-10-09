@@ -18,8 +18,8 @@ import { instantToLocalTime } from "@/lib/sleep";
 export async function buildRecap(user: CurrentUser, period: Period, date: DateKey, today: DateKey) {
   if (period === "day") return dayRecap(user, date, today);
 
-  const settings = await prisma.user.findUnique({ where: { id: user.id }, select: { weekStartDay: true } });
-  const weekStart = settings?.weekStartDay ?? "monday";
+  // weekStartDay rides along on CurrentUser, so no second User query here.
+  const weekStart = user.weekStartDay;
   const range = periodRange(period, date, weekStart);
   const prev = previousRange(period, range.start, weekStart);
   // Only days that have happened count towards averages and rates.

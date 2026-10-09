@@ -1,5 +1,18 @@
 import type { DayRow } from "@/lib/insights";
 
+export const ANALYTICS_RANGES = [30, 90, 180] as const;
+export type AnalyticsRange = (typeof ANALYTICS_RANGES)[number];
+
+export function isAnalyticsRange(days: number): days is AnalyticsRange {
+  return (ANALYTICS_RANGES as readonly number[]).includes(days);
+}
+
+/** Falls back to the middle range, so a junk ?days= never breaks the page. */
+export function parseRange(raw: string | undefined): AnalyticsRange {
+  const days = Number(raw);
+  return isAnalyticsRange(days) ? days : 90;
+}
+
 /** Aggregations for the analytics charts. Pure; see loadDayRows for the input. */
 export function analyticsSeries(rows: DayRow[]) {
   const mean = (xs: number[]) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null);

@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getCurrentUser } from "@/lib/session";
+import { getCurrentUser, type CurrentUser } from "@/lib/session";
 import { badRequest, readJson, serverError, unauthorized, validationError } from "@/lib/api";
 import { addDays, dateKeyToDate, isDateKey, todayKey } from "@/lib/date";
 import { periodRange } from "@/lib/recap";
 import { MAX_PRIORITIES, priorityCreateSchema } from "@/lib/plans";
 
-async function weekStartOf(userId: string, date: string) {
-  const settings = await prisma.user.findUnique({ where: { id: userId }, select: { weekStartDay: true } });
-  return periodRange("week", date, settings?.weekStartDay ?? "monday");
+/** weekStartDay comes from CurrentUser, so this needs no extra query. */
+function weekStartOf(user: CurrentUser, date: string) {
+  return periodRange("week", date, user.weekStartDay);
 }
 
 /** GET /api/plans?date=YYYY-MM-DD - priorities of the week containing `date` (default: this week). */
@@ -21,7 +21,7 @@ export async function GET(req: Request) {
     const date = new URL(req.url).searchParams.get("date") ?? today;
     if (!isDateKey(date)) return badRequest("Invalid date");
 
-    const week = await weekStartOf(user.id, date);
+    const week = weekStartOf(user, date);
     const rows = await prisma.weeklyPriority.findMany({
       where: { userId: user.id, weekStart: dateKeyToDate(week.start) },
       orderBy: [{ order: "asc" }, { createdAt: "asc" }],
@@ -48,7 +48,7 @@ export async function POST(req: Request) {
     const parsed = priorityCreateSchema.safeParse(await readJson(req));
     if (!parsed.success) return validationError(parsed.error);
 
-    const week = await weekStartOf(user.id, parsed.data.date);
+    const week = weekStartOf(user, parsed.data.date);
     const weekStart = dateKeyToDate(week.start);
     const count = await prisma.weeklyPriority.count({ where: { userId: user.id, weekStart } });
     if (count >= MAX_PRIORITIES) {

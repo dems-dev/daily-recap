@@ -48,3 +48,8 @@ next-env.d.ts
 # local scratch / logs
 test-ai.ts
 ai-error.log
+
+# local agent / assistant files
+.claude/
+.agents/
+skills-lock.json
