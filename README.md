@@ -152,6 +152,10 @@ SQLite can't be used on Vercel's serverless filesystem, so production needs Post
 5. **Cron:** `vercel.json` schedules `/api/cron/reminders` daily at 13:00 UTC (20:00 WIB) because the
    Hobby plan only allows daily crons. On Pro, change it to `0 * * * *` so each user's own reminder
    hour is honoured.
+6. **Demo data:** `npx tsx scripts/backfill-demo-exercises.ts` fills the demo account's existing
+   workout sessions with exercises and sets, so Personal Records has history to show. It prints a
+   dry run by default and writes only with `--apply`; unlike `prisma db seed` it never deletes or
+   resets anything, and it skips sessions that already have exercises.
 
 ## Roadmap ideas
 Modules that exist in the schema but are hidden until finished (flip `ready` in

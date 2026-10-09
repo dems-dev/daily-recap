@@ -2,16 +2,27 @@
 
 import { useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
-import { Dumbbell, Pencil, Trash2, Clock, Flame, X } from "lucide-react";
+import { Dumbbell, Pencil, Trash2, Clock, Flame, Trophy, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/toast";
 import { PageHeader, useDateFormat, ConfirmDialog, useFailureToast } from "@/components/common";
 import { EmptyState } from "@/components/ui/empty-state";
+import {
+  ExerciseFields,
+  draftsToInput,
+  draftToEditable,
+  emptyExerciseDraft,
+  type ExerciseDraft,
+} from "@/components/health/ExerciseFields";
 import { useJson, sendJson, useInvalidate } from "@/hooks/use-json";
-import { type WorkoutDTO, WORKOUT_TYPES } from "@/lib/workout";
+import { Link } from "@/i18n/routing";
+import { holdsRecord, type ExerciseRecord } from "@/lib/exercises";
+import { type ExerciseDTO, type WorkoutDTO, type WorkoutSaveResult, WORKOUT_TYPES } from "@/lib/workout";
 import { addDays, todayKey } from "@/lib/date";
 
 const SELECT_CLASS =
@@ -21,6 +32,7 @@ export default function WorkoutPage() {
   const t = useTranslations("Workout");
   const tc = useTranslations("Common");
   const { data, loading } = useJson<{ logs: WorkoutDTO[] }>("/api/workout");
+  const { data: recordsData } = useJson<{ records: ExerciseRecord[] }>("/api/workout/records");
   const format = useDateFormat();
   const invalidate = useInvalidate();
   const onFail = useFailureToast();
@@ -30,8 +42,18 @@ export default function WorkoutPage() {
   const [type, setType] = useState<WorkoutDTO["type"]>("strength");
   const [duration, setDuration] = useState<number>(45);
   const [notes, setNotes] = useState("");
+  const [exercises, setExercises] = useState<ExerciseDraft[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  /** Session that just beat something, so its card can show "Rekor baru!". */
+  const [beatenBy, setBeatenBy] = useState<string | null>(null);
+
+  const records = useMemo(() => recordsData?.records ?? [], [recordsData]);
+  const recordByName = useMemo(() => {
+    const map = new Map<string, ExerciseRecord>();
+    for (const record of records) map.set(record.canonicalName, record);
+    return map;
+  }, [records]);
 
   const resetForm = () => {
     setEditingId(null);
@@ -39,6 +61,7 @@ export default function WorkoutPage() {
     setType("strength");
     setDuration(45);
     setNotes("");
+    setExercises([]);
   };
 
   const startEdit = (log: WorkoutDTO) => {
@@ -47,15 +70,50 @@ export default function WorkoutPage() {
     setType(log.type);
     setDuration(log.duration ?? 0);
     setNotes(log.notes ?? "");
+    setExercises(log.exercises.length ? log.exercises.map(draftToEditable) : []);
+  };
+
+  /** One toast per record, naming the exercise and what it beat. */
+  const announce = (newRecords: WorkoutSaveResult["newRecords"]) => {
+    for (const record of newRecords) {
+      const value =
+        record.kind === "reps"
+          ? t("records.reps", { value: record.value })
+          : t("records.kg", { value: record.value });
+      const previous =
+        record.previous === null
+          ? null
+          : record.kind === "reps"
+            ? t("records.reps", { value: record.previous })
+            : t("records.kg", { value: record.previous });
+      toast.add({
+        title: t("records.newToast", { name: record.name }),
+        description: previous
+          ? t("records.newDetail", { value, previous })
+          : t("records.newDetailFirst", { value }),
+        type: "success",
+      });
+    }
   };
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
     try {
-      const payload = { name, type, duration, notes, date: todayKey(tz) };
-      if (editingId) await sendJson(`/api/workout/${editingId}`, "PATCH", payload);
-      else await sendJson("/api/workout", "POST", payload);
+      const payload = {
+        name,
+        type,
+        duration,
+        notes,
+        date: todayKey(tz),
+        exercises: draftsToInput(exercises),
+      };
+      const saved: WorkoutSaveResult | { id: string; newRecords: WorkoutSaveResult["newRecords"] } =
+        editingId
+          ? await sendJson(`/api/workout/${editingId}`, "PATCH", payload)
+          : await sendJson("/api/workout", "POST", payload);
+      setBeatenBy(saved?.newRecords?.length ? saved.id : null);
+      if (saved?.newRecords?.length) announce(saved.newRecords);
       resetForm();
       invalidate();
     } catch (err) {
@@ -65,13 +123,30 @@ export default function WorkoutPage() {
     }
   };
 
+  /** "3 set · terberat 60 kg × 8" for one logged exercise. */
+  const exerciseSummary = (exercise: ExerciseDTO) => {
+    const detail =
+      exercise.bestWeight !== null
+        ? t("exercises.summaryWeighted", {
+            weight: exercise.bestWeight,
+            reps: exercise.bestWeightReps ?? 1,
+          })
+        : t("exercises.summaryReps", { reps: exercise.bestReps ?? 0 });
+    return t("exercises.summary", { sets: exercise.sets.length, detail });
+  };
+
   const weekStart = useMemo(() => addDays(todayKey(Intl.DateTimeFormat().resolvedOptions().timeZone), -6), []);
   const weekLogs = (data?.logs ?? []).filter((l) => l.date >= weekStart);
   const weekMinutes = weekLogs.reduce((sum, l) => sum + (l.duration ?? 0), 0);
 
   return (
     <div className="space-y-6">
-      <PageHeader title={t("title")} />
+      <PageHeader title={t("title")}>
+        <Button variant="outline" size="sm" render={<Link href="/health/workout/records" />}>
+          <Trophy className="size-4" />
+          {t("records.open")}
+        </Button>
+      </PageHeader>
 
       {/* Weekly stats */}
       <div className="grid gap-4 sm:grid-cols-2">
@@ -127,6 +202,14 @@ export default function WorkoutPage() {
               <Label htmlFor="w-notes">{t("notes")}</Label>
               <Textarea id="w-notes" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder={t("notesPlaceholder")} />
             </div>
+            {exercises.length ? (
+              <ExerciseFields value={exercises} onChange={setExercises} records={records} />
+            ) : (
+              <Button variant="outline" size="sm" onClick={() => setExercises([emptyExerciseDraft()])}>
+                <Dumbbell className="size-4" />
+                {t("exercises.add")}
+              </Button>
+            )}
             <div className="flex gap-2">
               <Button onClick={handleSubmit} disabled={isSubmitting || !name.trim()} className="flex-1">
                 {isSubmitting ? "…" : editingId ? tc("save") : t("save")}
@@ -167,6 +250,25 @@ export default function WorkoutPage() {
                         {log.duration ? ` · ${t("minLabel", { min: log.duration })}` : ""}
                       </p>
                       {log.notes ? <p className="mt-1 text-sm">{log.notes}</p> : null}
+                      {log.exercises.length ? (
+                        <ul className="mt-2 space-y-1">
+                          {log.exercises.map((exercise) => {
+                            const holder = holdsRecord(exercise, recordByName.get(exercise.canonicalName));
+                            return (
+                              <li key={exercise.id} className="flex flex-wrap items-center gap-2 text-xs">
+                                <span className="font-medium">{exercise.name}</span>
+                                <span className="text-muted-foreground">{exerciseSummary(exercise)}</span>
+                                {holder ? (
+                                  <Badge variant="secondary" className="gap-1">
+                                    <Trophy className="size-3" />
+                                    {beatenBy === log.id ? t("records.new") : t("records.holder")}
+                                  </Badge>
+                                ) : null}
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      ) : null}
                     </div>
                     <div className="flex shrink-0 gap-1">
                       <Button variant="ghost" size="icon-sm" onClick={() => startEdit(log)} aria-label={tc("edit")}>
