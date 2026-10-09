@@ -37,18 +37,37 @@ Requires Node.js 22+ (the AI SDK needs it).
 npm install
 cp .env.example .env          # then fill in the values (see below)
 npx auth secret               # writes AUTH_SECRET to .env.local — or paste your own
-npx prisma db push            # creates prisma/dev.db (SQLite)
+docker compose up -d db       # Postgres 15 on localhost:5433 (see docker-compose.yml)
+npx prisma db push            # creates the schema in that database
 npx prisma db seed            # 90 days of demo data
 npm run dev
 ```
 
 Sign in with **demo@dailyrecap.com / demo1234**. The seed is deterministic and only resets the demo user.
 
+The schema is Postgres-only, so local development uses the Postgres from `docker-compose.yml`
+rather than SQLite. `.env` already points at it:
+`postgresql://root:password@localhost:5433/daily_recap`.
+
+One trap if you also use the Vercel CLI: `vercel env pull` writes the **production** Neon
+`DATABASE_URL` into `.env.local`, and Next.js loads `.env.local` with a higher priority than
+`.env` - so `npm run dev` would then read and write the production database. Keep the local
+URL in `.env.development.local`, which wins over `.env.local` in development and is not
+overwritten by the next pull:
+
+```bash
+# .env.development.local
+DATABASE_URL="postgresql://root:password@localhost:5433/daily_recap"
+```
+
+Prisma's CLI (`prisma db push`, `prisma db seed`) reads only `.env`, so keep both files
+pointing at the same database.
+
 ### Environment variables
 
 | Variable | Required | Notes |
 |---|---|---|
-| `DATABASE_URL` | yes | `file:./dev.db` locally; a Postgres URL in production |
+| `DATABASE_URL` | yes | Postgres URL; `postgresql://root:password@localhost:5433/daily_recap` for the Docker Compose database locally |
 | `AUTH_SECRET` | yes | `npx auth secret` |
 | `AUTH_TRUST_HOST` | self-hosting | `true` when running `next start` yourself; not needed on Vercel |
 | `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` | for reminders | `npx web-push generate-vapid-keys`; subject is `mailto:you@…` |
