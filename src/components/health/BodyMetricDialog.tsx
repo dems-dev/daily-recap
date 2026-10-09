@@ -13,6 +13,7 @@ import { toast } from "@/components/ui/toast";
 import { FieldError, useFailureToast } from "@/components/common";
 import { sendJson, useInvalidate } from "@/hooks/use-json";
 import { bodyMetricSchema, type BodyMetricInput } from "@/lib/body-metrics";
+import { emptyToNull } from "@/lib/forms";
 import { todayKey } from "@/lib/date";
 
 export function BodyMetricDialog({
@@ -70,7 +71,7 @@ export function BodyMetricDialog({
                 step="0.1"
                 autoFocus
                 aria-invalid={!!formState.errors.weight}
-                {...register("weight", { valueAsNumber: true })}
+                {...register("weight", { setValueAs: emptyToNull })}
               />
               <FieldError message={formState.errors.weight?.message} />
             </div>
@@ -81,7 +82,7 @@ export function BodyMetricDialog({
                 type="number"
                 step="0.1"
                 aria-invalid={!!formState.errors.height}
-                {...register("height", { valueAsNumber: true })}
+                {...register("height", { setValueAs: emptyToNull })}
               />
               <FieldError message={formState.errors.height?.message} />
             </div>
@@ -94,7 +95,7 @@ export function BodyMetricDialog({
               type="number"
               step="0.1"
               aria-invalid={!!formState.errors.bodyFat}
-              {...register("bodyFat", { valueAsNumber: true })}
+              {...register("bodyFat", { setValueAs: emptyToNull })}
             />
             <FieldError message={formState.errors.bodyFat?.message} />
           </div>

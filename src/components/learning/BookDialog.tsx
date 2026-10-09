@@ -14,6 +14,7 @@ import { toast } from "@/components/ui/toast";
 import { FieldError, useFailureToast } from "@/components/common";
 import { sendJson, useInvalidate } from "@/hooks/use-json";
 import { bookSchema, bookPatchSchema, type BookDTO } from "@/lib/books";
+import { emptyToNull, emptyToUndefined } from "@/lib/forms";
 
 export function BookDialog({
   open,
@@ -99,7 +100,7 @@ export function BookDialog({
                 id="book-total"
                 type="number"
                 aria-invalid={!!formState.errors.totalPages}
-                {...register("totalPages", { valueAsNumber: true })}
+                {...register("totalPages", { setValueAs: emptyToNull })}
               />
               <FieldError message={formState.errors.totalPages?.message} />
             </div>
@@ -112,7 +113,7 @@ export function BookDialog({
                 id="book-current"
                 type="number"
                 aria-invalid={!!formState.errors.currentPage}
-                {...register("currentPage", { valueAsNumber: true })}
+                {...register("currentPage", { setValueAs: emptyToUndefined })}
               />
               <FieldError message={formState.errors.currentPage?.message} />
             </div>
