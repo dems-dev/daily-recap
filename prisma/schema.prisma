@@ -126,8 +126,21 @@ model Exercise {
   sets      Json   // [{reps, weight, duration}]
   order     Int
 
+  // Denormalised from Workout so personal records are one indexed aggregate
+  // instead of a join, and summaries of `sets` so they never have to be parsed
+  // to answer "what is the record for this exercise?". All written together in
+  // src/lib/workout-records.ts; see computeExerciseBests().
+  userId         String?
+  canonicalName  String?  // normalised name: "Bench Press" and "bench press" are one record
+  bestWeight     Float?   // heaviest set in this session
+  bestWeightReps Int?     // reps at that heaviest set
+  bestOneRm      Float?   // best Epley estimate in this session (sets of <= 12 reps)
+  bestReps       Int?     // most reps in one set - the bodyweight record
+
   // Workout include: exercises (Postgres does not index FKs)
   @@index([workoutId])
+  // GET /api/workout/records: groupBy canonicalName where { userId }
+  @@index([userId, canonicalName])
 }
 
 model Meal {

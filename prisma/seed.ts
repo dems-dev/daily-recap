@@ -21,6 +21,7 @@ import {
 } from '../src/lib/date'
 import { sleepWindow } from '../src/lib/sleep'
 import { periodRange } from '../src/lib/recap'
+import { addDemoExercises } from './demo-exercises'
 
 const prisma = new PrismaClient()
 const DAYS = 90
@@ -409,6 +410,9 @@ async function main() {
   await prisma.meditationLog.createMany({ data: meditations })
   await prisma.bodyMetric.createMany({ data: bodyMetrics })
 
+  // Exercises for the strength sessions, so Rekor Pribadi has history to show.
+  const demoExercises = await addDemoExercises(prisma, user.id)
+
   // Skills + practice sessions
   const skillDefs = [
     { name: 'Bahasa Inggris', category: 'Bahasa', level: 'intermediate', sessions: 16 },
@@ -461,7 +465,7 @@ async function main() {
   }
 
   console.log(
-    `Extended: ${meals.length} meals, ${workouts.length} workouts, ${pomodoros.length} focus sessions, ${meditations.length} meditations, ${bodyMetrics.length} body metrics, ${skillDefs.length} skills, 5 books, ${TIL_NOTES.length} TIL notes, ${goalDefs.length} goals.`
+    `Extended: ${meals.length} meals, ${workouts.length} workouts (${demoExercises.created} exercises in ${demoExercises.touched} of them), ${pomodoros.length} focus sessions, ${meditations.length} meditations, ${bodyMetrics.length} body metrics, ${skillDefs.length} skills, 5 books, ${TIL_NOTES.length} TIL notes, ${goalDefs.length} goals.`
   )
   console.log(
     `Seeded ${DAYS} days: ${finances.length} transactions, ${habitLogs.length} habit check-ins, ${todos.length} tasks, ${journals.length} journal entries, ${sleeps.length} nights, ${priorities.length} priorities.`
